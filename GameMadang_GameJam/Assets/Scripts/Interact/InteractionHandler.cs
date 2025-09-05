@@ -14,10 +14,11 @@ public class InteractionHandler : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        AttemptAutoInteract(collision);
+        if (collision != null && collision.gameObject.tag == "Interact")
+        {
+            AttemptAutoInteract(collision);
+        }
     }
-
-    #region Interact
 
     // 자동으로 상호작용을 시도하는 함수
     private void AttemptAutoInteract(Collider2D collision)
@@ -103,6 +104,4 @@ public class InteractionHandler : MonoBehaviour
             }
         }
     }
-
-    #endregion
 }
