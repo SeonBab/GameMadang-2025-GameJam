@@ -1,3 +1,4 @@
+using System;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -6,17 +7,34 @@ public class InteractionHandler : MonoBehaviour
 {
     [SerializeField] LayerMask interactTargetLayer;
     CapsuleCollider2D interactCollider;
-
+    PlayerController playerController;
+    
     private void Awake()
     {
         interactCollider = GetComponent<CapsuleCollider2D>();
+        playerController = GetComponentInParent<PlayerController>();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision != null && collision.gameObject.tag == "Interact")
+        if (collision != null && collision.gameObject.CompareTag("Interact"))
         {
             AttemptAutoInteract(collision);
+        }
+
+        if (collision.CompareTag("ClimbObject"))
+        {
+            playerController.currentClimbObject = collision.transform;
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.CompareTag("ClimbObject"))
+        {
+            if (!playerController.IsGround()) return;
+
+            playerController.currentClimbObject = null;
         }
     }
 
@@ -29,20 +47,20 @@ public class InteractionHandler : MonoBehaviour
         }
         // #1 상호작용
         // 상호작용 대상인지 확인
-        IInteract InteractTarget = collision.GetComponent<IInteract>();
-        if (InteractTarget == null)
+        IInteract interactTarget = collision.GetComponent<IInteract>();
+        if (interactTarget == null)
         {
             return;
         }
 
         // #2 상호작용
         // 상호작용이 자동으로 이루어져야 하는지 확인 및 실행
-        bool bIsAutoInteract = InteractTarget.GetIsAutoInteract();
+        bool bIsAutoInteract = interactTarget.GetIsAutoInteract();
         if (bIsAutoInteract)
         {
             // #3 상호작용
             // 상호작용 호출
-            InteractTarget.Interact();
+            interactTarget.Interact();
         }
     }
 
