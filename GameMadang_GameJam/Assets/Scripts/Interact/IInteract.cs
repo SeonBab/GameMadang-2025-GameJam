@@ -1,5 +1,6 @@
-﻿public enum EInteractableType
+public enum EInteractableType
 {
+    None,
     Rope,
     Ladder,
     Lever,

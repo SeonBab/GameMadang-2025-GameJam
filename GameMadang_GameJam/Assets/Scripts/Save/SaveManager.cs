@@ -4,9 +4,9 @@ namespace Save
 {
     public class SaveManager : MonoBehaviour
     {
-        public static SaveManager Instance { get; private set; }
+        public SavePointInteractable currentSavePoint;
 
-        public SavePoint currentSavePoint;
+        public static SaveManager Instance { get; private set; }
 
         private Transform player;
 
@@ -31,25 +31,25 @@ namespace Save
 
             foreach (Transform child in transform)
             {
-                var point = child.GetComponent<SavePoint>();
-                if (point.number != savePoint) continue;
+                var point = child.GetComponent<SavePointInteractable>();
+                if (point.SavePointNumber != savePoint) continue;
 
                 currentSavePoint = point;
                 return;
             }
         }
 
-        public SavePoint GetCurrentSavePoint()
+        public SavePointInteractable GetCurrentSavePoint()
         {
             return currentSavePoint;
         }
 
-        public void Save(SavePoint savePoint)
+        public void Save(SavePointInteractable savePoint)
         {
-            if (currentSavePoint.number < savePoint.number)
+            if (currentSavePoint.SavePointNumber < savePoint.SavePointNumber)
             {
                 currentSavePoint = savePoint;
-                PlayerPrefs.SetInt("SavePoint", currentSavePoint.number);
+                PlayerPrefs.SetInt("SavePoint", currentSavePoint.SavePointNumber);
             }
         }
 
