@@ -1,3 +1,4 @@
+using Player;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -5,15 +6,17 @@ public class PlayerController : MonoBehaviour
 {
     [SerializeField] private float moveSpeed = 10f;
     [SerializeField] private float jumpSpeed = 5f;
-    private Collider2D col;
 
     private InputHandler inputHandler;
+    private PlayerLife playerLife;
+    private Collider2D col;
     private Rigidbody2D rb;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         col = GetComponent<Collider2D>();
+        playerLife = GetComponent<PlayerLife>();
         inputHandler = GetComponent<InputHandler>();
     }
 
@@ -24,6 +27,8 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (playerLife.IsDead) return;
+
         HandleMovement();
     }
 
@@ -34,6 +39,8 @@ public class PlayerController : MonoBehaviour
 
     private void JumpOnPerformed(InputAction.CallbackContext ctx)
     {
+        if (playerLife.IsDead) return;
+
         rb.AddForce(Vector2.up * jumpSpeed, ForceMode2D.Impulse);
     }
 
