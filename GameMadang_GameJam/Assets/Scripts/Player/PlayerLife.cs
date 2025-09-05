@@ -10,6 +10,7 @@ namespace Player
 
         private void Start()
         {
+            SaveManager.Instance.Load(transform);
         }
 
         private void OnTriggerEnter2D(Collider2D other)
