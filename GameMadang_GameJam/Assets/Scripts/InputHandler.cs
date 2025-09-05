@@ -38,8 +38,6 @@ public class InputHandler : MonoBehaviour
 
     private void Move(InputAction.CallbackContext ctx)
     {
-        print("Move Input");
-
         var x = Mathf.Round(ctx.ReadValue<Vector2>().x);
         var y = Mathf.Round(ctx.ReadValue<Vector2>().y);
 
