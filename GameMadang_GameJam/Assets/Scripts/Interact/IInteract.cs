@@ -1,13 +1,11 @@
-﻿using UnityEngine;
-
-public enum EInteractableType
+﻿public enum EInteractableType
 {
     None,
     Rope,
     Ladder,
     Lever,
     MovableBlock,
-    SavePoint,
+    SavePoint
 }
 
 public interface IInteract

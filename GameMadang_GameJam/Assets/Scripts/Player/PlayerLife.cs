@@ -1,4 +1,5 @@
 using System.Collections;
+using Save;
 using UnityEngine;
 
 namespace Player
@@ -7,17 +8,13 @@ namespace Player
     {
         public bool IsDead { get; private set; }
 
-        void Start()
+        private void Start()
         {
-        
         }
 
         private void OnTriggerEnter2D(Collider2D other)
         {
-            if (other.CompareTag("Enemy"))
-            {
-                Death();
-            }
+            // if (other.CompareTag("Enemy")) Death();
         }
 
         [ContextMenu("Test/Death")]
@@ -42,7 +39,7 @@ namespace Player
 
             IsDead = false;
 
-            // return checkpoint
+            SaveManager.Instance.Load(transform);
         }
     }
 }

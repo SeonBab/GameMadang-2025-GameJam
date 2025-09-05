@@ -6,10 +6,10 @@ public class PlayerController : MonoBehaviour
 {
     [SerializeField] private float moveSpeed = 10f;
     [SerializeField] private float jumpSpeed = 5f;
+    private Collider2D col;
 
     private InputHandler inputHandler;
     private PlayerLife playerLife;
-    private Collider2D col;
     private Rigidbody2D rb;
     private PlayerCharacter playerCharacter;
 
