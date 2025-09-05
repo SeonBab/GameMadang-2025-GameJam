@@ -1,3 +1,4 @@
+using System;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -7,7 +8,7 @@ public class InteractionHandler : MonoBehaviour
     [SerializeField] LayerMask interactTargetLayer;
     CapsuleCollider2D interactCollider;
     PlayerController playerController;
-
+    
     private void Awake()
     {
         interactCollider = GetComponent<CapsuleCollider2D>();
@@ -31,6 +32,8 @@ public class InteractionHandler : MonoBehaviour
     {
         if (collision.CompareTag("ClimbObject"))
         {
+            if (!playerController.IsGround()) return;
+
             playerController.currentClimbObject = null;
         }
     }

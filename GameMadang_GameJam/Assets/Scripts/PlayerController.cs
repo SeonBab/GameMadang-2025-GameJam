@@ -56,7 +56,7 @@ public class PlayerController : MonoBehaviour
         inputHandler.Input.Player.Interact.performed -= InteractOnPerformed;
     }
 
-    private bool IsGround()
+    public bool IsGround()
     {
         return Physics2D.OverlapCircle(groundCheck.position, 0.1f, ground);
     }
@@ -81,11 +81,11 @@ public class PlayerController : MonoBehaviour
 
             var dir = Vector2.up + (Vector2.right * Mathf.Sign(x));
 
-            print(dir.normalized);
-
             rb.AddForce(dir.normalized * jumpForce, ForceMode2D.Impulse);
 
             EndClimb();
+
+            currentClimbObject = null;
         }
         
         if (!IsGround()) return;
@@ -149,7 +149,7 @@ public class PlayerController : MonoBehaviour
         isClimbing = true;
     }
 
-    internal void EndClimb()
+    private void EndClimb()
     {
         rb.gravityScale = 1;
 
