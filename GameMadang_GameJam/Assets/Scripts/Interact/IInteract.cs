@@ -16,5 +16,6 @@ public interface IInteract
     bool GetIsAutoInteract();
 
     int GetInteractWeight();
+
     EInteractableType GetInteractType();
 }
