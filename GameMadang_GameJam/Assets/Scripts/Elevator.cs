@@ -10,14 +10,25 @@ public class Elevator : MonoBehaviour
     [SerializeField] private float speed = 2f;
     [SerializeField] private float stopEpsilon = 0.01f;
 
+    private Coroutine moveCo;
+
     public void GoUp()
     {
-        StartCoroutine(MoveTo(topStop.position));
+        StopNow();
+        moveCo = StartCoroutine(MoveTo(topStop.position));
     }
 
     public void GoDown()
     {
-        StartCoroutine(MoveTo(bottomStop.position));
+        StopNow();
+        moveCo = StartCoroutine(MoveTo(bottomStop.position));
+    }
+
+    public void StopNow()
+    {
+        if (moveCo != null) StopCoroutine(moveCo);
+        moveCo = null;
+        place.linearVelocity = Vector2.zero;
     }
 
     private IEnumerator MoveTo(Vector2 target)
@@ -34,6 +45,7 @@ public class Elevator : MonoBehaviour
         }
 
         place.MovePosition(target);
+        moveCo = null;
     }
 
     [ContextMenu("Go Up")]
