@@ -6,10 +6,12 @@ public class InteractionHandler : MonoBehaviour
 {
     [SerializeField] LayerMask interactTargetLayer;
     CapsuleCollider2D interactCollider;
+    PlayerController playerController;
 
     private void Awake()
     {
         interactCollider = GetComponent<CapsuleCollider2D>();
+        playerController = GetComponentInParent<PlayerController>();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -17,6 +19,19 @@ public class InteractionHandler : MonoBehaviour
         if (collision != null && collision.gameObject.tag == "Interact")
         {
             AttemptAutoInteract(collision);
+        }
+
+        if (collision.CompareTag("ClimbObject"))
+        {
+            playerController.currentClimbObject = collision.transform;
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.CompareTag("ClimbObject"))
+        {
+            playerController.currentClimbObject = null;
         }
     }
 
