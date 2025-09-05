@@ -10,15 +10,15 @@ public class SavePointInteractable : BaseInteractable
     {
         if (savePointNumber == -1)
         {
-            Debug.LogError(gameObject.name + " ÀÇ savePointNumber °ª ¹Ì¼³Á¤");
+            Debug.LogError(gameObject.name + " ì˜ savePointNumber ê°’ ë¯¸ì„¤ì •");
         }
     }
 
     public override void Interact()
     {
-        Debug.Log("¼¼ÀÌºêÆ÷ÀÎÆ® »óÈ£ÀÛ¿ë ½ÃÀÛ");
+        Debug.Log("ì„¸ì´ë¸Œí¬ì¸íŠ¸ ìƒí˜¸ì‘ìš© ì‹œì‘");
 
-        // ¼¼ÀÌºêÆ÷ÀÎÆ® °»½ÅÀ» À§ÇØ È£ÃâÇÏ´Â ÇÔ¼ö
+        // ì„¸ì´ë¸Œí¬ì¸íŠ¸ ê°±ì‹ ì„ ìœ„í•´ í˜¸ì¶œí•˜ëŠ” í•¨ìˆ˜
         SaveManager.Instance.Save(this);
     }
 }

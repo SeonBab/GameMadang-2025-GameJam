@@ -2,14 +2,14 @@ using UnityEngine;
 
 public class LeverInteractable : BaseInteractable
 {
-    // ·¹¹ö µ¿ÀÛÀÇ ´ë»óÀÌ µÇ´Â ¿ÀºêÁ§Æ®
+    // ë ˆë²„ ë™ì‘ì˜ ëŒ€ìƒì´ ë˜ëŠ” ì˜¤ë¸Œì íŠ¸
     [SerializeField] private GameObject targetObject;
 
     public override void Interact()
     {
-        Debug.Log("·¹¹ö »óÈ£ÀÛ¿ë ½ÃÀÛ");
+        Debug.Log("ë ˆë²„ ìƒí˜¸ì‘ìš© ì‹œì‘");
 
         //TODO
-        //Å¸°Ù ¿ÀºêÁ§Æ®ÀÇ ÇÔ¼ö ½ÇÇà
+        //íƒ€ê²Ÿ ì˜¤ë¸Œì íŠ¸ì˜ í•¨ìˆ˜ ì‹¤í–‰
     }
 }

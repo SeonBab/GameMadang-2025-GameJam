@@ -1,4 +1,4 @@
-﻿public enum EInteractableType
+public enum EInteractableType
 {
     None,
     Rope,

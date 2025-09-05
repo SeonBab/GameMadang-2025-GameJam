@@ -4,8 +4,8 @@ public class RopeInteractable : BaseInteractable
 {
     public override void Interact()
     {
-        Debug.Log("·ÎÇÁ »óÈ£ÀÛ¿ë ½ÃÀÛ");
+        Debug.Log("ë¡œí”„ ìƒí˜¸ì‘ìš© ì‹œì‘");
 
-        // ÇÃ·¹ÀÌ¾î°¡ ·ÎÇÁÀÇ Áß½ÉÀ¸·Î ÀÌµ¿µÇ¾î¾ßÇÑ´Ù.
+        // í”Œë ˆì´ì–´ê°€ ë¡œí”„ì˜ ì¤‘ì‹¬ìœ¼ë¡œ ì´ë™ë˜ì–´ì•¼í•œë‹¤.
     }
 }

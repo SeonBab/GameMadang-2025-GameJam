@@ -4,9 +4,9 @@ public class MovableBlockInteractable : BaseInteractable
 {
     public override void Interact()
     {
-        Debug.Log("ÀÌµ¿ °¡´É ºí·° »óÈ£ÀÛ¿ë ½ÃÀÛ");
+        Debug.Log("ì´ë™ ê°€ëŠ¥ ë¸”ëŸ­ ìƒí˜¸ì‘ìš© ì‹œì‘");
         
         //TODO
-        // ÇÃ·¹ÀÌ¾î¿Í ºí·°ÀÌ ºóÄ­ ¾øÀÌ ºÙ¾îÀÖ¾î¾ßÇÑ´Ù.
+        // í”Œë ˆì´ì–´ì™€ ë¸”ëŸ­ì´ ë¹ˆì¹¸ ì—†ì´ ë¶™ì–´ìˆì–´ì•¼í•œë‹¤.
     }
 }

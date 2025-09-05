@@ -19,33 +19,33 @@ public class InteractionHandler : MonoBehaviour
 
     #region Interact
 
-    // ÀÚµ¿À¸·Î »óÈ£ÀÛ¿ëÀ» ½ÃµµÇÏ´Â ÇÔ¼ö
+    // ìë™ìœ¼ë¡œ ìƒí˜¸ì‘ìš©ì„ ì‹œë„í•˜ëŠ” í•¨ìˆ˜
     private void AttemptAutoInteract(Collider2D collision)
     {
         if (collision == null)
         {
             return;
         }
-        // #1 »óÈ£ÀÛ¿ë
-        // »óÈ£ÀÛ¿ë ´ë»óÀÎÁö È®ÀÎ
+        // #1 ìƒí˜¸ì‘ìš©
+        // ìƒí˜¸ì‘ìš© ëŒ€ìƒì¸ì§€ í™•ì¸
         IInteract InteractTarget = collision.GetComponent<IInteract>();
         if (InteractTarget == null)
         {
             return;
         }
 
-        // #2 »óÈ£ÀÛ¿ë
-        // »óÈ£ÀÛ¿ëÀÌ ÀÚµ¿À¸·Î ÀÌ·ç¾îÁ®¾ß ÇÏ´ÂÁö È®ÀÎ ¹× ½ÇÇà
+        // #2 ìƒí˜¸ì‘ìš©
+        // ìƒí˜¸ì‘ìš©ì´ ìë™ìœ¼ë¡œ ì´ë£¨ì–´ì ¸ì•¼ í•˜ëŠ”ì§€ í™•ì¸ ë° ì‹¤í–‰
         bool bIsAutoInteract = InteractTarget.GetIsAutoInteract();
         if (bIsAutoInteract)
         {
-            // #3 »óÈ£ÀÛ¿ë
-            // »óÈ£ÀÛ¿ë È£Ãâ
+            // #3 ìƒí˜¸ì‘ìš©
+            // ìƒí˜¸ì‘ìš© í˜¸ì¶œ
             InteractTarget.Interact();
         }
     }
 
-    // ÀÏ¹İÀûÀÎ »óÈ£ÀÛ¿ëÀ» ½ÃµµÇÏ´Â ÇÔ¼ö
+    // ì¼ë°˜ì ì¸ ìƒí˜¸ì‘ìš©ì„ ì‹œë„í•˜ëŠ” í•¨ìˆ˜
     public void AttemptInteract()
     {
         if (interactCollider)
@@ -53,7 +53,7 @@ public class InteractionHandler : MonoBehaviour
             float xRadius = interactCollider.size.x;
             float yRadius = interactCollider.size.x;
 
-            // »óÈ£ÀÛ¿ëÀÌ °¡´ÉÇÑ °Å¸®¸¦ ±×·ÁÁÖ´Â µğ¹ö±× ¶óÀÎ
+            // ìƒí˜¸ì‘ìš©ì´ ê°€ëŠ¥í•œ ê±°ë¦¬ë¥¼ ê·¸ë ¤ì£¼ëŠ” ë””ë²„ê·¸ ë¼ì¸
             Debug.DrawLine(transform.position, transform.position + Vector3.up * yRadius, Color.green, 1f);
             Debug.DrawLine(transform.position, transform.position + Vector3.down * yRadius, Color.green, 1f);
             Debug.DrawLine(transform.position, transform.position + Vector3.left * xRadius, Color.green, 1f);
@@ -65,7 +65,7 @@ public class InteractionHandler : MonoBehaviour
             int maxWeight = 0;
             Collider2D interactTarget = null;
 
-            // »óÈ£ÀÛ¿ë ´ë»óÀ» Ã£¾Æ¿Â´Ù.
+            // ìƒí˜¸ì‘ìš© ëŒ€ìƒì„ ì°¾ì•„ì˜¨ë‹¤.
             foreach (var hit in hits)
             {
                 var interactable = hit.GetComponent<IInteract>();
@@ -75,13 +75,13 @@ public class InteractionHandler : MonoBehaviour
 
                     if (currentWeight > maxWeight)
                     {
-                        // °¡ÁßÄ¡°¡ °¡Àå ³ôÀº ¿ÀºêÁ§Æ®·Î ¼³Á¤
+                        // ê°€ì¤‘ì¹˜ê°€ ê°€ì¥ ë†’ì€ ì˜¤ë¸Œì íŠ¸ë¡œ ì„¤ì •
                         maxWeight = currentWeight;
                         interactTarget = hit;
                     }
                     else if (currentWeight == maxWeight)
                     {
-                        // °Å¸®°¡ °¡Àå °¡±î¿î ¿ÀºêÁ§Æ®·Î ¼³Á¤
+                        // ê±°ë¦¬ê°€ ê°€ì¥ ê°€ê¹Œìš´ ì˜¤ë¸Œì íŠ¸ë¡œ ì„¤ì •
                         float interactTargetDistance = Vector3.Distance(transform.position, interactTarget.transform.position);
                         float hitDistance = Vector3.Distance(transform.position, hit.transform.position);
 

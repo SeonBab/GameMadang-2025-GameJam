@@ -4,6 +4,6 @@ public class LadderInteractable : BaseInteractable
 {
     public override void Interact()
     {
-        Debug.Log("»ç´Ù¸® »óÈ£ÀÛ¿ë ½ÃÀÛ");
+        Debug.Log("ì‚¬ë‹¤ë¦¬ ìƒí˜¸ì‘ìš© ì‹œì‘");
     }
 }
