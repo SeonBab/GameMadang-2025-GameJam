@@ -1,17 +1,23 @@
+using UI;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class InputHandler : MonoBehaviour
 {
-    public Vector2 MoveInput; // { get; private set; }
+    public Vector2 MoveInput; //  { get; set; }
     public InputSystem_Actions Input { get; private set; }
 
     private void Awake()
     {
         Input = new InputSystem_Actions();
+    }
 
+    private void Start()
+    {
         Input.Player.Move.performed += Move;
         Input.Player.Move.canceled += Move;
+
+        Input.UI.Escape.performed += UIManager.Instance.TogglePauseMenu;
     }
 
     private void OnEnable()
