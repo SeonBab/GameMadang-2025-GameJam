@@ -1,15 +1,15 @@
 using Unity.VisualScripting;
 using UnityEngine;
 
-[RequireComponent(typeof(CircleCollider2D))]
-public class PlayerCharacter : MonoBehaviour
+[RequireComponent(typeof(CapsuleCollider2D))]
+public class InteractionHandler : MonoBehaviour
 {
     [SerializeField] LayerMask interactTargetLayer;
-    CircleCollider2D interactCollider;
+    CapsuleCollider2D interactCollider;
 
     private void Awake()
     {
-        interactCollider = GetComponent<CircleCollider2D>();
+        interactCollider = GetComponent<CapsuleCollider2D>();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -24,7 +24,7 @@ public class PlayerCharacter : MonoBehaviour
     {
         if (collision == null)
         {
-
+            return;
         }
         // #1 상호작용
         // 상호작용 대상인지 확인
@@ -50,15 +50,17 @@ public class PlayerCharacter : MonoBehaviour
     {
         if (interactCollider)
         {
-            float radius = interactCollider.radius;
+            float xRadius = interactCollider.size.x;
+            float yRadius = interactCollider.size.x;
 
             // 상호작용이 가능한 거리를 그려주는 디버그 라인
-            Debug.DrawLine(transform.position, transform.position + Vector3.up * radius, Color.green, 0.1f);
-            Debug.DrawLine(transform.position, transform.position + Vector3.left * radius, Color.green, 0.1f);
-            Debug.DrawLine(transform.position, transform.position + Vector3.right * radius, Color.green, 0.1f);
-            Debug.DrawLine(transform.position, transform.position + Vector3.down * radius, Color.green, 0.1f);
+            Debug.DrawLine(transform.position, transform.position + Vector3.up * yRadius, Color.green, 1f);
+            Debug.DrawLine(transform.position, transform.position + Vector3.down * yRadius, Color.green, 1f);
+            Debug.DrawLine(transform.position, transform.position + Vector3.left * xRadius, Color.green, 1f);
+            Debug.DrawLine(transform.position, transform.position + Vector3.right * xRadius, Color.green, 1f);
 
-            Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, radius, interactTargetLayer);
+            Vector2 capsuleSize = new Vector2(xRadius, yRadius);
+            Collider2D[] hits = Physics2D.OverlapCapsuleAll(transform.position, capsuleSize, CapsuleDirection2D.Vertical, 0f, interactTargetLayer);
 
             int maxWeight = 0;
             Collider2D interactTarget = null;

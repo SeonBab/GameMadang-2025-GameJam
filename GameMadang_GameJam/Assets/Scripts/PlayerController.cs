@@ -11,7 +11,6 @@ public class PlayerController : MonoBehaviour
     private InputHandler inputHandler;
     private PlayerLife playerLife;
     private Rigidbody2D rb;
-    private PlayerCharacter playerCharacter;
 
     private void Awake()
     {
@@ -51,9 +50,11 @@ public class PlayerController : MonoBehaviour
     {
         if (playerLife.IsDead) return;
 
-        if (playerCharacter)
+        InteractionHandler interactionHandler = GetComponentInChildren<InteractionHandler>();
+
+        if (interactionHandler)
         {
-            playerCharacter.AttemptInteract();
+            interactionHandler.AttemptInteract();
         }
     }
 
