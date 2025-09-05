@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour
     private PlayerLife playerLife;
     private Collider2D col;
     private Rigidbody2D rb;
+    private PlayerCharacter playerCharacter;
 
     private void Awake()
     {
@@ -23,6 +24,7 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         inputHandler.Input.Player.Jump.performed += JumpOnPerformed;
+        inputHandler.Input.Player.Interact.performed += InteractOnPerformed;
     }
 
     private void FixedUpdate()
@@ -35,6 +37,7 @@ public class PlayerController : MonoBehaviour
     private void OnDestroy()
     {
         inputHandler.Input.Player.Jump.performed -= JumpOnPerformed;
+        inputHandler.Input.Player.Interact.performed -= InteractOnPerformed;
     }
 
     private void JumpOnPerformed(InputAction.CallbackContext ctx)
@@ -42,6 +45,16 @@ public class PlayerController : MonoBehaviour
         if (playerLife.IsDead) return;
 
         rb.AddForce(Vector2.up * jumpSpeed, ForceMode2D.Impulse);
+    }
+
+    private void InteractOnPerformed(InputAction.CallbackContext ctx)
+    {
+        if (playerLife.IsDead) return;
+
+        if (playerCharacter)
+        {
+            playerCharacter.AttemptInteract();
+        }
     }
 
     private void HandleMovement()
