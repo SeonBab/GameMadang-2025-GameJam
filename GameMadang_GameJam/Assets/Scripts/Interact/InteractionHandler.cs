@@ -21,17 +21,17 @@ public class InteractionHandler : MonoBehaviour
             AttemptAutoInteract(collision);
         }
 
-        if (collision.CompareTag("Ladder"))
+        if (collision.CompareTag("ClimbObject"))
         {
-            playerController.currentLadder = collision.transform;
+            playerController.currentClimbObject = collision.transform;
         }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.CompareTag("Ladder"))
+        if (collision.CompareTag("ClimbObject"))
         {
-            playerController.currentLadder = null;
+            playerController.currentClimbObject = null;
         }
     }
 

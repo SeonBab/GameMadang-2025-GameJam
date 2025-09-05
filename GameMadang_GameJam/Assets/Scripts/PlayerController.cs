@@ -20,7 +20,7 @@ public class PlayerController : MonoBehaviour
     private Collider2D col;
 
     public bool isClimbing = false;
-    public Transform currentLadder;
+    public Transform currentClimbObject;
     private float moveSpeedOrigin;
 
     private void Awake()
@@ -63,7 +63,7 @@ public class PlayerController : MonoBehaviour
 
     private void StartClimb(InputAction.CallbackContext ctx)
     {
-        if (!currentLadder) return;
+        if (!currentClimbObject) return;
 
         if (ctx.ReadValue<Vector2>().y > 0f)
         {
@@ -135,14 +135,15 @@ public class PlayerController : MonoBehaviour
         rb.gravityScale = 0;
         rb.linearVelocity = Vector2.zero;
 
-        while (!Mathf.Approximately(rb.position.x, currentLadder.position.x))
+        while (currentClimbObject &&
+               Mathf.Abs(currentClimbObject.InverseTransformPoint(rb.position).x) > 0.1f)
         {
-            var newX = Mathf.Lerp(rb.position.x, currentLadder.position.x,
-                Time.fixedDeltaTime * climbObjectSnapSpeed);
+            var local = currentClimbObject.InverseTransformPoint(rb.position);
+            local.x = Mathf.Lerp(local.x, 0f, climbObjectSnapSpeed * Time.fixedDeltaTime);
+            var next = currentClimbObject.TransformPoint(local);
 
-            rb.MovePosition(new Vector2(newX, rb.position.y));
-
-            yield return null;
+            rb.MovePosition(next);
+            yield return new WaitForFixedUpdate();
         }
 
         isClimbing = true;
@@ -153,13 +154,31 @@ public class PlayerController : MonoBehaviour
         rb.gravityScale = 1;
 
         isClimbing = false;
+
+        transform.rotation = Quaternion.identity;
     }
 
     private void HandleClimbing()
     {
         var v = inputHandler.MoveInput.y;
 
-        rb.MovePosition(rb.position + Vector2.up * (v * climbSpeed * Time.fixedDeltaTime));
+        if (!currentClimbObject)
+        {
+            EndClimb();
+            return;
+        }
+
+        Vector2 up = currentClimbObject.up;
+
+        var targetDeg = Mathf.Atan2(up.y, up.x) * Mathf.Rad2Deg - 90f;
+        var next = Mathf.LerpAngle(rb.rotation, targetDeg, Time.fixedDeltaTime * 50f);
+        rb.MoveRotation(next);
+
+        var pos = rb.position + up * (v * climbSpeed * Time.fixedDeltaTime);
+        var local = currentClimbObject.InverseTransformPoint(pos);
+        local.x = Mathf.Lerp(local.x, 0f, Time.fixedDeltaTime * climbObjectSnapSpeed);
+        var finalPos = currentClimbObject.TransformPoint(local);
+        rb.MovePosition(finalPos);
 
         if (v < 1f)
         {
