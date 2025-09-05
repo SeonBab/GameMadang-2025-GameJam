@@ -1,10 +1,23 @@
 ﻿using System;
+using Save;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace UI
 {
     public class PauseMenu : MonoBehaviour
     {
+        [SerializeField] Button moveToLastSavePointButton;
+        [SerializeField] Button resumeButton;
+        [SerializeField] Button quitGameButton;
+
+        void Awake()
+        {
+            moveToLastSavePointButton.onClick.AddListener(MoveToLastSavePoint);
+            resumeButton.onClick.AddListener(ResumeGame);
+            quitGameButton.onClick.AddListener(QuitGame);
+        }
+
         void Start()
         {
             Hide();
@@ -22,7 +35,13 @@ namespace UI
             Time.timeScale = 1f;
         }
 
-        public void ReturnToGame()
+        public void MoveToLastSavePoint()
+        {
+            SaveManager.Instance?.Load();
+            Hide();
+        }
+
+        public void ResumeGame()
         {
             Hide();
         }

@@ -35,7 +35,7 @@ namespace Player
 
             IsDead = false;
 
-            SaveManager.Instance.Load(transform);
+            SaveManager.Instance.Load();
         }
     }
 }

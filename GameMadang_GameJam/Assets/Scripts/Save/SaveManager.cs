@@ -4,8 +4,11 @@ namespace Save
 {
     public class SaveManager : MonoBehaviour
     {
-        public SavePoint currentSavePoint;
         public static SaveManager Instance { get; private set; }
+
+        public SavePoint currentSavePoint;
+
+        private Transform player;
 
         private void Awake()
         {
@@ -22,6 +25,8 @@ namespace Save
 
         private void Start()
         {
+            player = GameObject.FindGameObjectWithTag("Player").transform;
+
             var savePoint = PlayerPrefs.GetInt("SavePoint", 0);
 
             foreach (Transform child in transform)
@@ -48,8 +53,10 @@ namespace Save
             }
         }
 
-        public void Load(Transform player)
+        public void Load()
         {
+            if (!currentSavePoint) return;
+
             player.position = currentSavePoint.transform.position;
         }
     }
