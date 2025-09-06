@@ -33,6 +33,7 @@ public class InteractionHandler : MonoBehaviour
         if (collision != null && collision.gameObject.CompareTag("Interact"))
         {
             AttemptAutoInteract(collision);
+            return;
         }
 
         if (collision.CompareTag("ClimbObject"))

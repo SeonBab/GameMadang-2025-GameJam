@@ -13,9 +13,10 @@ GameObject:
   - component: {fileID: 8177371254097978700}
   - component: {fileID: 5741706302205110827}
   - component: {fileID: 1983356283298427820}
-  m_Layer: 0
+  - component: {fileID: 3087657019212668304}
+  m_Layer: 13
   m_Name: RopeSegment
-  m_TagString: ClimbObject
+  m_TagString: Interact
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -86,8 +87,8 @@ HingeJoint2D:
     m_MaximumMotorForce: 10000
   m_UseLimits: 0
   m_AngleLimits:
-    m_LowerAngle: 0
-    m_UpperAngle: 359
+    m_LowerAngle: -25
+    m_UpperAngle: 25
 --- !u!212 &5741706302205110827
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -183,3 +184,21 @@ CapsuleCollider2D:
   m_Offset: {x: 0, y: 0}
   m_Size: {x: 1, y: 1}
   m_Direction: 0
+--- !u!114 &3087657019212668304
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5122887033665003391}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39eb80c79c989624c8114c16978cc288, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RopeInteractable
+  InteractableType: 1
+  weight: 10
+  bIsAutoInteract: 1
+  forceMultiplier: 0.05
+  maxXSpeed: 10
+  maxYSpeed: 5

@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1491986895312986999}
-  - component: {fileID: -8942191217408302352}
   - component: {fileID: -8262961353996964595}
   - component: {fileID: 8839954000301806723}
   m_Layer: 13
@@ -35,21 +34,6 @@ Transform:
   - {fileID: 4304722976126902791}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &-8942191217408302352
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7529558685785681391}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 39eb80c79c989624c8114c16978cc288, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::RopeInteractable
-  InteractableType: 1
-  weight: 10
-  bIsAutoInteract: 1
 --- !u!114 &-8262961353996964595
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -63,9 +47,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RopeCreator
   segmentPrefab: {fileID: 5122887033665003391, guid: 92753e4b2c2bb9545863e9c25d1f1d5d, type: 3}
-  segmentCount: 5
-  segmentLength: 2
+  segmentCount: 20
+  segmentLength: 0.5
   anchor: {fileID: 9215680753419898437}
+  segments: []
 --- !u!61 &8839954000301806723
 BoxCollider2D:
   m_ObjectHideFlags: 0
