@@ -40,7 +40,7 @@ namespace Player
 
             IsDead = false;
 
-            SaveManager.Instance.Load();
+            GameManager.RestartGame();
         }
     }
 }
