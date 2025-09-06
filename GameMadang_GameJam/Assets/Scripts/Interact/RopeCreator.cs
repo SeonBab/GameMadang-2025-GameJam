@@ -31,11 +31,16 @@ public class RopeGenerator : MonoBehaviour
             GameObject newSegment = Instantiate(segmentPrefab, transform);
 
             newSegment.name = "RopeSegment_" + i;
+            newSegment.tag = "ClimbObject";
             newSegment.transform.position = anchor.transform.position - new Vector3(0, (i + 1) * segmentLength, 0);
 
+            newSegment.AddComponent<CapsuleCollider2D>();
+            CapsuleCollider2D capsuleCollider2D = newSegment.GetComponent<CapsuleCollider2D>();
             Rigidbody2D rigidbody2D = newSegment.GetComponent<Rigidbody2D>();
             HingeJoint2D hingeJoint2D = newSegment.GetComponent<HingeJoint2D>();
-            
+
+            capsuleCollider2D.size = new Vector2(1, 3);
+
             hingeJoint2D.connectedBody = prevBody;
             hingeJoint2D.autoConfigureConnectedAnchor = false;
             hingeJoint2D.anchor = new Vector2(0, segmentLength / 2);

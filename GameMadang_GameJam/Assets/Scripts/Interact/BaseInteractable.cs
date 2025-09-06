@@ -6,7 +6,7 @@ public abstract class BaseInteractable : MonoBehaviour, IInteract
     [SerializeField] protected int weight;
     [SerializeField] protected bool bIsAutoInteract;
 
-    public abstract void Interact();
+    public abstract void Interact(GameObject InteractCharacter);
 
     public bool GetIsAutoInteract()
     {
