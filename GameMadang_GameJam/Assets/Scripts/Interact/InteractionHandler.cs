@@ -8,11 +8,24 @@ public class InteractionHandler : MonoBehaviour
     [SerializeField] LayerMask interactTargetLayer;
     CapsuleCollider2D interactCollider;
     PlayerController playerController;
-    
+
+    private float interactionDistanceX;
+    public float InteractionDistanceX => interactionDistanceX;
+
     private void Awake()
     {
         interactCollider = GetComponent<CapsuleCollider2D>();
         playerController = GetComponentInParent<PlayerController>();
+    }
+
+    private void Start()
+    {
+        CapsuleCollider2D capsuleCollider2D = transform.parent.GetComponent<CapsuleCollider2D>();
+
+        float InteractionMinX = transform.position.x - interactCollider.size.x * 0.5f * transform.lossyScale.x;
+        float PlayerCapsuleMinX = transform.position.x + capsuleCollider2D.size.x * 0.5f * transform.lossyScale.x;
+
+        interactionDistanceX = Mathf.Abs(InteractionMinX - PlayerCapsuleMinX);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
