@@ -16,8 +16,11 @@ public class PlayerController : MonoBehaviour
 
     private InputHandler inputHandler;
     private PlayerLife playerLife;
+    private Parkour parkour;
+
     private Rigidbody2D rb;
     private Collider2D col;
+    private SpriteRenderer sr;
 
     public bool isClimbing = false;
     public Transform currentClimbObject;
@@ -27,12 +30,16 @@ public class PlayerController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         col = GetComponent<Collider2D>();
+        sr = GetComponent<SpriteRenderer>();
+
+        parkour = GetComponent<Parkour>();
         playerLife = GetComponent<PlayerLife>();
         inputHandler = GetComponent<InputHandler>();
     }
 
     private void Start()
     {
+        inputHandler.Input.Player.Move.performed += FlipSprite;
         inputHandler.Input.Player.Move.performed += StartClimb;
         inputHandler.Input.Player.Jump.performed += JumpOnPerformed;
         inputHandler.Input.Player.Interact.performed += InteractOnPerformed;
@@ -40,9 +47,23 @@ public class PlayerController : MonoBehaviour
         moveSpeedOrigin = moveSpeed;
     }
 
+    private void Update()
+    {
+        if (playerLife.IsDead) return;
+        if (parkour.IsBusy()) return;
+        if (IsGround()) return;
+
+        var hit = parkour.IsParkour();
+        if (hit)
+        {
+            parkour.StartParkour(hit);
+        }
+    }
+
     private void FixedUpdate()
     {
         if (playerLife.IsDead) return;
+        if (parkour.IsBusy()) return;
 
         if (isClimbing)
             HandleClimbing();
@@ -52,6 +73,8 @@ public class PlayerController : MonoBehaviour
 
     private void OnDestroy()
     {
+        inputHandler.Input.Player.Move.performed -= FlipSprite;
+        inputHandler.Input.Player.Move.performed -= StartClimb;
         inputHandler.Input.Player.Jump.performed -= JumpOnPerformed;
         inputHandler.Input.Player.Interact.performed -= InteractOnPerformed;
     }
@@ -69,6 +92,16 @@ public class PlayerController : MonoBehaviour
         {
             StartCoroutine(BeginClimbCo());
         }
+    }
+
+    private void FlipSprite(InputAction.CallbackContext ctx)
+    {
+        sr.flipX = ctx.ReadValue<Vector2>().x switch
+        {
+            > 0 => true,
+            < 0 => false,
+            _ => sr.flipX
+        };
     }
 
     private void JumpOnPerformed(InputAction.CallbackContext ctx)
