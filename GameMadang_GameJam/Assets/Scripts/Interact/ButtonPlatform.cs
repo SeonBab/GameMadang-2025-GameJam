@@ -38,6 +38,12 @@ public class ButtonPlatform : MonoBehaviour
 
             // targetObject의 동작 함수 실행
             Debug.Log("발판 버튼 상호작용 시작");
+
+            Elevator elevator = targetObject.GetComponent<Elevator>();
+            if (elevator != null)
+            {
+                elevator.GoUp();
+            }
         }
     }
 
@@ -49,7 +55,13 @@ public class ButtonPlatform : MonoBehaviour
             isActive = false;
 
             // targetObject의 동작 중지
-            Debug.Log("발판 버튼 상호작용 시작");
+            Debug.Log("발판 버튼 상호작용 해제");
+
+            Elevator elevator = targetObject.GetComponent<Elevator>();
+            if (elevator != null)
+            {
+                elevator.GoDown();
+            }
         }
     }
 }
