@@ -723,11 +723,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6591476387675329912, guid: ef2ee8ce12a030b439700e2d4e418dea, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 4.8500195
+      value: -34.03
       objectReference: {fileID: 0}
     - target: {fileID: 6591476387675329912, guid: ef2ee8ce12a030b439700e2d4e418dea, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.5912653
+      value: -0.48
       objectReference: {fileID: 0}
     - target: {fileID: 6591476387675329912, guid: ef2ee8ce12a030b439700e2d4e418dea, type: 3}
       propertyPath: m_LocalPosition.z
@@ -766,7 +766,7 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 2860743781301230560, guid: ef2ee8ce12a030b439700e2d4e418dea, type: 3}
-      insertIndex: -1
+      insertIndex: 1
       addedObject: {fileID: 1259560836}
   m_SourcePrefab: {fileID: 100100000, guid: ef2ee8ce12a030b439700e2d4e418dea, type: 3}
 --- !u!1001 &602639649
@@ -1746,7 +1746,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f4d7557fe6656546af0915a80cb2e1a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ButtonPlatform
-  targetObject: {fileID: 0}
+  targetObject: {fileID: 22109113}
 --- !u!1 &1263696387
 GameObject:
   m_ObjectHideFlags: 0
@@ -1930,6 +1930,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 602639651}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1457000348 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1006066526181779471, guid: 8dc54b83b7a30384aaeb06a6f100262d, type: 3}
+  m_PrefabInstance: {fileID: 5018601000461287140}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1488941260
 GameObject:
   m_ObjectHideFlags: 0
@@ -2336,13 +2341,36 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1006066526181779471, guid: 8dc54b83b7a30384aaeb06a6f100262d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 9170931965893424160}
   m_SourcePrefab: {fileID: 100100000, guid: 8dc54b83b7a30384aaeb06a6f100262d, type: 3}
 --- !u!4 &9170931965893424153 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3534447929138734193, guid: 8dc54b83b7a30384aaeb06a6f100262d, type: 3}
   m_PrefabInstance: {fileID: 5018601000461287140}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &9170931965893424160
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1457000348}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 259f9fcd1b3b48abb590aefdb3376d00, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Player.Parkour
+  parkourLayer:
+    serializedVersion: 2
+    m_Bits: 128
+  parkourSpeed: 5
+  rayLength: 0.8
+  epsilon: 0.001
+  stepForwardDist: 0.35
+  stepForwardSpeed: 6
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
