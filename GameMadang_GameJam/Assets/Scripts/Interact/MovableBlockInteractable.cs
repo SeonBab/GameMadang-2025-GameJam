@@ -15,14 +15,19 @@ public class MovableBlockInteractable : BaseInteractable
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        PlayerController playerController = collision.GetComponent<PlayerController>();
-        if (playerController == null)
+        if (collision.CompareTag("Player"))
         {
-            return;
-        }
+            GameObject playerGameObject = collision.transform.parent.gameObject;
+            PlayerController playerController = playerGameObject.GetComponent<PlayerController>();
+            if (playerController == null)
+            {
+                return;
+            }
 
-        playerController.OnGroundMovement -= HandlePushPullRelease;
-        playerController.isPushPull = false;
+            rb2D.linearVelocityX = 0f;
+            playerController.OnFixedUpdateEnd -= HandlePushPullRelease;
+            playerController.isPushPull = false;
+        }
     }
 
     public override void Interact(GameObject InteractCharacter)
@@ -40,7 +45,7 @@ public class MovableBlockInteractable : BaseInteractable
             return;
         }
 
-        playerController.OnGroundMovement += HandlePushPullRelease;
+        playerController.OnFixedUpdateEnd += HandlePushPullRelease;
         playerController.isPushPull = true;
     }
 
@@ -65,12 +70,11 @@ public class MovableBlockInteractable : BaseInteractable
         // 당기기 입력이 유효하지 않으면 구독 해제
         if ((playerDir * Direction > 0) && !inputHandler.Input.Player.Interact.IsInProgress())
         {
-            playerController.OnGroundMovement -= HandlePushPullRelease;
+            rb2D.linearVelocityX = 0f;
+            playerController.OnFixedUpdateEnd -= HandlePushPullRelease;
             playerController.isPushPull = false;
             return;
         }
-
-        Vector2 worldSize = Vector2.Scale(boxCollider2D.size, transform.lossyScale);
 
         float minY = transform.position.y - boxCollider2D.size.y * 0.5f * transform.lossyScale.y;
         float maxY = transform.position.y + boxCollider2D.size.y * 0.5f * transform.lossyScale.y;
@@ -79,6 +83,6 @@ public class MovableBlockInteractable : BaseInteractable
             return;
         }
 
-        rb2D.linearVelocityX = movementObjectrb2D.linearVelocityX;
+        rb2D.linearVelocity = movementObjectrb2D.linearVelocity;
     }
 }

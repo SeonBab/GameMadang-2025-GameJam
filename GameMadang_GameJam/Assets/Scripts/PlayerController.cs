@@ -27,7 +27,7 @@ public class PlayerController : MonoBehaviour
     public Transform currentClimbObject;
     private float moveSpeedOrigin;
 
-    public Action<float, GameObject> OnGroundMovement;
+    public Action<float, GameObject> OnFixedUpdateEnd;
 
     private void Awake()
     {
@@ -54,6 +54,16 @@ public class PlayerController : MonoBehaviour
             HandleClimbing();
         else
             HandleMovement();
+
+        StartCoroutine(AfterFixedUpdate());
+    }
+
+    // 물리 연산이 끝난 후 호출되어야 할 함수 호출
+    private IEnumerator AfterFixedUpdate()
+    {
+        yield return new WaitForFixedUpdate();
+
+        OnFixedUpdateEnd?.Invoke(inputHandler.MoveInput.x, gameObject);
     }
 
     private void OnDestroy()
@@ -119,9 +129,6 @@ public class PlayerController : MonoBehaviour
         {
             rb.linearVelocity = new Vector2(0f, rb.linearVelocity.y);
 
-            // 땅에서 이동 및 정지 중일 때 호출되어야 할 함수 호출
-            OnGroundMovement?.Invoke(x, gameObject);
-
             return;
         }
 
@@ -141,12 +148,6 @@ public class PlayerController : MonoBehaviour
 
         var targetVx = Mathf.Sign(x) * moveSpeed;
         rb.linearVelocity = new Vector2(targetVx, rb.linearVelocity.y);
-
-        if (IsGround())
-        {
-            // 땅에서 이동 및 정지 중일 때 호출되어야 할 함수 호출
-            OnGroundMovement?.Invoke(x, gameObject);
-        }
     }
 
     IEnumerator BeginClimbCo()
