@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 2441117879943726517}
   - component: {fileID: 3866016545080472658}
   - component: {fileID: 3798248707052402461}
+  - component: {fileID: 1886235732053745975}
   m_Layer: 10
   m_Name: Player
   m_TagString: Player
@@ -31,7 +32,7 @@ Transform:
   m_GameObject: {fileID: 1006066526181779471}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -23.16, y: 0.31, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -112,7 +113,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDamping: 0
   m_AngularDamping: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 1.5
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -134,7 +135,7 @@ CapsuleCollider2D:
   m_Enabled: 1
   serializedVersion: 3
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: c2906df3560216c4abc7add3595baae2, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -191,12 +192,14 @@ MonoBehaviour:
   jumpSlowdownRate: 0.7
   climbSpeed: 4
   climbObjectSnapSpeed: 30
+  interactionForce: 0.5
   groundCheck: {fileID: 7986362659623959578}
   ground:
     serializedVersion: 2
     m_Bits: 64
   isClimbing: 0
-  currentLadder: {fileID: 0}
+  isPushPull: 0
+  currentClimbObject: {fileID: 0}
 --- !u!114 &3798248707052402461
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -209,6 +212,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8b6a7d7470bd514abd76059f19fe344, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Player.PlayerLife
+--- !u!114 &1886235732053745975
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1006066526181779471}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 259f9fcd1b3b48abb590aefdb3376d00, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Player.Parkour
+  parkourLayer:
+    serializedVersion: 2
+    m_Bits: 128
+  parkourSpeed: 5
+  rayLength: 0.8
+  epsilon: 0.001
+  stepForwardDist: 1
+  stepForwardSpeed: 6
 --- !u!1 &4294397586934685599
 GameObject:
   m_ObjectHideFlags: 0
@@ -292,7 +315,7 @@ CapsuleCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
-  m_Size: {x: 1.2, y: 2.4}
+  m_Size: {x: 1.4, y: 2}
   m_Direction: 0
 --- !u!1 &4805239472300624374
 GameObject:

@@ -172,7 +172,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 2
+    filterMode: 1
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -182,7 +182,7 @@ TextureImporter:
   lightmap: 0
   compressionQuality: 50
   spriteMode: 2
-  spriteExtrude: 0
+  spriteExtrude: 1
   spriteMeshType: 0
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
@@ -210,7 +210,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 0
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -1174,8 +1174,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: df4054a4ffd53254c9a4ce6972be6be6
-      internalID: -1058463635
+      spriteID: 66bead789fc1f7d49be0c6c0de881db3
+      internalID: -212135609
       vertices: []
       indices: 
       edges: []
@@ -1196,8 +1196,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3cd6fc72515496c4f861f536fc6ea94c
-      internalID: -272432690
+      spriteID: 423668222b01f5a44b52dbc5dc92962e
+      internalID: 1056219679
       vertices: []
       indices: 
       edges: []
@@ -1218,8 +1218,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: bcebf2cdd6e091a49a8086faf39899cd
-      internalID: -710073912
+      spriteID: 9f7822d82fca14944991d6830d2d3bd3
+      internalID: 637161635
       vertices: []
       indices: 
       edges: []
@@ -1240,8 +1240,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8acdb6491cc8da3458f587ec20449b51
-      internalID: 1598689010
+      spriteID: 6342e3071f212e1488553e8eaebb634e
+      internalID: -1944826651
       vertices: []
       indices: 
       edges: []
@@ -1250,7 +1250,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 3910880c2de7d0049872354c1d21db81
+    spriteID: 0c7dd95edee6e084ebe16857544a2e37
     internalID: 0
     vertices: []
     indices: 
@@ -1303,12 +1303,12 @@ TextureImporter:
       character_43: -4702585941336802017
       character_44: -389262940572705114
       character_45: -9078226021229508275
-      character_46: -1058463635
-      character_47: -272432690
-      character_48: -710073912
-      character_49: 1598689010
+      character_46: -212135609
+      character_47: 1056219679
+      character_48: 637161635
+      character_49: -1944826651
       character_5: 3445332486847661990
-      character_50: -1227287963
+      character_50: -1874929706
       character_6: 7456334905099763947
       character_7: 5377859178988851676
       character_8: -4124168217499134943

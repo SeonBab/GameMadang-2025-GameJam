@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Interact
   - ClimbObject
+  - Monster
   layers:
   - Default
   - TransparentFX
@@ -14,11 +15,11 @@ TagManager:
   - Water
   - UI
   - Ground
-  - 
+  - Packour
   - 
   - 
   - Player
-  - 
+  - Monster
   - PlayerInteract
   - Interact
   - 
