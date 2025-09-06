@@ -76,14 +76,6 @@ public class PlayerController : MonoBehaviour
         else
             HandleMovement();
 
-        StartCoroutine(AfterFixedUpdate());
-    }
-
-    // 물리 연산이 끝난 후 호출되어야 할 함수 호출
-    private IEnumerator AfterFixedUpdate()
-    {
-        yield return new WaitForFixedUpdate();
-
         OnFixedUpdateEnd?.Invoke(inputHandler.MoveInput.x, gameObject);
     }
 

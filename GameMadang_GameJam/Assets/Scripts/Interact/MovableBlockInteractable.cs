@@ -96,11 +96,11 @@ public class MovableBlockInteractable : BaseInteractable
         {
             // 밀 수 있는 거리인지 확인
             // 현재 박스 콜라이더의 X축 위치
-            float minX = transform.position.x - boxCollider2D.size.x * 0.5f * transform.lossyScale.x;
-            float maxX = transform.position.x + boxCollider2D.size.x * 0.5f * transform.lossyScale.x;
+            float minX = boxCollider2D.bounds.min.x;
+            float maxX = boxCollider2D.bounds.max.x;
             // 현재 캐릭터 상호작용 콜라이더의 X축 위치
-            float PlayerminX = transform.position.x - capsuleCollider2D.size.x * 0.5f * transform.lossyScale.x;
-            float PlayermaxX = transform.position.x + capsuleCollider2D.size.x * 0.5f * transform.lossyScale.x;
+            float PlayerminX = capsuleCollider2D.bounds.min.x;
+            float PlayermaxX = capsuleCollider2D.bounds.max.x;
             // 겹치는 범위 계산
             float overlapMin = Mathf.Max(minX, PlayerminX);
             float overlapMax = Mathf.Min(maxX, PlayermaxX);
