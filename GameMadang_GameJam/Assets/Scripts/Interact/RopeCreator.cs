@@ -9,7 +9,7 @@ public class RopeGenerator : MonoBehaviour
 
     [SerializeField] private GameObject anchor;
 
-    private List<GameObject> segments = new List<GameObject>();
+    [HideInInspector][SerializeField] private List<GameObject> segments = new List<GameObject>();
 
     [ContextMenu("Generate Rope")]
     public void GenerateRope()
@@ -34,7 +34,6 @@ public class RopeGenerator : MonoBehaviour
             newSegment.tag = "ClimbObject";
             newSegment.transform.position = anchor.transform.position - new Vector3(0, (i + 1) * segmentLength, 0);
 
-            newSegment.AddComponent<CapsuleCollider2D>();
             CapsuleCollider2D capsuleCollider2D = newSegment.GetComponent<CapsuleCollider2D>();
             Rigidbody2D rigidbody2D = newSegment.GetComponent<Rigidbody2D>();
             HingeJoint2D hingeJoint2D = newSegment.GetComponent<HingeJoint2D>();

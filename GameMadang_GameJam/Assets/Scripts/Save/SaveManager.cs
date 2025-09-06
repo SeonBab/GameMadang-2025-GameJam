@@ -1,12 +1,18 @@
+using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.Rendering.HableCurve;
 
 namespace Save
 {
     public class SaveManager : MonoBehaviour
     {
-        public SavePointInteractable currentSavePoint;
-
         public static SaveManager Instance { get; private set; }
+
+        [SerializeField] private GameObject savePointPrefab;
+
+        [SerializeField] private List<SavePointInteractable> savePoints = new List<SavePointInteractable>();
+
+        [SerializeField] public SavePointInteractable currentSavePoint;
 
         private Transform player;
 
@@ -27,16 +33,7 @@ namespace Save
         {
             player = GameObject.FindGameObjectWithTag("Player").transform;
 
-            var savePoint = PlayerPrefs.GetInt("SavePoint", 0);
-
-            foreach (Transform child in transform)
-            {
-                var point = child.GetComponent<SavePointInteractable>();
-                if (point.SavePointNumber != savePoint) continue;
-
-                currentSavePoint = point;
-                return;
-            }
+            Load();
         }
 
         public SavePointInteractable GetCurrentSavePoint()
@@ -49,15 +46,49 @@ namespace Save
             if (currentSavePoint.SavePointNumber < savePoint.SavePointNumber)
             {
                 currentSavePoint = savePoint;
-                PlayerPrefs.SetInt("SavePoint", currentSavePoint.SavePointNumber);
+                PlayerPrefs.SetInt("SavePointIndex", currentSavePoint.SavePointNumber);
+                PlayerPrefs.Save();
             }
         }
 
         public void Load()
         {
-            if (!currentSavePoint) return;
+            int savePointIndex = PlayerPrefs.GetInt("SavePointIndex", 0);
+
+            if (savePoints[savePointIndex] == null)
+            {
+                currentSavePoint = savePoints[0];
+            }
+            else
+            {
+                currentSavePoint = savePoints[savePointIndex];
+            }
+
+            if (currentSavePoint == null) return;
 
             player.position = currentSavePoint.transform.position;
+        }
+
+        [ContextMenu("Generate SavePoint")]
+        public void GenerateSavePoint()
+        {
+            GameObject newSavePoint = Instantiate(savePointPrefab, transform);
+
+            newSavePoint.name = "SavePoint_" + savePoints.Count;
+
+            Vector3 spawnposition = transform.position;
+            spawnposition.y += 3f;
+            newSavePoint.transform.position = spawnposition;
+
+            SavePointInteractable savePointInteractable = newSavePoint.GetComponent<SavePointInteractable>();
+            savePointInteractable.SavePointNumber = savePoints.Count;
+
+            savePoints.Add(savePointInteractable);
+
+            if (savePoints.Count == 1)
+            {
+                currentSavePoint = savePointInteractable;
+            }
         }
     }
 }
