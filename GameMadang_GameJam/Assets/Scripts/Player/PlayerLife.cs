@@ -10,7 +10,12 @@ namespace Player
 
         private void OnTriggerEnter2D(Collider2D other)
         {
-            // if (other.CompareTag("Enemy")) Death();
+            if (other.CompareTag("Monster"))
+            {
+                Debug.Log("Monster");
+
+                // Death();
+            }
         }
 
         [ContextMenu("Test/Death")]
