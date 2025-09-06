@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Save;
 using UnityEngine;
 using UnityEngine.UI;
@@ -37,7 +37,7 @@ namespace UI
 
         public void MoveToLastSavePoint()
         {
-            SaveManager.Instance?.Load();
+            GameManager.RestartGame();
             Hide();
         }
 
