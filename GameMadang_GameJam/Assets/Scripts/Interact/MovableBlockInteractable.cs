@@ -56,7 +56,7 @@ public class MovableBlockInteractable : BaseInteractable
         playerController.isPushPull = true;
     }
 
-    private void HandlePushPullRelease(float Direction, GameObject MovementObejct)
+    private void HandlePushPullRelease(Vector2 Direction, GameObject MovementObejct)
     {
         if (MovementObejct == null)
         {
@@ -79,11 +79,25 @@ public class MovableBlockInteractable : BaseInteractable
             return;
         }
 
+        // 캐릭터가 공중에 떠있거나 유효하지 않은 높이의 경우 블럭이 움직이지 않도록 한다.
+        float minY = boxCollider2D.bounds.min.y;
+        float maxY = boxCollider2D.bounds.max.y;
+        if (Direction.y > 0f || !playerController.IsGround() || MovementObejct.transform.position.y > maxY || MovementObejct.transform.position.y < minY)
+        {
+
+            rb2D.constraints = RigidbodyConstraints2D.FreezeAll;
+            return;
+        }
+        else
+        {
+            rb2D.constraints = RigidbodyConstraints2D.FreezeRotation;
+        }
+
         // 현재 오브젝트 기준 플레이어 방향(1 오른쪽, -1 왼쪽)
         float playerDir = Mathf.Sign(MovementObejct.transform.position.x - transform.position.x);
 
         // 당기기 입력이 유효하지 않으면 구독 해제
-        if ((playerDir * Direction > 0) && !inputHandler.Input.Player.Interact.IsInProgress())
+        if ((playerDir * Direction.x > 0) && !inputHandler.Input.Player.Interact.IsInProgress())
         {
             rb2D.linearVelocityX = 0f;
             playerController.OnFixedUpdateEnd -= HandlePushPullRelease;
@@ -92,7 +106,7 @@ public class MovableBlockInteractable : BaseInteractable
         }
 
         // 밀려는 경우
-        if (playerDir * Direction == -1)
+        if (playerDir * Direction.x == -1)
         {
             // 밀 수 있는 거리인지 확인
             // 현재 박스 콜라이더의 X축 위치
@@ -112,14 +126,6 @@ public class MovableBlockInteractable : BaseInteractable
             {
                 return;
             }
-        }
-
-        // 밀거나 당길 수 있는 높이인지 확인
-        float minY = transform.position.y - boxCollider2D.size.y * 0.5f * transform.lossyScale.y;
-        float maxY = transform.position.y + boxCollider2D.size.y * 0.5f * transform.lossyScale.y;
-        if (!playerController.IsGround() || MovementObejct.transform.position.y > maxY || MovementObejct.transform.position.y < minY)
-        {
-            return;
         }
 
         rb2D.linearVelocity = movementObjectrb2D.linearVelocity;

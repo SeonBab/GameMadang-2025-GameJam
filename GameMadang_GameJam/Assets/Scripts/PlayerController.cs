@@ -30,7 +30,7 @@ public class PlayerController : MonoBehaviour
     public Transform currentClimbObject;
     private float moveSpeedOrigin;
 
-    public Action<float, GameObject> OnFixedUpdateEnd;
+    public Action<Vector2, GameObject> OnFixedUpdateEnd;
 
     private void Awake()
     {
@@ -76,7 +76,7 @@ public class PlayerController : MonoBehaviour
         else
             HandleMovement();
 
-        OnFixedUpdateEnd?.Invoke(inputHandler.MoveInput.x, gameObject);
+        OnFixedUpdateEnd?.Invoke(inputHandler.MoveInput, gameObject);
     }
 
     private void OnDestroy()
