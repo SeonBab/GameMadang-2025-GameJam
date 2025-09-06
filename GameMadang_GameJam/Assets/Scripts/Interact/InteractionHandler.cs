@@ -8,11 +8,30 @@ public class InteractionHandler : MonoBehaviour
     [SerializeField] LayerMask interactTargetLayer;
     CapsuleCollider2D interactCollider;
     PlayerController playerController;
-    
+
+    private float centerDistanceX;
+    public float CenterDistanceX => centerDistanceX;
+    private float colliderEdgeDistanceX;
+    public float ColliderEdgeDistanceX => colliderEdgeDistanceX;
+
     private void Awake()
     {
         interactCollider = GetComponent<CapsuleCollider2D>();
         playerController = GetComponentInParent<PlayerController>();
+    }
+
+    private void Start()
+    {
+        CapsuleCollider2D capsuleCollider2D = transform.parent.GetComponent<CapsuleCollider2D>();
+
+        float playerCenterX = transform.parent.position.x;
+        float interactMaxX = interactCollider.bounds.max.x;
+        centerDistanceX = Mathf.Abs(interactMaxX - playerCenterX);
+
+        float InteractionMinX = transform.position.x - interactCollider.size.x * 0.5f * transform.lossyScale.x;
+        float PlayerCapsuleMinX = transform.position.x + capsuleCollider2D.size.x * 0.5f * transform.lossyScale.x;
+
+        colliderEdgeDistanceX = Mathf.Abs(InteractionMinX - PlayerCapsuleMinX);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -20,6 +39,7 @@ public class InteractionHandler : MonoBehaviour
         if (collision != null && collision.gameObject.CompareTag("Interact"))
         {
             AttemptAutoInteract(collision);
+            return;
         }
 
         if (collision.CompareTag("ClimbObject"))

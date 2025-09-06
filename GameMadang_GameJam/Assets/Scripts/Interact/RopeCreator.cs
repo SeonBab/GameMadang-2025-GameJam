@@ -10,6 +10,7 @@ public class RopeGenerator : MonoBehaviour
     [SerializeField] private GameObject anchor;
 
     [HideInInspector][SerializeField] private List<GameObject> segments = new List<GameObject>();
+    public List<GameObject> Segments => segments;
 
     [ContextMenu("Generate Rope")]
     public void GenerateRope()
@@ -31,26 +32,19 @@ public class RopeGenerator : MonoBehaviour
             GameObject newSegment = Instantiate(segmentPrefab, transform);
 
             newSegment.name = "RopeSegment_" + i;
-            newSegment.tag = "ClimbObject";
             newSegment.transform.position = anchor.transform.position - new Vector3(0, (i + 1) * segmentLength, 0);
 
             CapsuleCollider2D capsuleCollider2D = newSegment.GetComponent<CapsuleCollider2D>();
             Rigidbody2D rigidbody2D = newSegment.GetComponent<Rigidbody2D>();
             HingeJoint2D hingeJoint2D = newSegment.GetComponent<HingeJoint2D>();
 
-            capsuleCollider2D.size = new Vector2(1, 3);
+            capsuleCollider2D.size = new Vector2(1, 1 * segmentLength);
 
             hingeJoint2D.connectedBody = prevBody;
             hingeJoint2D.autoConfigureConnectedAnchor = false;
             hingeJoint2D.anchor = new Vector2(0, segmentLength / 2);
             hingeJoint2D.connectedAnchor = prevBody != null ? new Vector2(0, -segmentLength / 2) : Vector2.zero;
             hingeJoint2D.useLimits = true;
-
-            JointAngleLimits2D ropeLimis = new JointAngleLimits2D();
-            ropeLimis.min = -45f;
-            ropeLimis.max = 45f;
-
-            hingeJoint2D.limits = ropeLimis;
 
             prevBody = rigidbody2D;
             segments.Add(newSegment);
