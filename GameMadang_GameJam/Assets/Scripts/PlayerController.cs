@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using Player;
 using UnityEngine;
@@ -10,6 +11,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float jumpSlowdownRate = 0.7f;
     [SerializeField] private float climbSpeed = 10f;
     [SerializeField] private float climbObjectSnapSpeed = 30f;
+    [SerializeField] private float interactionForce = 0.5f;
+    public float InteractionForce => interactionForce;
 
     [SerializeField] private Transform groundCheck;
     [SerializeField] private LayerMask ground;
@@ -20,8 +23,11 @@ public class PlayerController : MonoBehaviour
     private Collider2D col;
 
     public bool isClimbing = false;
+    public bool isPushPull = false;
     public Transform currentClimbObject;
     private float moveSpeedOrigin;
+
+    public Action<float, GameObject> OnGroundMovement;
 
     private void Awake()
     {
@@ -112,6 +118,10 @@ public class PlayerController : MonoBehaviour
         if (Mathf.Abs(x) < 0.1f)
         {
             rb.linearVelocity = new Vector2(0f, rb.linearVelocity.y);
+
+            // 땅에서 이동 및 정지 중일 때 호출되어야 할 함수 호출
+            OnGroundMovement?.Invoke(x, gameObject);
+
             return;
         }
 
@@ -122,10 +132,21 @@ public class PlayerController : MonoBehaviour
         else
         {
             moveSpeed = moveSpeedOrigin;
+
+            if (isPushPull)
+            {
+                moveSpeed = moveSpeedOrigin * InteractionForce;
+            }
         }
 
         var targetVx = Mathf.Sign(x) * moveSpeed;
         rb.linearVelocity = new Vector2(targetVx, rb.linearVelocity.y);
+
+        if (IsGround())
+        {
+            // 땅에서 이동 및 정지 중일 때 호출되어야 할 함수 호출
+            OnGroundMovement?.Invoke(x, gameObject);
+        }
     }
 
     IEnumerator BeginClimbCo()

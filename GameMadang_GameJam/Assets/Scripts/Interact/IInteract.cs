@@ -1,3 +1,5 @@
+using UnityEngine;
+
 public enum EInteractableType
 {
     None,
@@ -10,7 +12,7 @@ public enum EInteractableType
 
 public interface IInteract
 {
-    void Interact();
+    void Interact(GameObject InteractCharacter);
 
     bool GetIsAutoInteract();
 
