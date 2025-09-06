@@ -60,7 +60,7 @@ public class InteractionHandler : MonoBehaviour
         {
             // #3 상호작용
             // 상호작용 호출
-            interactTarget.Interact();
+            interactTarget.Interact(gameObject.transform.parent.gameObject);
         }
     }
 
@@ -117,7 +117,7 @@ public class InteractionHandler : MonoBehaviour
                 IInteract interactable = interactTarget.GetComponent<IInteract>();
                 if (interactable != null)
                 {
-                    interactable.Interact();
+                    interactable.Interact(gameObject.transform.parent.gameObject);
                 }
             }
         }
