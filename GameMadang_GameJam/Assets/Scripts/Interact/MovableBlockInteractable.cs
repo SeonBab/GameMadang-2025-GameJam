@@ -13,6 +13,11 @@ public class MovableBlockInteractable : BaseInteractable
         boxCollider2D = GetComponent<BoxCollider2D>();
     }
 
+    private void FixedUpdate()
+    {
+         
+    }
+
     private void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
@@ -64,6 +69,15 @@ public class MovableBlockInteractable : BaseInteractable
             return;
         }
 
+        //float minX = transform.position.x - boxCollider2D.size.x * 0.5f * transform.lossyScale.x;
+        //float maxX = transform.position.x + boxCollider2D.size.x * 0.5f * transform.lossyScale.x;
+        float minY = transform.position.y - boxCollider2D.size.y * 0.5f * transform.lossyScale.y;
+        float maxY = transform.position.y + boxCollider2D.size.y * 0.5f * transform.lossyScale.y;
+        if (!playerController.IsGround() || MovementObejct.transform.position.y > maxY || MovementObejct.transform.position.y < minY)
+        {
+            return;
+        }
+
         // 현재 오브젝트 기준 플레이어 방향(1 오른쪽, -1 왼쪽)
         float playerDir = Mathf.Sign(MovementObejct.transform.position.x - transform.position.x);
 
@@ -73,13 +87,6 @@ public class MovableBlockInteractable : BaseInteractable
             rb2D.linearVelocityX = 0f;
             playerController.OnFixedUpdateEnd -= HandlePushPullRelease;
             playerController.isPushPull = false;
-            return;
-        }
-
-        float minY = transform.position.y - boxCollider2D.size.y * 0.5f * transform.lossyScale.y;
-        float maxY = transform.position.y + boxCollider2D.size.y * 0.5f * transform.lossyScale.y;
-        if (!playerController.IsGround() || MovementObejct.transform.position.y > maxY || MovementObejct.transform.position.y < minY)
-        {
             return;
         }
 
