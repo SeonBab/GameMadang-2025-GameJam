@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float jumpForce = 5f;
     [SerializeField] private float jumpSlowdownRate = 0.7f;
     [SerializeField] private float climbSpeed = 10f;
+    public float ClimbSpeed => climbSpeed;
     [SerializeField] private float climbObjectSnapSpeed = 30f;
     [SerializeField] private float interactionForce = 0.5f;
     public float InteractionForce => interactionForce;

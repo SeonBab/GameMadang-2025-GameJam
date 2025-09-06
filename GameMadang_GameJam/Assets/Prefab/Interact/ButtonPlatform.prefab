@@ -9,8 +9,12 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: -6858477735788492155, guid: 4e82c59dc1817d7489544bd1a93f776b, type: 3}
+      propertyPath: m_Size.x
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: -6858477735788492155, guid: 4e82c59dc1817d7489544bd1a93f776b, type: 3}
       propertyPath: m_Size.y
-      value: 1
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: -6858477735788492155, guid: 4e82c59dc1817d7489544bd1a93f776b, type: 3}
       propertyPath: m_Sprite
@@ -29,8 +33,24 @@ PrefabInstance:
       value: 0.7686275
       objectReference: {fileID: 0}
     - target: {fileID: -5299950506939848267, guid: 4e82c59dc1817d7489544bd1a93f776b, type: 3}
+      propertyPath: m_Size.x
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: -5299950506939848267, guid: 4e82c59dc1817d7489544bd1a93f776b, type: 3}
+      propertyPath: m_Size.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: -5299950506939848267, guid: 4e82c59dc1817d7489544bd1a93f776b, type: 3}
       propertyPath: m_IsTrigger
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -5299950506939848267, guid: 4e82c59dc1817d7489544bd1a93f776b, type: 3}
+      propertyPath: m_SpriteTilingProperty.newSize.x
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: -5299950506939848267, guid: 4e82c59dc1817d7489544bd1a93f776b, type: 3}
+      propertyPath: m_SpriteTilingProperty.newSize.y
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 2639467757431476441, guid: 4e82c59dc1817d7489544bd1a93f776b, type: 3}
       propertyPath: m_Name
@@ -79,5 +99,26 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2639467757431476441, guid: 4e82c59dc1817d7489544bd1a93f776b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1074599743894314395}
   m_SourcePrefab: {fileID: 100100000, guid: 4e82c59dc1817d7489544bd1a93f776b, type: 3}
+--- !u!1 &2860743781301230560 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2639467757431476441, guid: 4e82c59dc1817d7489544bd1a93f776b, type: 3}
+  m_PrefabInstance: {fileID: 221277536235211577}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1074599743894314395
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2860743781301230560}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f4d7557fe6656546af0915a80cb2e1a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonPlatform
+  targetObject: {fileID: 0}

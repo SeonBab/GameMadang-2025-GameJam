@@ -9,8 +9,10 @@ public class InteractionHandler : MonoBehaviour
     CapsuleCollider2D interactCollider;
     PlayerController playerController;
 
-    private float interactionDistanceX;
-    public float InteractionDistanceX => interactionDistanceX;
+    private float centerDistanceX;
+    public float CenterDistanceX => centerDistanceX;
+    private float colliderEdgeDistanceX;
+    public float ColliderEdgeDistanceX => colliderEdgeDistanceX;
 
     private void Awake()
     {
@@ -22,10 +24,14 @@ public class InteractionHandler : MonoBehaviour
     {
         CapsuleCollider2D capsuleCollider2D = transform.parent.GetComponent<CapsuleCollider2D>();
 
+        float playerCenterX = transform.parent.position.x;
+        float interactMaxX = interactCollider.bounds.max.x;
+        centerDistanceX = Mathf.Abs(interactMaxX - playerCenterX);
+
         float InteractionMinX = transform.position.x - interactCollider.size.x * 0.5f * transform.lossyScale.x;
         float PlayerCapsuleMinX = transform.position.x + capsuleCollider2D.size.x * 0.5f * transform.lossyScale.x;
 
-        interactionDistanceX = Mathf.Abs(InteractionMinX - PlayerCapsuleMinX);
+        colliderEdgeDistanceX = Mathf.Abs(InteractionMinX - PlayerCapsuleMinX);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

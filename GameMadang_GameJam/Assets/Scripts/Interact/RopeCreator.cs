@@ -10,6 +10,7 @@ public class RopeGenerator : MonoBehaviour
     [SerializeField] private GameObject anchor;
 
     [HideInInspector][SerializeField] private List<GameObject> segments = new List<GameObject>();
+    public List<GameObject> Segments => segments;
 
     [ContextMenu("Generate Rope")]
     public void GenerateRope()

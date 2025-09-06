@@ -120,7 +120,7 @@ public class MovableBlockInteractable : BaseInteractable
             float overlapMax = Mathf.Min(maxX, PlayermaxX);
             float overlap = Mathf.Max(0f, overlapMax - overlapMin);
             // 겹치는 비율 계산
-            float interactionPercent = (overlap / interactionHandler.InteractionDistanceX) * 100f;
+            float interactionPercent = (overlap / interactionHandler.ColliderEdgeDistanceX) * 100f;
             // 필요한 만큼 겹치지 않았다면 밀지 않고 리턴
             if (interactionPercent < pushDisntanceFactor)
             {
