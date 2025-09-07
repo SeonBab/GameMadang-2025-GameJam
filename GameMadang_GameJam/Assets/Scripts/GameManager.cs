@@ -1,5 +1,8 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.Collections;
+using Save;
+using UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -23,7 +26,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        
+        StartCoroutine(OnStartPreRender());
     }
 
     void Update()
@@ -31,9 +34,27 @@ public class GameManager : MonoBehaviour
         
     }
 
-    public static void RestartGame()
+    public static void RestartGame(float sceneLoadDelay)
     {
-        // 씬 다시 호출
-        SceneManager.LoadScene("Level");
+        UIManager.Instance.PlayFadeOut(sceneLoadDelay);
+
+        // 페이드 아웃 시간 대기
+        UIManager.Instance.StartCoroutine(DelayedSceneLoad());
+        IEnumerator DelayedSceneLoad()
+        {
+            yield return new WaitForSeconds(sceneLoadDelay);
+
+            // 씬 다시 호출
+            SceneManager.LoadScene("Level");
+        }
+    }
+
+    // 모든 Start함수가 호출 된 뒤 플레이어 캐릭터 위치 로드
+    private IEnumerator OnStartPreRender()
+    {
+        yield return new WaitForEndOfFrame();
+
+        UIManager.Instance.PlayFadeIn();
+        SaveManager.Instance.Load();
     }
 }

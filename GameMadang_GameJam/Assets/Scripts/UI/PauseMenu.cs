@@ -37,7 +37,7 @@ namespace UI
 
         public void MoveToLastSavePoint()
         {
-            GameManager.RestartGame();
+            GameManager.RestartGame(3f);
             Hide();
         }
 
