@@ -7,23 +7,24 @@ namespace Interact
     public class RopeGenerator : MonoBehaviour
     {
         [SerializeField] private GameObject segmentPrefab;
+        [SerializeField] private Rigidbody2D anchor;
         [SerializeField, Range(2, 20)] private int segmentCount;
         [SerializeField] private float segmentLength;
-        [SerializeField] private Rigidbody2D anchor;
+        [SerializeField] private float spriteLength;
 
-        public List<GameObject> Segments { get; private set; } = new ();
-        public int Count;
+        private readonly List<GameObject> segments = new ();
+        public int Count { get; private set; }
 
         [ContextMenu("Generate Rope")]
         public void GenerateRope()
         {
             // 기존 세그먼트 제거
-            foreach (var segment in Segments)
+            foreach (var segment in segments)
             {
                 DestroyImmediate(segment);
             }
 
-            Segments.Clear();
+            segments.Clear();
 
             anchor.transform.position = transform.position;
 
@@ -40,8 +41,10 @@ namespace Interact
                 var col = newSegment.GetComponent<CapsuleCollider2D>();
                 var rb = newSegment.GetComponent<Rigidbody2D>();
                 var joint = newSegment.GetComponent<HingeJoint2D>();
+                var sr = newSegment.GetComponent<SpriteRenderer>();
 
-                col.size = new Vector2(1, 1 * segmentLength);
+                sr.size = new Vector2(1, spriteLength);
+                col.size = new Vector2(1, segmentLength);
 
                 joint.connectedBody = prevBody;
                 joint.autoConfigureConnectedAnchor = false;
@@ -50,7 +53,7 @@ namespace Interact
                 joint.useLimits = true;
 
                 prevBody = rb;
-                Segments.Add(newSegment);
+                segments.Add(newSegment);
             }
         }
 

@@ -46,10 +46,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RopeCreator
   segmentPrefab: {fileID: 5122887033665003391, guid: 92753e4b2c2bb9545863e9c25d1f1d5d, type: 3}
+  anchor: {fileID: 1358132030938346650}
   segmentCount: 20
   segmentLength: 0.5
-  anchor: {fileID: 1358132030938346650}
-  segments: []
+  spriteLength: 1.5
 --- !u!1 &9215680753419898437
 GameObject:
   m_ObjectHideFlags: 0
@@ -135,8 +135,8 @@ HingeJoint2D:
     m_MaximumMotorForce: 10000
   m_UseLimits: 1
   m_AngleLimits:
-    m_LowerAngle: 0
-    m_UpperAngle: 180
+    m_LowerAngle: -90
+    m_UpperAngle: 90
 --- !u!212 &2407441869489131315
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -184,7 +184,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -2413806693520163455, guid: ebe73ca9363db456bacf42c025bb4847, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -192,6 +192,6 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
