@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8707059621469013187}
   - component: {fileID: 3225378688531966091}
   m_Layer: 7
-  m_Name: GameObject
+  m_Name: Packour
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -274,6 +274,7 @@ MonoBehaviour:
   InteractableType: 4
   weight: 150
   bIsAutoInteract: 1
+  pushDisntanceFactor: 85
 --- !u!50 &297925305957336213
 Rigidbody2D:
   serializedVersion: 5
