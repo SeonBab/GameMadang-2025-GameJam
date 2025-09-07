@@ -20,7 +20,7 @@ public class InputHandler : MonoBehaviour
         Input.Player.Move.performed += Move;
         Input.Player.Move.canceled += Move;
 
-        Input.UI.Escape.performed += UIManager.Instance.TogglePauseMenu;
+        Input.UI.Escape.performed += UIManager.instance.TogglePauseMenu;
 
         OnRemoveInputCallbacks += RemoveInputCallbacks;
     }
@@ -38,6 +38,7 @@ public class InputHandler : MonoBehaviour
     private void OnDestroy()
     {
         RemoveInputCallbacks();
+        OnRemoveInputCallbacks -= RemoveInputCallbacks;
     }
 
     private void Move(InputAction.CallbackContext ctx)
@@ -55,6 +56,9 @@ public class InputHandler : MonoBehaviour
 
         MoveInput = new Vector2(0f, 0f);
 
-        Input.UI.Escape.performed -= UIManager.Instance.TogglePauseMenu;
+        if (UIManager.instance != null)
+        {
+            Input.UI.Escape.performed -= UIManager.instance.TogglePauseMenu;
+        }
     }
 }

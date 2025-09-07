@@ -25,6 +25,14 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         StartCoroutine(OnStartPreRender());
+
+        StartCoroutine(DebugTest());
+        IEnumerator DebugTest()
+        {
+            yield return new WaitForSeconds(2f);
+
+            EndingGame(1f);
+        }
     }
 
     public static void EndingGame(float fadeOutDelay)
@@ -32,29 +40,56 @@ public class GameManager : MonoBehaviour
         Debug.Log("엔딩 호출");
 
         // 페이드 아웃
-        UIManager.Instance.PlayFadeOut(fadeOutDelay);
+        UIManager.instance.PlayFadeOut(fadeOutDelay);
 
         // 플레이어 캐릭터에 대한 모든 조작이 불가능하도록 한다.
         InputHandler.OnRemoveInputCallbacks.Invoke();
 
-        //TODO
+        // 페이드 아웃 이후 엔딩의 시퀀스를 재생한다.
+        UIManager.instance.StartCoroutine(DelayedPlayEndingSequence());
+        IEnumerator DelayedPlayEndingSequence()
+        {
+            yield return new WaitForSecondsRealtime(fadeOutDelay);
 
-        // 페이드 아웃 이후 엔딩 관련 연출 필요
+            UIManager.instance.PlayEndingSequence();
+        }
 
+        // 모든 엔딩의 시퀀스를 재생한 이후 메인메뉴로 씬을 이동한다.
+        EndingSequenceController.OnSequenceFinished += MoveSceneMainMenu;
     }
 
     public static void RestartGame(float sceneLoadDelay)
     {
-        UIManager.Instance.PlayFadeOut(sceneLoadDelay);
+        UIManager.instance.PlayFadeOut(sceneLoadDelay);
 
         // 페이드 아웃 시간 대기
-        UIManager.Instance.StartCoroutine(DelayedSceneLoad());
+        UIManager.instance.StartCoroutine(DelayedSceneLoad());
         IEnumerator DelayedSceneLoad()
         {
-            yield return new WaitForSeconds(sceneLoadDelay);
+            yield return new WaitForSecondsRealtime(sceneLoadDelay);
 
             // 씬 다시 호출
             SceneManager.LoadScene("Level");
+        }
+    }
+
+    public static void MoveSceneMainMenu()
+    {
+        SceneManager.LoadScene("MainMenu");
+
+        instance.StartCoroutine(NextFrame());
+        IEnumerator NextFrame()
+        {
+            AsyncOperation asycLoad = SceneManager.LoadSceneAsync("MainMenu");
+
+            while (!asycLoad.isDone)
+            {
+                yield return null;
+            }
+
+            Destroy(UIManager.instance.gameObject);
+            Destroy(SaveManager.instance.gameObject);
+            Destroy(instance.gameObject);
         }
     }
 
@@ -63,7 +98,14 @@ public class GameManager : MonoBehaviour
     {
         yield return new WaitForEndOfFrame();
 
-        UIManager.Instance.PlayFadeIn();
-        SaveManager.Instance.Load();
+        UIManager.instance.PlayFadeIn();
+        SaveManager.instance.Load();
+    }
+
+    private void OnDestroy()
+    {
+        EndingSequenceController.OnSequenceFinished -= MoveSceneMainMenu;
+
+        instance = null;
     }
 }
