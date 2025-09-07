@@ -27,7 +27,8 @@ public class PlayerController : MonoBehaviour
     private Collider2D col;
     private SpriteRenderer sr;
 
-    public bool isPushPull;
+    public bool isPull;
+    public bool isPush;
 
     private float moveSpeedOrigin;
 
@@ -72,6 +73,9 @@ public class PlayerController : MonoBehaviour
         {
             parkour.StartParkour(hit);
         }
+
+        Debug.Log("isPull : " + isPull);
+        Debug.Log("isPush : " + isPush);
     }
 
     private void FixedUpdate()
@@ -139,7 +143,7 @@ public class PlayerController : MonoBehaviour
         {
             moveSpeed = moveSpeedOrigin;
 
-            if (isPushPull)
+            if (isPush || isPull)
             {
                 moveSpeed = moveSpeedOrigin * interactionForce;
             }

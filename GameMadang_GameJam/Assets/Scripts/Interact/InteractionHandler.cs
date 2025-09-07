@@ -32,8 +32,8 @@ namespace Interact
             var interactMaxX = interactCollider.bounds.max.x;
             CenterDistanceX = Mathf.Abs(interactMaxX - playerCenterX);
 
-            var interactionMinX = transform.position.x - interactCollider.size.x * 0.5f * transform.lossyScale.x;
-            var playerCapsuleMinX = transform.position.x + capsuleCollider2D.size.x * 0.5f * transform.lossyScale.x;
+            var interactionMinX = interactCollider.bounds.min.x;
+            var playerCapsuleMinX = capsuleCollider2D.bounds.min.x;
 
             ColliderEdgeDistanceX = Mathf.Abs(interactionMinX - playerCapsuleMinX);
         }
