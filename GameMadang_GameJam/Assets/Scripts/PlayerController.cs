@@ -71,7 +71,7 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         if (playerLife.IsDead) return;
-        if (parkour.IsBusy()) return;
+        if (parkour.IsBusy) return;
         if (IsGround()) return;
 
         var hit = parkour.IsParkour();
@@ -84,7 +84,7 @@ public class PlayerController : MonoBehaviour
     private void FixedUpdate()
     {
         if (playerLife.IsDead) return;
-        if (parkour.IsBusy()) return;
+        if (parkour.IsBusy) return;
 
         HandleMovement();
 
@@ -95,7 +95,7 @@ public class PlayerController : MonoBehaviour
     {
         FlipSprite();
 
-        animator.SetBool(IsJump, !IsGround() && !playerClimb.IsClimbing && !parkour.IsBusy() && !playerLife.IsDead);
+        animator.SetBool(IsJump, !IsGround() && !playerClimb.IsClimbing && !parkour.IsBusy && !playerLife.IsDead);
     }
 
     public bool IsGround()
@@ -107,6 +107,7 @@ public class PlayerController : MonoBehaviour
     {
         if (playerLife.IsDead) return;
         if(isReadyPushPull) return;
+        if (parkour.IsBusy) return;
 
         sr.flipX = inputHandler.MoveInput.x switch
         {
@@ -121,6 +122,7 @@ public class PlayerController : MonoBehaviour
         if (playerLife.IsDead) return;
         if (playerClimb.IsClimbing) return;
         if (!IsGround()) return;
+        if (!parkour.CanJump) return;
 
         rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
     }

@@ -45,6 +45,8 @@ public class GameManager : MonoBehaviour
 
     public static void RestartGame(float sceneLoadDelay)
     {
+        if (!UIManager.Instance) return;
+
         UIManager.Instance.PlayFadeOut(sceneLoadDelay);
 
         // 페이드 아웃 시간 대기

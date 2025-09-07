@@ -163,7 +163,7 @@ CapsuleCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
-  m_Size: {x: 1, y: 2}
+  m_Size: {x: 0.8, y: 2}
   m_Direction: 0
 --- !u!114 &2441117879943726517
 MonoBehaviour:
@@ -264,7 +264,8 @@ MonoBehaviour:
   parkourLayer:
     serializedVersion: 2
     m_Bits: 128
-  parkourSpeed: 5
+  upEps: -1
+  parkourSpeed: 3
   rayLength: 0.8
   epsilon: 0.001
   stepForwardDist: 1
