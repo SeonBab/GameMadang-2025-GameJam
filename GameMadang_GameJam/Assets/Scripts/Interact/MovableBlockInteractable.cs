@@ -34,7 +34,8 @@ public class MovableBlockInteractable : BaseInteractable
 
             rb2D.linearVelocityX = 0f;
             playerController.OnFixedUpdateEnd -= HandlePushPullRelease;
-            playerController.isPushPull = false;
+            playerController.isPush = false;
+            playerController.isPull = false;
         }
     }
 
@@ -43,7 +44,8 @@ public class MovableBlockInteractable : BaseInteractable
         Debug.Log("이동 가능 블럭 상호작용 시작");
         
         player.OnFixedUpdateEnd += HandlePushPullRelease;
-        player.isPushPull = true;
+        player.isPush = false;
+        player.isPull = false;
     }
 
     private void HandlePushPullRelease(Vector2 Direction, GameObject MovementObejct)
@@ -91,11 +93,12 @@ public class MovableBlockInteractable : BaseInteractable
         {
             rb2D.linearVelocityX = 0f;
             playerController.OnFixedUpdateEnd -= HandlePushPullRelease;
-            playerController.isPushPull = false;
+            playerController.isPush = false;
+            playerController.isPull = false;
             return;
         }
 
-        // 밀려는 경우
+        // 밀 수 있는지 확인
         if (playerDir * Direction.x == -1)
         {
             // 밀 수 있는 거리인지 확인
@@ -116,6 +119,18 @@ public class MovableBlockInteractable : BaseInteractable
             {
                 return;
             }
+        }
+
+        // 상태 값 변경
+        if (playerDir * Direction.x == -1)
+        {
+            playerController.isPush = true;
+            playerController.isPull = false;
+        }
+        else if (playerDir * Direction.x == 1)
+        {
+            playerController.isPush = false;
+            playerController.isPull = true;
         }
 
         rb2D.linearVelocity = movementObjectrb2D.linearVelocity;
