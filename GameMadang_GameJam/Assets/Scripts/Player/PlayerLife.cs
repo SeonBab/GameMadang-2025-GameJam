@@ -47,6 +47,8 @@ namespace Player
 
             print("Death Animation Start");
 
+            GameManager.RestartGame(returnTime);
+
             yield return new WaitForSeconds(returnTime);
 
             print("Return to Checkpoint");
@@ -54,8 +56,6 @@ namespace Player
             IsDead = false;
 
             animator.Rebind();
-
-            // GameManager.RestartGame();
         }
     }
 }

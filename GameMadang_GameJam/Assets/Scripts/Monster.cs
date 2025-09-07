@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -24,16 +25,27 @@ public class Monster : MonoBehaviour, ISwitch
     public bool toRight = true;
     private readonly WaitForFixedUpdate wait = new();
 
-    private float leftX;
-
     private Coroutine patrolCo, chaseCo;
 
+    private Animator animator;
     private Rigidbody2D rb;
+    private SpriteRenderer sr;
+
+    private float leftX;
     private float rightX;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
+        sr = GetComponent<SpriteRenderer>();
+    }
+
+    private void FixedUpdate()
+    {
+        sr.flipX = toRight;
+
+        animator.SetBool(Animator.StringToHash("Moving"), !(Mathf.Abs(rb.linearVelocityX) < 0.1f));
     }
 
     public void OnSwitch()
