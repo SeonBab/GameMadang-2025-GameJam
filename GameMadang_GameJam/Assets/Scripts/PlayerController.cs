@@ -66,6 +66,7 @@ public class PlayerController : MonoBehaviour
     private void OnDestroy()
     {
         RemoveInputCallbacks();
+        InputHandler.OnRemoveInputCallbacks -= RemoveInputCallbacks;
     }
 
     private void Update()

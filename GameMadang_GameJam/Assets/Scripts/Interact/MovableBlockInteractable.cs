@@ -75,7 +75,8 @@ public class MovableBlockInteractable : BaseInteractable
         {
             playerController.isPush = false;
             playerController.isPull = false;
-            rb2D.constraints = RigidbodyConstraints2D.FreezeAll;
+            rb2D.constraints = RigidbodyConstraints2D.FreezePositionX;
+            rb2D.constraints = RigidbodyConstraints2D.FreezeRotation;
             return;
         }
         else
@@ -137,5 +138,14 @@ public class MovableBlockInteractable : BaseInteractable
         }
 
         rb2D.linearVelocity = movementObjectrb2D.linearVelocity;
+    }
+
+    public void OnDestroy()
+    {
+        PlayerController player = FindFirstObjectByType<PlayerController>();
+        if (player)
+        {
+            player.OnFixedUpdateEnd -= HandlePushPullRelease;
+        }
     }
 }

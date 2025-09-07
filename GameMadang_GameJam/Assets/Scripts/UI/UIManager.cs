@@ -5,16 +5,17 @@ namespace UI
 {
     public class UIManager : MonoBehaviour
     {
-        public static UIManager Instance { get; private set; }
+        public static UIManager instance { get; private set; }
 
         [SerializeField] private PauseMenu pauseMenu;
         [SerializeField] public FadeController fadeController { get; private set; }
+        [SerializeField] public EndingSequenceController endingSequenceController { get; private set; }
 
         void Awake()
         {
-            if (Instance == null)
+            if (instance == null)
             {
-                Instance = this;
+                instance = this;
                 DontDestroyOnLoad(gameObject);
             }
             else
@@ -24,6 +25,7 @@ namespace UI
         private void Start()
         {
             fadeController = GetComponent<FadeController>();
+            endingSequenceController = GetComponent<EndingSequenceController>();
         }
 
         public void PlayFadeIn()
@@ -37,6 +39,11 @@ namespace UI
             StartCoroutine(fadeController.FadeOutCorutine(sceneLoadDelay));
         }
 
+        public void PlayEndingSequence()
+        {
+            StartCoroutine(endingSequenceController.PlayEndingSequence());
+        }
+
         public void TogglePauseMenu(InputAction.CallbackContext ctx)
         {
             if (pauseMenu.gameObject.activeSelf)
@@ -47,6 +54,11 @@ namespace UI
             {
                 pauseMenu.Show();
             }
+        }
+
+        private void OnDestroy()
+        {
+            instance = null;
         }
     }
 }
