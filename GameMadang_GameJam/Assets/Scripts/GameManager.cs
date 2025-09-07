@@ -8,8 +8,6 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance {  get; private set; }
 
-
-
     private void Awake()
     {
         if (instance == null)
@@ -29,9 +27,16 @@ public class GameManager : MonoBehaviour
         StartCoroutine(OnStartPreRender());
     }
 
-    void Update()
+    public static void EndingGame(float fadeOutDelay)
     {
-        
+        Debug.Log("엔딩 호출");
+
+        // 페이드 아웃
+        UIManager.Instance.PlayFadeOut(fadeOutDelay);
+
+        //TODO
+        // 페이드 아웃 이후 엔딩 관련 연출 필요
+
     }
 
     public static void RestartGame(float sceneLoadDelay)
