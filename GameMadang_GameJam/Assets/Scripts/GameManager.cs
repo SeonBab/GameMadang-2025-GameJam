@@ -34,7 +34,11 @@ public class GameManager : MonoBehaviour
         // 페이드 아웃
         UIManager.Instance.PlayFadeOut(fadeOutDelay);
 
+        // 플레이어 캐릭터에 대한 모든 조작이 불가능하도록 한다.
+        InputHandler.OnRemoveInputCallbacks.Invoke();
+
         //TODO
+
         // 페이드 아웃 이후 엔딩 관련 연출 필요
 
     }

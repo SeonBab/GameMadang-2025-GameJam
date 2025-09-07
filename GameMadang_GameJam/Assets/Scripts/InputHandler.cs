@@ -1,3 +1,4 @@
+using System;
 using UI;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -6,6 +7,8 @@ public class InputHandler : MonoBehaviour
 {
     public Vector2 MoveInput; //  { get; set; }
     public InputSystem_Actions Input { get; private set; }
+
+    static public Action OnRemoveInputCallbacks;
 
     private void Awake()
     {
@@ -18,6 +21,8 @@ public class InputHandler : MonoBehaviour
         Input.Player.Move.canceled += Move;
 
         Input.UI.Escape.performed += UIManager.Instance.TogglePauseMenu;
+
+        OnRemoveInputCallbacks += RemoveInputCallbacks;
     }
 
     private void OnEnable()
@@ -32,8 +37,7 @@ public class InputHandler : MonoBehaviour
 
     private void OnDestroy()
     {
-        Input.Player.Move.performed -= Move;
-        Input.Player.Move.canceled -= Move;
+        RemoveInputCallbacks();
     }
 
     private void Move(InputAction.CallbackContext ctx)
@@ -42,5 +46,15 @@ public class InputHandler : MonoBehaviour
         var y = Mathf.Round(ctx.ReadValue<Vector2>().y);
 
         MoveInput.Set(x, y);
+    }
+
+    public void RemoveInputCallbacks()
+    {
+        Input.Player.Move.performed -= Move;
+        Input.Player.Move.canceled -= Move;
+
+        MoveInput = new Vector2(0f, 0f);
+
+        Input.UI.Escape.performed -= UIManager.Instance.TogglePauseMenu;
     }
 }

@@ -59,12 +59,13 @@ public class PlayerController : MonoBehaviour
         inputHandler.Input.Player.Interact.performed += InteractOnPerformed;
 
         moveSpeedOrigin = moveSpeed;
+
+        InputHandler.OnRemoveInputCallbacks += RemoveInputCallbacks;
     }
 
     private void OnDestroy()
     {
-        inputHandler.Input.Player.Jump.performed -= JumpOnPerformed;
-        inputHandler.Input.Player.Interact.performed -= InteractOnPerformed;
+        RemoveInputCallbacks();
     }
 
     private void Update()
@@ -168,5 +169,11 @@ public class PlayerController : MonoBehaviour
         animator.SetBool(IsMove, true);
         animator.SetBool(IsPull, isPull);
         animator.SetBool(IsPush, isPush);
+    }
+
+    public void RemoveInputCallbacks()
+    {
+        inputHandler.Input.Player.Jump.performed -= JumpOnPerformed;
+        inputHandler.Input.Player.Interact.performed -= InteractOnPerformed;
     }
 }
