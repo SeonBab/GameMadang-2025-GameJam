@@ -112,18 +112,33 @@ public class AudioManager : MonoBehaviour
     }
 
     [ContextMenu("Play Stage 1 BGM")]
+    public void TestPlayStage1BGM()
+    {
+        PlayStage1BGM();
+    }
+
+    [ContextMenu("Play Stage 2 BGM")]
+    public void TestPlayStage2BGM()
+    {
+        PlayStage2BGM();
+    }
+
+    [ContextMenu("Play Stage 3 BGM")]
+    public void TestPlayStage3BGM()
+    {
+        PlayStage3BGM();
+    }
+
     public void PlayStage1BGM(float fadeSeconds = 0.3f)
     {
         PlayBGM(stage1BGM, 1f, true, fadeSeconds);
     }
 
-    [ContextMenu("Play Stage 2 BGM")]
     public void PlayStage2BGM(float fadeSeconds = 0.3f)
     {
         PlayBGM(stage2BGM, 1f, true, fadeSeconds);
     }
 
-    [ContextMenu("Play Stage 3 BGM")]
     public void PlayStage3BGM(float fadeSeconds = 0.3f)
     {
         PlayBGM(stage3BGM, 1f, true, fadeSeconds);
