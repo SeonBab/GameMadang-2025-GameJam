@@ -49,6 +49,9 @@ public class GameManager : MonoBehaviour
 
         // 모든 엔딩의 시퀀스를 재생한 이후 메인메뉴로 씬을 이동한다.
         EndingSequenceController.OnSequenceFinished += MoveSceneMainMenu;
+
+        // 세이브 포인트 초기화
+        SaveManager.ResetSavePointIndex();
     }
 
     public static void RestartGame(float sceneLoadDelay)

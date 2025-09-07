@@ -138,6 +138,13 @@ namespace Save
             }
         }
 
+        [ContextMenu("Debug/ResetSavePoint")]
+        public static void ResetSavePointIndex()
+        {
+            PlayerPrefs.SetInt("SavePointIndex", 0);
+            PlayerPrefs.Save();
+        }
+
         private void OnDestroy()
         {
             if (instance == this)
