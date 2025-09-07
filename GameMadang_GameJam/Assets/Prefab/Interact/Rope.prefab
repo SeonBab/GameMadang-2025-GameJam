@@ -46,10 +46,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RopeCreator
   segmentPrefab: {fileID: 5122887033665003391, guid: 92753e4b2c2bb9545863e9c25d1f1d5d, type: 3}
-  segmentCount: 12
-  segmentLength: 0.5
-  spriteLength: 1.5
   anchor: {fileID: 1358132030938346650}
+  segmentCount: 6
+  segmentLength: 1
+  spriteLength: 1.5
 --- !u!1 &9215680753419898437
 GameObject:
   m_ObjectHideFlags: 0
