@@ -90,6 +90,8 @@ namespace Player
             if (IsClimbing && currentClimbable is RopeInteractable rope
                            && Mathf.Abs(inputHandler.MoveInput.x) > 0.01f)
             {
+                print("Attach to rope");
+
                 AttachToRopeSegment(rope);
                 return;
             }
@@ -100,7 +102,6 @@ namespace Player
         private void OnDestroy()
         {
             RemoveInputCallbacks();
-            InputHandler.OnRemoveInputCallbacks -= RemoveInputCallbacks;
         }
 
         private int CheckEntryKey()
@@ -307,30 +308,18 @@ namespace Player
         {
             var x = inputHandler.MoveInput.x;
 
-            var sign = Mathf.Abs(x) > 0.01f ? (int)Mathf.Sign(x) : 0;
+            var sign = Mathf.Abs(x) > 0.01f ? (int)Mathf.Sign(x) : kickLatch;
 
             if (sign != 0 && sign != kickLatch)
             {
                 var ropeBody = ropeJoint.connectedBody;
-                Vector2 pivot = ropeBody.transform.TransformPoint(ropeJoint.connectedAnchor);
-                var r = rb.worldCenterOfMass - pivot;
 
-                Vector2 tangent;
-                if (r.sqrMagnitude > 1e-6f)
-                    tangent = new Vector2(-r.y, r.x).normalized * sign;
-                else
-                    tangent = (Vector2)ropeBody.transform.right * sign;
+                Vector2 forceDir = ropeBody.transform.right.normalized * sign;
+                Vector2 applyAt = rb.worldCenterOfMass;
 
-                var applyAt = rb.worldCenterOfMass;
-
-                ropeBody.AddForceAtPosition(tangent * ropeKickImpulse, applyAt,
-                    ForceMode2D.Impulse);
+                ropeBody.AddForceAtPosition(forceDir * ropeKickImpulse, applyAt, ForceMode2D.Impulse);
 
                 kickLatch = sign;
-            }
-            else if (sign == 0)
-            {
-                kickLatch = 0;
             }
         }
 

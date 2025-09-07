@@ -341,6 +341,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Rope
       objectReference: {fileID: 0}
+    - target: {fileID: 4490189403662337839, guid: 5e44b747388c4dd468a4a3826c0730b4, type: 3}
+      propertyPath: m_ConnectedAnchor.y
+      value: 6.61
+      objectReference: {fileID: 0}
+    - target: {fileID: 7529558685785681391, guid: 5e44b747388c4dd468a4a3826c0730b4, type: 3}
+      propertyPath: m_Name
+      value: Rope
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1417,6 +1425,26 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: 0.08
       objectReference: {fileID: 0}
+    - target: {fileID: 1886235732053745975, guid: 8dc54b83b7a30384aaeb06a6f100262d, type: 3}
+      propertyPath: upEps
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2426905895674760571, guid: 8dc54b83b7a30384aaeb06a6f100262d, type: 3}
+      propertyPath: m_ConnectedAnchor.x
+      value: 3.48
+      objectReference: {fileID: 0}
+    - target: {fileID: 2426905895674760571, guid: 8dc54b83b7a30384aaeb06a6f100262d, type: 3}
+      propertyPath: m_ConnectedAnchor.y
+      value: 0.08
+      objectReference: {fileID: 0}
+    - target: {fileID: 3534447929138734193, guid: 8dc54b83b7a30384aaeb06a6f100262d, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 3.48
+      objectReference: {fileID: 0}
+    - target: {fileID: 3534447929138734193, guid: 8dc54b83b7a30384aaeb06a6f100262d, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.08
+      objectReference: {fileID: 0}
     - target: {fileID: 3534447929138734193, guid: 8dc54b83b7a30384aaeb06a6f100262d, type: 3}
       propertyPath: m_LocalPosition.z
       value: 0
@@ -1454,8 +1482,20 @@ PrefabInstance:
       value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 7390595877252358356, guid: 8dc54b83b7a30384aaeb06a6f100262d, type: 3}
+      propertyPath: ropeKickImpulse
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 7390595877252358356, guid: 8dc54b83b7a30384aaeb06a6f100262d, type: 3}
       propertyPath: interactMask.m_Bits
       value: 8192
+      objectReference: {fileID: 0}
+    - target: {fileID: 8252035789797112091, guid: 8dc54b83b7a30384aaeb06a6f100262d, type: 3}
+      propertyPath: m_Size.x
+      value: 5.1214285
+      objectReference: {fileID: 0}
+    - target: {fileID: 8252035789797112091, guid: 8dc54b83b7a30384aaeb06a6f100262d, type: 3}
+      propertyPath: m_Size.y
+      value: 5.12
       objectReference: {fileID: 0}
     - target: {fileID: 8252035789797112091, guid: 8dc54b83b7a30384aaeb06a6f100262d, type: 3}
       propertyPath: m_Size.x
