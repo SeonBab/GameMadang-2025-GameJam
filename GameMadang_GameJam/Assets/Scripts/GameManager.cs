@@ -25,14 +25,6 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         StartCoroutine(OnStartPreRender());
-
-        StartCoroutine(DebugTest());
-        IEnumerator DebugTest()
-        {
-            yield return new WaitForSeconds(2f);
-
-            EndingGame(1f);
-        }
     }
 
     public static void EndingGame(float fadeOutDelay)
