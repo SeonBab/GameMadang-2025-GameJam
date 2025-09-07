@@ -140,7 +140,10 @@ namespace Save
 
         private void OnDestroy()
         {
-            instance = null;
+            if (instance == this)
+            {
+                instance = null;
+            }
         }
     }
 }

@@ -92,7 +92,7 @@ public class GameManager : MonoBehaviour
         StartCoroutine(InitializeScene());
         IEnumerator InitializeScene()
         {
-            yield return null;
+            yield return new WaitForFixedUpdate();
 
             UIManager.instance.PlayFadeIn();
             SaveManager.instance.Load();
@@ -105,6 +105,9 @@ public class GameManager : MonoBehaviour
 
         EndingSequenceController.OnSequenceFinished -= MoveSceneMainMenu;
 
-        instance = null;
+        if (instance == this)
+        {
+            instance = null;
+        }
     }
 }
