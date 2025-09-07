@@ -50,6 +50,8 @@ namespace Player
         private Rigidbody2D rb;
         private HingeJoint2D ropeJoint;
 
+        private PlayerLife playerLife;
+
         public bool IsClimbing { get; private set; }
 
         private void Awake()
@@ -60,6 +62,8 @@ namespace Player
 
             rb = GetComponent<Rigidbody2D>();
             col = GetComponent<Collider2D>();
+
+            playerLife = GetComponent<PlayerLife>();
 
             originalGravity = rb.gravityScale;
         }
@@ -112,6 +116,7 @@ namespace Player
 
         private void JumpOnClimb(InputAction.CallbackContext ctx)
         {
+            if (playerLife.IsDead) return;
             if (!IsClimbing) return;
 
             EndClimb();
@@ -123,6 +128,7 @@ namespace Player
 
         private void StartClimb(InputAction.CallbackContext ctx)
         {
+            if (playerLife.IsDead) return;
             if (IsClimbing) return;
             if (!currentClimbable) return;
 
