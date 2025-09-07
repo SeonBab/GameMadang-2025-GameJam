@@ -6,19 +6,37 @@ namespace Interact
     [RequireComponent(typeof(CapsuleCollider2D))]
     public class InteractionHandler : MonoBehaviour
     {
-        [SerializeField] private LayerMask interactLayer;
+        [SerializeField] LayerMask interactLayer;
 
         private PlayerController player;
         private ContactFilter2D filter;
-        private Collider2D interactCollider;
+        private CapsuleCollider2D interactCollider;
+        PlayerController playerController;
 
+        public float CenterDistanceX { get; private set; }
+
+        public float ColliderEdgeDistanceX { get; private set; }
 
         private void Awake()
         {
-            player = GetComponentInParent<PlayerController>();
             interactCollider = GetComponent<CapsuleCollider2D>();
+            playerController = GetComponentInParent<PlayerController>();
 
             filter.SetLayerMask(interactLayer);
+        }
+
+        private void Start()
+        {
+            var capsuleCollider2D = transform.parent.GetComponent<CapsuleCollider2D>();
+
+            var playerCenterX = transform.parent.position.x;
+            var interactMaxX = interactCollider.bounds.max.x;
+            CenterDistanceX = Mathf.Abs(interactMaxX - playerCenterX);
+
+            var interactionMinX = transform.position.x - interactCollider.size.x * 0.5f * transform.lossyScale.x;
+            var playerCapsuleMinX = transform.position.x + capsuleCollider2D.size.x * 0.5f * transform.lossyScale.x;
+
+            ColliderEdgeDistanceX = Mathf.Abs(interactionMinX - playerCapsuleMinX);
         }
 
         private void OnTriggerEnter2D(Collider2D other)
