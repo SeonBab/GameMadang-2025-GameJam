@@ -71,6 +71,7 @@ public class PlayerController : MonoBehaviour
     {
         if (playerLife.IsDead) return;
         if (parkour.IsBusy()) return;
+        if (IsGround()) return;
 
         var hit = parkour.IsParkour();
         if (hit)
