@@ -13,7 +13,6 @@ public class PlayerController : MonoBehaviour
     public float ClimbSpeed => climbSpeed;
     [SerializeField] private float climbObjectSnapSpeed = 30f;
     [SerializeField] private float interactionForce = 0.5f;
-    public float InteractionForce => interactionForce;
 
     [SerializeField] private Transform groundCheck;
     [SerializeField] private LayerMask ground;
@@ -116,7 +115,7 @@ public class PlayerController : MonoBehaviour
     {
         if (playerLife.IsDead) return;
 
-        interactionHandler.TryZInteract();
+        interactionHandler.TryInteract();
     }
 
     private void HandleMovement()
@@ -142,7 +141,7 @@ public class PlayerController : MonoBehaviour
 
             if (isPushPull)
             {
-                moveSpeed = moveSpeedOrigin * InteractionForce;
+                moveSpeed = moveSpeedOrigin * interactionForce;
             }
         }
 

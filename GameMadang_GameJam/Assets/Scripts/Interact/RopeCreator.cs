@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace Interact
@@ -10,19 +11,19 @@ namespace Interact
         [SerializeField] private float segmentLength;
         [SerializeField] private Rigidbody2D anchor;
 
-        [HideInInspector][SerializeField] private List<GameObject> segments = new List<GameObject>();
-        public List<GameObject> Segments => segments;
+        public List<GameObject> Segments { get; private set; } = new ();
+        public int Count;
 
         [ContextMenu("Generate Rope")]
         public void GenerateRope()
         {
             // 기존 세그먼트 제거
-            foreach (var segment in segments)
+            foreach (var segment in Segments)
             {
                 DestroyImmediate(segment);
             }
 
-            segments.Clear();
+            Segments.Clear();
 
             anchor.transform.position = transform.position;
 
@@ -49,8 +50,39 @@ namespace Interact
                 joint.useLimits = true;
 
                 prevBody = rb;
-                segments.Add(newSegment);
+                Segments.Add(newSegment);
             }
+        }
+
+        public Bounds GetRopeBounds()
+        {
+            var cols = GetComponentsInChildren<Collider2D>(false)
+                .Where(c => c && c.enabled)
+                .ToArray();
+
+            if (cols.Length == 0)
+                return new Bounds(transform.position, Vector3.zero);
+
+            var b = cols[0].bounds;
+            for (var i = 1; i < cols.Length; i++)
+                b.Encapsulate(cols[i].bounds);
+
+            return b;
+        }
+
+        public void NotifyRopeEnter()
+        {
+            Count++;
+        }
+
+        public void NotifyRopeExit()
+        {
+            Count--;
+        }
+
+        public void ResetCount()
+        {
+            Count = 0;
         }
     }
 }

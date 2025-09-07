@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 3798248707052402461}
   - component: {fileID: 7390595877252358356}
   - component: {fileID: 1886235732053745975}
+  - component: {fileID: 2426905895674760571}
   m_Layer: 10
   m_Name: Player
   m_TagString: Player
@@ -191,6 +192,8 @@ MonoBehaviour:
   moveSpeed: 6
   jumpForce: 5
   jumpSlowdownRate: 0.7
+  climbSpeed: 10
+  climbObjectSnapSpeed: 30
   interactionForce: 0.5
   groundCheck: {fileID: 7986362659623959578}
   ground:
@@ -228,7 +231,16 @@ MonoBehaviour:
   climbJumpForce: 5
   climbSpeed: 10
   climbObjectSnapSpeed: 30
+  entryMargin: 0.2
+  endMargin: 0.1
+  exitNudge: 0.05
+  endGraceTime: 0.15
+  edgeSafety: 0.05
+  pumpImpulse: 4
+  maxSwingXSpeed: 14
+  maxSwingYSpeed: 18
   currentClimbable: {fileID: 0}
+  ropeSeg: {fileID: 0}
 --- !u!114 &1886235732053745975
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -249,6 +261,32 @@ MonoBehaviour:
   epsilon: 0.001
   stepForwardDist: 1
   stepForwardSpeed: 6
+--- !u!233 &2426905895674760571
+HingeJoint2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1006066526181779471}
+  m_Enabled: 1
+  serializedVersion: 4
+  m_EnableCollision: 0
+  m_ConnectedRigidBody: {fileID: 0}
+  m_BreakForce: Infinity
+  m_BreakTorque: Infinity
+  m_BreakAction: 3
+  m_AutoConfigureConnectedAnchor: 1
+  m_Anchor: {x: 0, y: 0}
+  m_ConnectedAnchor: {x: -12.53, y: 0}
+  m_UseConnectedAnchor: 1
+  m_UseMotor: 0
+  m_Motor:
+    m_MotorSpeed: 0
+    m_MaximumMotorForce: 10000
+  m_UseLimits: 0
+  m_AngleLimits:
+    m_LowerAngle: 0
+    m_UpperAngle: 359
 --- !u!1 &4294397586934685599
 GameObject:
   m_ObjectHideFlags: 0

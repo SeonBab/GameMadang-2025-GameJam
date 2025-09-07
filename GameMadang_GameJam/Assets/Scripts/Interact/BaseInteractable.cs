@@ -29,8 +29,8 @@ namespace Interact
         public bool IsAuto => bIsAutoInteract;
         public int Weight => weight;
         public EInteractableType Type => interactableType;
-        public float GetBottom => col.bounds.min.y;
-        public float GetTop => col.bounds.max.y;
+        public virtual float GetBottom => col.bounds.min.y;
+        public virtual float GetTop => col.bounds.max.y;
 
         public abstract void Interact(PlayerController player);
     }

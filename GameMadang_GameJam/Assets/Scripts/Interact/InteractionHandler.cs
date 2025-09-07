@@ -11,7 +11,6 @@ namespace Interact
         private PlayerController player;
         private ContactFilter2D filter;
         private CapsuleCollider2D interactCollider;
-        PlayerController playerController;
 
         public float CenterDistanceX { get; private set; }
 
@@ -19,8 +18,8 @@ namespace Interact
 
         private void Awake()
         {
+            player = GetComponentInParent<PlayerController>();
             interactCollider = GetComponent<CapsuleCollider2D>();
-            playerController = GetComponentInParent<PlayerController>();
 
             filter.SetLayerMask(interactLayer);
         }
@@ -64,7 +63,7 @@ namespace Interact
             interactTarget.Interact(player);
         }
 
-        public void TryZInteract()
+        public void TryInteract()
         {
             if (!interactCollider) return;
 
