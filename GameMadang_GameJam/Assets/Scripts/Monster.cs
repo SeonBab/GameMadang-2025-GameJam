@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class Monster : MonoBehaviour
+public class Monster : MonoBehaviour, ISwitch
 {
     public enum MonsterMode
     {
@@ -13,6 +13,7 @@ public class Monster : MonoBehaviour
     private const float Eps = 0.01f;
 
     [SerializeField] private MonsterMode mode;
+    [SerializeField] private MonsterMode targetMode;
     [SerializeField] private Transform chaseTarget;
     [SerializeField] private float range = 2f;
     [SerializeField] private float patrolSpeed = 2f;
@@ -33,6 +34,26 @@ public class Monster : MonoBehaviour
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+    }
+
+    public void OnSwitch()
+    {
+        switch (targetMode)
+        {
+            case MonsterMode.Normal:
+                break;
+            case MonsterMode.Patrol:
+                StartPatrol();
+                break;
+            case MonsterMode.Chase:
+                StartChase();
+                break;
+        }
+    }
+
+    public void OffSwitch()
+    {
+        // 아무 것도 변경하지 않는다.
     }
 
     private void SetChaseTarget(Transform target)

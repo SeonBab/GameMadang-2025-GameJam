@@ -46,10 +46,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 012985065dc16aa4b8e66dd708935a2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LeverInteractable
-  interactableType: 0
+  interactableType: 3
   weight: 100
   bIsAutoInteract: 0
-  targetObject: {fileID: 0}
+  targetObjects: []
 --- !u!212 &860391352864240766
 SpriteRenderer:
   m_ObjectHideFlags: 0

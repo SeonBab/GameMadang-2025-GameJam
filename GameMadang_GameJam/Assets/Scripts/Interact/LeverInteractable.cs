@@ -1,21 +1,25 @@
 using Interact;
 using UnityEngine;
+using System.Collections.Generic;
 
 public class LeverInteractable : BaseInteractable
 {
     // 레버 동작의 대상이 되는 오브젝트
-    [SerializeField] private GameObject targetObject;
+    [SerializeField] private List<GameObject> targetObjects = new List<GameObject>();
     private bool isActive = false;
 
     private void Awake()
     {
-        if (targetObject == null)
+        foreach (GameObject obj in targetObjects)
         {
-            Debug.LogError(gameObject.name + " 의 동작 대상 미설정");
-        }
-        else if (targetObject.GetComponent<Elevator>() == null)
-        {
-            Debug.LogError(gameObject.name + " 의 잘못된 동작 대상 설정");
+            if (obj == null)
+            {
+                Debug.LogError(gameObject.name + " 의 동작 대상 미설정");
+            }
+            else if (obj.GetComponent<ISwitch>() == null)
+            {
+                Debug.LogError(gameObject.name + " 의 잘못된 동작 대상 설정");
+            }
         }
     }
 
@@ -25,17 +29,20 @@ public class LeverInteractable : BaseInteractable
 
         isActive = !isActive;
 
-        //타겟 오브젝트의 함수 실행
-        Elevator elevator = targetObject.GetComponent<Elevator>();
-        if (elevator != null)
+        //타겟 오브젝트들의 함수 실행
+        foreach (GameObject obj in targetObjects)
         {
-            if (isActive == true)
+            ISwitch targetSwitch = obj.GetComponent<ISwitch>();
+            if (targetSwitch != null)
             {
-                elevator.GoUp();
-            }
-            else
-            {
-                elevator.GoDown();
+                if (isActive == true)
+                {
+                    targetSwitch.OnSwitch();
+                }
+                else
+                {
+                    targetSwitch.OffSwitch();
+                }
             }
         }
     }
