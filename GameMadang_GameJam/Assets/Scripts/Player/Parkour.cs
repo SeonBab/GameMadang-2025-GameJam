@@ -6,20 +6,23 @@ namespace Player
     public class Parkour : MonoBehaviour
     {
         private static readonly int IsParkour1 = Animator.StringToHash("IsParkour");
-        [SerializeField] private LayerMask parkourLayer;
 
+        [SerializeField] private LayerMask parkourLayer;
+        [SerializeField] private float busyTime = 0f;
+        [SerializeField] private float jumpCooldown = 0.5f;
         [SerializeField] private float parkourSpeed = 5f;
         [SerializeField] private float rayLength = 0.8f;
         [SerializeField] private float epsilon = 0.001f;
 
         [SerializeField] private float stepForwardDist = 0.35f;
-        [SerializeField] private float stepForwardSpeed = 6f;
         private Animator animator;
-        private bool busy;
-        private Collider2D col;
 
+        private Collider2D col;
         private Rigidbody2D rb;
         private SpriteRenderer sr;
+
+        private bool busy;
+        private bool canJump = true;
 
         private void Awake()
         {
@@ -49,6 +52,7 @@ namespace Player
         private IEnumerator ParkourCo(Collider2D wall)
         {
             busy = true;
+            canJump = false;
 
             col.isTrigger = true;
 
@@ -89,13 +93,18 @@ namespace Player
             rb.MovePosition(new Vector2(targetX, finalCenterY));
 
             rb.gravityScale = savedG;
-            busy = false;
             col.isTrigger = false;
+
+            yield return new WaitForSeconds(busyTime);
+
+            busy = false;
+
+            yield return new WaitForSeconds(jumpCooldown);
+
+            canJump = true;
         }
 
-        public bool IsBusy()
-        {
-            return busy;
-        }
+        public bool IsBusy => busy;
+        public bool CanJump => canJump;
     }
 }
