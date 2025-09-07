@@ -18,14 +18,21 @@ public class MovableBlockInteractable : BaseInteractable
 
     private void OnTriggerExit2D(Collider2D collision)
     {
+        if (collision == null)
+        {
+            return;
+        }
+
         if (collision.CompareTag("Player"))
         {
-            GameObject playerGameObject = collision.transform.parent.gameObject;
-            PlayerController playerController = playerGameObject.GetComponent<PlayerController>();
+            PlayerController playerController = collision.GetComponent<PlayerController>();
             if (playerController == null)
             {
                 return;
             }
+
+            rb2D.constraints = RigidbodyConstraints2D.FreezePositionX;
+            rb2D.constraints = RigidbodyConstraints2D.FreezeRotation;
 
             rb2D.linearVelocityX = 0f;
             playerController.OnFixedUpdateEnd -= HandlePushPullRelease;
@@ -134,8 +141,10 @@ public class MovableBlockInteractable : BaseInteractable
         else
         {
             playerController.isPush = false;
-            playerController.isPull = false;;
+            playerController.isPull = false;
         }
+
+        rb2D.constraints = RigidbodyConstraints2D.FreezePositionY;
 
         rb2D.linearVelocity = movementObjectrb2D.linearVelocity;
     }

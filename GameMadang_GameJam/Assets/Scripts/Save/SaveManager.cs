@@ -1,5 +1,9 @@
+using System.Collections;
 using System.Collections.Generic;
+using UI;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Save
 {
@@ -34,9 +38,14 @@ namespace Save
 
         private void Start()
         {
-            player = GameObject.FindGameObjectWithTag("Player").transform;
+            InitializeSaveManager(SceneManager.GetActiveScene(), LoadSceneMode.Single);
 
-            
+            SceneManager.sceneLoaded += InitializeSaveManager;
+        }
+
+        private void InitializeSaveManager(Scene scene, LoadSceneMode mode)
+        {
+            player = GameObject.Find("Player").transform;
         }
 
         public SavePointInteractable GetCurrentSavePoint()
@@ -79,7 +88,13 @@ namespace Save
 
             if (currentSavePoint == null) return;
 
-            player.position = currentSavePoint.transform.position;
+            StartCoroutine(SetPlayerPosition());
+            IEnumerator SetPlayerPosition()
+            {
+                yield return new WaitForFixedUpdate();
+
+                player.position = currentSavePoint.transform.position;
+            }
         }
 
         [ContextMenu("Generate SavePoint")]
@@ -114,7 +129,13 @@ namespace Save
                 return;
             }
 
-            player.position = targetSavePoint.transform.position;
+            StartCoroutine(SetPlayerPosition());
+            IEnumerator SetPlayerPosition()
+            {
+                yield return new WaitForFixedUpdate();
+
+                player.position = targetSavePoint.transform.position;
+            }
         }
 
         private void OnDestroy()

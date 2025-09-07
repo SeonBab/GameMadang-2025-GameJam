@@ -14,6 +14,11 @@ public class SavePointInteractable : BaseInteractable
 
     public override void Interact(PlayerController player)
     {
+        if (gameObject.activeSelf == false || enabled == false)
+        {
+            return;
+        }
+
         Debug.Log("세이브포인트 상호작용 시작");
 
         // 세이브포인트 갱신을 위해 호출하는 함수

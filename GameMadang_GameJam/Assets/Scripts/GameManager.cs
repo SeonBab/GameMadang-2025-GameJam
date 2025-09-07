@@ -17,14 +17,15 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            Debug.LogError("두 개 이상의 게임 매니저가 존재합니다.");
             Destroy(gameObject);
         }
     }
 
     void Start()
     {
-        StartCoroutine(OnStartPreRender());
+        OnGameStart(SceneManager.GetActiveScene(), LoadSceneMode.Single);
+
+        SceneManager.sceneLoaded += OnGameStart;
     }
 
     public static void EndingGame(float fadeOutDelay)
@@ -86,16 +87,22 @@ public class GameManager : MonoBehaviour
     }
 
     // 모든 Start함수가 호출 된 뒤 플레이어 캐릭터 위치 로드
-    private IEnumerator OnStartPreRender()
+    private void OnGameStart(Scene scene, LoadSceneMode mode)
     {
-        yield return new WaitForEndOfFrame();
+        StartCoroutine(InitializeScene());
+        IEnumerator InitializeScene()
+        {
+            yield return null;
 
-        UIManager.instance.PlayFadeIn();
-        SaveManager.instance.Load();
+            UIManager.instance.PlayFadeIn();
+            SaveManager.instance.Load();
+        }
     }
 
     private void OnDestroy()
     {
+        SceneManager.sceneLoaded -= OnGameStart;
+
         EndingSequenceController.OnSequenceFinished -= MoveSceneMainMenu;
 
         instance = null;
