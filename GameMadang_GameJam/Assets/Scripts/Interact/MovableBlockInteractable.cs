@@ -134,6 +134,7 @@ public class MovableBlockInteractable : BaseInteractable
         {
             playerController.isPush = true;
             playerController.isPull = false;
+            playerController.isReadyPushPull = true;
         }
         else if (playerDir * Direction.x == 1)
         {
@@ -144,7 +145,6 @@ public class MovableBlockInteractable : BaseInteractable
         {
             playerController.isPush = false;
             playerController.isPull = false;
-            playerController.isReadyPushPull = false;
         }
 
         rb2D.constraints = RigidbodyConstraints2D.FreezePositionY;

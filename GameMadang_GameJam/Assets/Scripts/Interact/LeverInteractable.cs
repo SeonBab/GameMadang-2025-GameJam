@@ -58,6 +58,11 @@ namespace Interact
         {
             Debug.Log("레버 상호작용 시작");
 
+            if (isActive == true)
+            {
+                return;
+            }
+
             isActive = !isActive;
 
             StartAnimation();
