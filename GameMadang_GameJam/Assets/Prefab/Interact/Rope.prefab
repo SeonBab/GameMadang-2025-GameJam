@@ -46,10 +46,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RopeCreator
   segmentPrefab: {fileID: 5122887033665003391, guid: 92753e4b2c2bb9545863e9c25d1f1d5d, type: 3}
-  anchor: {fileID: 1358132030938346650}
-  segmentCount: 20
+  segmentCount: 12
   segmentLength: 0.5
   spriteLength: 1.5
+  anchor: {fileID: 1358132030938346650}
 --- !u!1 &9215680753419898437
 GameObject:
   m_ObjectHideFlags: 0
@@ -135,8 +135,8 @@ HingeJoint2D:
     m_MaximumMotorForce: 10000
   m_UseLimits: 1
   m_AngleLimits:
-    m_LowerAngle: -90
-    m_UpperAngle: 90
+    m_LowerAngle: -45
+    m_UpperAngle: 45
 --- !u!212 &2407441869489131315
 SpriteRenderer:
   m_ObjectHideFlags: 0

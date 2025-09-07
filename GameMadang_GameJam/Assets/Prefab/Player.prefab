@@ -238,9 +238,9 @@ MonoBehaviour:
   exitNudge: 0.05
   endGraceTime: 0.15
   edgeSafety: 0.05
-  ropeKickImpulse: 100
-  maxSwingXSpeed: 30
-  maxSwingYSpeed: 40
+  ropeKickImpulse: 8
+  maxSwingXSpeed: 14
+  maxSwingYSpeed: 16
   ladderClimbState: Ladder
   ladderClimbClip: {fileID: 7400000, guid: 6348e5021156f98409126735d00228d3, type: 2}
   ropeClimbState: Rope
@@ -264,12 +264,11 @@ MonoBehaviour:
   parkourLayer:
     serializedVersion: 2
     m_Bits: 128
-  busyTime: 0
-  jumpCooldown: 0.5
   parkourSpeed: 3
   rayLength: 0.8
   epsilon: 0.001
   stepForwardDist: 1
+  stepForwardSpeed: 6
 --- !u!233 &2426905895674760571
 HingeJoint2D:
   m_ObjectHideFlags: 0
