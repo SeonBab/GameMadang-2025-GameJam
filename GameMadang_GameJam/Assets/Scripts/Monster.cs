@@ -143,6 +143,8 @@ public class Monster : MonoBehaviour, ISwitch
             var desiredVx = dir * chaseSpeed;
             rb.linearVelocity = new Vector2(desiredVx, rb.linearVelocity.y);
 
+            toRight = Mathf.Approximately(Mathf.Sign(dir), 1);
+
             if (Vector2.Distance(rb.position, chaseTarget.position) > loseRange)
             {
                 yield break;
