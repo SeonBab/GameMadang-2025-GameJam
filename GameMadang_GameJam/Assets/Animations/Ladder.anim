@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: PushPull
+  m_Name: Ladder
   serializedVersion: 7
   m_Legacy: 0
   m_Compressed: 0
@@ -21,11 +21,13 @@ AnimationClip:
   - serializedVersion: 2
     curve:
     - time: 0
-      value: {fileID: 21300000, guid: 68e3ad95caad4914db9be643d7c8b871, type: 2}
+      value: {fileID: 6378490070600606727, guid: b39795535dd87c84c969bb2cfa5d276f, type: 3}
     - time: 0.083333336
-      value: {fileID: 21300000, guid: 0de29d6f21c98194d925237337750be3, type: 2}
+      value: {fileID: 1760990019816550413, guid: b39795535dd87c84c969bb2cfa5d276f, type: 3}
     - time: 0.16666667
-      value: {fileID: 21300000, guid: 076329a1f968db34fa20261eff4be2ef, type: 2}
+      value: {fileID: 5920403861974754022, guid: b39795535dd87c84c969bb2cfa5d276f, type: 3}
+    - time: 0.25
+      value: {fileID: -3892527970579685584, guid: b39795535dd87c84c969bb2cfa5d276f, type: 3}
     attribute: m_Sprite
     path: 
     classID: 212
@@ -48,15 +50,16 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     pptrCurveMapping:
-    - {fileID: 21300000, guid: 68e3ad95caad4914db9be643d7c8b871, type: 2}
-    - {fileID: 21300000, guid: 0de29d6f21c98194d925237337750be3, type: 2}
-    - {fileID: 21300000, guid: 076329a1f968db34fa20261eff4be2ef, type: 2}
+    - {fileID: 6378490070600606727, guid: b39795535dd87c84c969bb2cfa5d276f, type: 3}
+    - {fileID: 1760990019816550413, guid: b39795535dd87c84c969bb2cfa5d276f, type: 3}
+    - {fileID: 5920403861974754022, guid: b39795535dd87c84c969bb2cfa5d276f, type: 3}
+    - {fileID: -3892527970579685584, guid: b39795535dd87c84c969bb2cfa5d276f, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 0.25
+    m_StopTime: 0.33333334
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0

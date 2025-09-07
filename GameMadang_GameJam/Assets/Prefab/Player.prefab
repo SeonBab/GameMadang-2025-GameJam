@@ -90,7 +90,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -9095717837082945937, guid: 207ee8102dd4143d288186ef0be518ee, type: 3}
+  m_Sprite: {fileID: 3427114271967980436, guid: b39795535dd87c84c969bb2cfa5d276f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -144,7 +144,7 @@ CapsuleCollider2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 2048
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
@@ -198,6 +198,7 @@ MonoBehaviour:
   ground:
     serializedVersion: 2
     m_Bits: 64
+  isReadyPushPull: 0
   isPull: 0
   isPush: 0
 --- !u!114 &3798248707052402461
@@ -240,8 +241,8 @@ MonoBehaviour:
   pumpImpulse: 4
   maxSwingXSpeed: 14
   maxSwingYSpeed: 18
-  ladderClimbState: Climb
-  ladderClimbClip: {fileID: 7400000, guid: 21d3e09d09afe474496c6109458b8ae6, type: 2}
+  ladderClimbState: Ladder
+  ladderClimbClip: {fileID: 7400000, guid: 6348e5021156f98409126735d00228d3, type: 2}
   ropeClimbState: Rope
   ropeClimbClip: {fileID: 7400000, guid: b4463b6072fb4824cbaf3d154798b0f8, type: 2}
   ropeSwingState: Swing
