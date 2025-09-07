@@ -7,11 +7,12 @@ namespace Player
     public class PlayerLife : MonoBehaviour
     {
         [SerializeField] private float returnTime = 3f;
-        private static readonly int IsDeath = Animator.StringToHash("IsDead");
-        public bool IsDead { get; private set; }
 
+        private static readonly int IsDeath = Animator.StringToHash("IsDead");
         private Animator animator;
         private Rigidbody2D rb;
+
+        public bool IsDead { get; private set; }
 
         private void Awake()
         {
@@ -32,7 +33,7 @@ namespace Player
         [ContextMenu("Test/Death")]
         private void Death()
         {
-            print("Death");
+            if (IsDead) return;
 
             StartCoroutine(DeathRoutine());
         }
@@ -42,18 +43,16 @@ namespace Player
             IsDead = true;
 
             rb.linearVelocity = Vector2.zero;
+            rb.bodyType = RigidbodyType2D.Kinematic;
 
             animator.SetTrigger(IsDeath);
-
-            print("Death Animation Start");
 
             GameManager.RestartGame(returnTime);
 
             yield return new WaitForSeconds(returnTime);
 
-            print("Return to Checkpoint");
-
             IsDead = false;
+            rb.bodyType = RigidbodyType2D.Dynamic;
 
             animator.Rebind();
         }
