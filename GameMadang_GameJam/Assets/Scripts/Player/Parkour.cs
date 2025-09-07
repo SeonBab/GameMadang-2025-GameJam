@@ -6,6 +6,7 @@ namespace Player
 {
     public class Parkour : MonoBehaviour
     {
+        private static readonly int IsParkour1 = Animator.StringToHash("IsParkour");
         [SerializeField] private LayerMask parkourLayer;
 
         [SerializeField] private float parkourSpeed =5f;
@@ -18,6 +19,7 @@ namespace Player
         private Rigidbody2D rb;
         private Collider2D col;
         private SpriteRenderer sr;
+        private Animator animator;
         private bool busy;
 
         private void Awake()
@@ -25,6 +27,7 @@ namespace Player
             rb = GetComponent<Rigidbody2D>();
             col = GetComponent<Collider2D>();
             sr = GetComponent<SpriteRenderer>();
+            animator = GetComponent<Animator>();
         }
 
         public Collider2D IsParkour()
@@ -52,6 +55,8 @@ namespace Player
             rb.linearVelocity = Vector2.zero;
 
             var targetTopY = wall.bounds.max.y;
+
+            animator.SetTrigger(IsParkour1);
 
             while (col.bounds.min.y < targetTopY - epsilon)
             {

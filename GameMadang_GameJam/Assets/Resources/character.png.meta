@@ -282,7 +282,7 @@ TextureImporter:
       name: character_3
       rect:
         serializedVersion: 2
-        x: 0
+        x: 8
         y: 3584
         width: 512
         height: 512
@@ -612,7 +612,7 @@ TextureImporter:
       name: character_20
       rect:
         serializedVersion: 2
-        x: 0
+        x: 143
         y: 1536
         width: 512
         height: 512
@@ -898,10 +898,10 @@ TextureImporter:
       name: character_37
       rect:
         serializedVersion: 2
-        x: 1024
-        y: 0
-        width: 512
-        height: 512
+        x: 1043
+        y: 129
+        width: 443
+        height: 383
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -920,10 +920,10 @@ TextureImporter:
       name: character_38
       rect:
         serializedVersion: 2
-        x: 1536
-        y: 0
-        width: 512
-        height: 512
+        x: 1553
+        y: 194
+        width: 393
+        height: 318
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -942,10 +942,10 @@ TextureImporter:
       name: character_39
       rect:
         serializedVersion: 2
-        x: 2048
-        y: 0
-        width: 512
-        height: 512
+        x: 2088
+        y: 129
+        width: 370
+        height: 383
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1052,10 +1052,10 @@ TextureImporter:
       name: character_40
       rect:
         serializedVersion: 2
-        x: 2560
-        y: 0
-        width: 512
-        height: 512
+        x: 2643
+        y: 41
+        width: 282
+        height: 471
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}

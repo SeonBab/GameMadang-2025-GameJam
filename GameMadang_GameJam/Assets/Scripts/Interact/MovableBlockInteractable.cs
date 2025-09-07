@@ -16,11 +16,6 @@ public class MovableBlockInteractable : BaseInteractable
         boxCollider2D = GetComponent<BoxCollider2D>();
     }
 
-    private void FixedUpdate()
-    {
-         
-    }
-
     private void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
@@ -36,6 +31,7 @@ public class MovableBlockInteractable : BaseInteractable
             playerController.OnFixedUpdateEnd -= HandlePushPullRelease;
             playerController.isPush = false;
             playerController.isPull = false;
+            playerController.isReadyPushPull = false;
         }
     }
 
@@ -46,6 +42,7 @@ public class MovableBlockInteractable : BaseInteractable
         player.OnFixedUpdateEnd += HandlePushPullRelease;
         player.isPush = false;
         player.isPull = false;
+        player.isReadyPushPull = true;
     }
 
     private void HandlePushPullRelease(Vector2 Direction, GameObject MovementObejct)
@@ -132,6 +129,11 @@ public class MovableBlockInteractable : BaseInteractable
         {
             playerController.isPush = false;
             playerController.isPull = true;
+        }
+        else
+        {
+            playerController.isPush = false;
+            playerController.isPull = false;;
         }
 
         rb2D.linearVelocity = movementObjectrb2D.linearVelocity;
