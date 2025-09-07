@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7903876065805792616}
   - component: {fileID: 599654541316406974}
   m_Layer: 5
-  m_Name: Image
+  m_Name: FadeImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

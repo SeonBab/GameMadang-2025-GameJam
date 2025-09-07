@@ -1,16 +1,38 @@
+using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class FadeController : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    [SerializeField] public float FadeInTime { get; private set; }
+    [SerializeField] public float FadeOutTime { get; private set; }
+
+    private Image fadeImage;
+
+    private void Start()
     {
-        
+        Transform fadeCanvas = transform.Find("FadeCanvas");
+        Transform fadeImageTransform = fadeCanvas.transform.Find("FadeImage");
+        fadeImage = fadeImageTransform.GetComponent<Image>();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void PlayFadeIn()
     {
-        
+
+    }
+
+    public void PlayFadeOut()
+    {
+
+    }
+
+    private IEnumerator FadeInCorutine()
+    {
+        yield return null;
+    }
+
+    private IEnumerator FadeOutCorutine()
+    {
+        yield return null;
     }
 }
