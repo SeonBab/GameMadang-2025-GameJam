@@ -1,59 +1,54 @@
 using UnityEngine;
-using System.Collections.Generic;
 
-public class RopeGenerator : MonoBehaviour
+namespace Interact
 {
-    [SerializeField] private GameObject segmentPrefab;
-    [SerializeField, Range(2, 20)] int segmentCount;
-    [SerializeField] private float segmentLength;
-
-    [SerializeField] private GameObject anchor;
-
-    [HideInInspector][SerializeField] private List<GameObject> segments = new List<GameObject>();
-
-    [ContextMenu("Generate Rope")]
-    public void GenerateRope()
+    public class RopeGenerator : MonoBehaviour
     {
-        // 기존 세그먼트 제거
-        foreach (var segment in segments)
+        [SerializeField] private GameObject segmentPrefab;
+        [SerializeField, Range(2, 20)] private int segmentCount;
+        [SerializeField] private float segmentLength;
+        [SerializeField] private Rigidbody2D anchor;
+
+        [ContextMenu("Generate Rope")]
+        public void GenerateRope()
         {
-            DestroyImmediate(segment);
-        }
-        segments.Clear();
+            foreach (Transform segment in transform)
+            {
+                if (!segment.TryGetComponent<RopeInteractable>(out _)) continue;
 
-        anchor.transform.position = transform.position;
+                DestroyImmediate(segment.gameObject);
+            }
 
-        // 시작점에 바디가 없어도 허용
-        Rigidbody2D prevBody = anchor.GetComponent<Rigidbody2D>();
+            anchor.transform.position = transform.position;
 
-        for (int i = 0; i < segmentCount; i++)
-        {
-            GameObject newSegment = Instantiate(segmentPrefab, transform);
+            var prevBody = anchor;
 
-            newSegment.name = "RopeSegment_" + i;
-            newSegment.tag = "ClimbObject";
-            newSegment.transform.position = anchor.transform.position - new Vector3(0, (i + 1) * segmentLength, 0);
+            for (var i = 0; i < segmentCount; i++)
+            {
+                var newSegment = Instantiate(segmentPrefab, transform);
 
-            CapsuleCollider2D capsuleCollider2D = newSegment.GetComponent<CapsuleCollider2D>();
-            Rigidbody2D rigidbody2D = newSegment.GetComponent<Rigidbody2D>();
-            HingeJoint2D hingeJoint2D = newSegment.GetComponent<HingeJoint2D>();
+                newSegment.name = "RopeSegment_" + i;
+                newSegment.transform.position = anchor.transform.position - new Vector3(0, (i + 1) * segmentLength, 0);
 
-            capsuleCollider2D.size = new Vector2(1, 3);
+                var rb = newSegment.GetComponent<Rigidbody2D>();
+                var joint = newSegment.GetComponent<HingeJoint2D>();
 
-            hingeJoint2D.connectedBody = prevBody;
-            hingeJoint2D.autoConfigureConnectedAnchor = false;
-            hingeJoint2D.anchor = new Vector2(0, segmentLength / 2);
-            hingeJoint2D.connectedAnchor = prevBody != null ? new Vector2(0, -segmentLength / 2) : Vector2.zero;
-            hingeJoint2D.useLimits = true;
+                joint.connectedBody = prevBody;
+                joint.autoConfigureConnectedAnchor = false;
+                joint.anchor = new Vector2(0, segmentLength / 2);
+                joint.connectedAnchor = prevBody != null ? new Vector2(0, -segmentLength / 2) : Vector2.zero;
+                joint.useLimits = true;
 
-            JointAngleLimits2D ropeLimis = new JointAngleLimits2D();
-            ropeLimis.min = -45f;
-            ropeLimis.max = 45f;
+                var ropeLimits = new JointAngleLimits2D
+                {
+                    min = -45f,
+                    max = 45f
+                };
 
-            hingeJoint2D.limits = ropeLimis;
+                joint.limits = ropeLimits;
 
-            prevBody = rigidbody2D;
-            segments.Add(newSegment);
+                prevBody = rb;
+            }
         }
     }
 }

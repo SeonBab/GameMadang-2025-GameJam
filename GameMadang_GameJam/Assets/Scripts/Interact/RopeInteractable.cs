@@ -1,14 +1,18 @@
+using Player;
 using UnityEngine;
 
-public class RopeInteractable : BaseInteractable
+namespace Interact
 {
-    public override void Interact(GameObject InteractCharacter)
+    public class RopeInteractable : BaseInteractable
     {
-        Debug.Log("로프 상호작용 시작");
+        public override void Interact(PlayerController player)
+        {
+            if (!player) return;
 
-        //TODO
-        // 플레이어가 로프의 중심으로 이동되어야한다.
+            var climber = player.GetComponent<PlayerClimb>();
+            climber.currentClimbable = this;
 
-        // 위아래로 이동 할 수 있어야 한다.
+            Debug.Log("로프 상호작용 시작");
+        }
     }
 }

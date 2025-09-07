@@ -1,3 +1,4 @@
+using Interact;
 using UnityEngine;
 
 public class LeverInteractable : BaseInteractable
@@ -18,7 +19,7 @@ public class LeverInteractable : BaseInteractable
         }
     }
 
-    public override void Interact(GameObject InteractCharacter)
+    public override void Interact(PlayerController player)
     {
         Debug.Log("레버 상호작용 시작");
 

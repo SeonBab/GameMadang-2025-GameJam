@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 2441117879943726517}
   - component: {fileID: 3866016545080472658}
   - component: {fileID: 3798248707052402461}
+  - component: {fileID: 7390595877252358356}
   - component: {fileID: 1886235732053745975}
   m_Layer: 10
   m_Name: Player
@@ -190,16 +191,12 @@ MonoBehaviour:
   moveSpeed: 6
   jumpForce: 5
   jumpSlowdownRate: 0.7
-  climbSpeed: 4
-  climbObjectSnapSpeed: 30
   interactionForce: 0.5
   groundCheck: {fileID: 7986362659623959578}
   ground:
     serializedVersion: 2
     m_Bits: 64
-  isClimbing: 0
   isPushPull: 0
-  currentClimbObject: {fileID: 0}
 --- !u!114 &3798248707052402461
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -212,6 +209,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8b6a7d7470bd514abd76059f19fe344, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Player.PlayerLife
+--- !u!114 &7390595877252358356
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1006066526181779471}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a3ff1c9f38094ca68e12f26e1bf0f8af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Player.PlayerClimb
+  interact:
+    serializedVersion: 2
+    m_Bits: 8192
+  footPoint: {fileID: 7986362659623959578}
+  climbJumpForce: 5
+  climbSpeed: 10
+  climbObjectSnapSpeed: 30
+  currentClimbable: {fileID: 0}
 --- !u!114 &1886235732053745975
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -277,7 +294,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f7aac0d7148e8e4898c4ad76f39a85f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InteractionHandler
-  interactTargetLayer:
+  interactLayer:
     serializedVersion: 2
     m_Bits: 8192
 --- !u!70 &144820753481895960

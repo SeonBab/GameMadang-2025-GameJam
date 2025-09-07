@@ -1,25 +1,37 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
-public abstract class BaseInteractable : MonoBehaviour, IInteract
+namespace Interact
 {
-    [SerializeField] protected EInteractableType InteractableType;
-    [SerializeField] protected int weight;
-    [SerializeField] protected bool bIsAutoInteract;
-
-    public abstract void Interact(GameObject InteractCharacter);
-
-    public bool GetIsAutoInteract()
+    public abstract class BaseInteractable : MonoBehaviour // , IInteract
     {
-        return bIsAutoInteract;
-    }
+        public enum EInteractableType
+        {
+            None,
+            Rope,
+            Ladder,
+            Lever,
+            MovableBlock,
+            SavePoint
+        }
 
-    public int GetInteractWeight()
-    {
-        return weight;
-    }
+        [SerializeField] protected EInteractableType interactableType;
+        [SerializeField] protected int weight;
+        [SerializeField] protected bool bIsAutoInteract;
 
-    public EInteractableType GetInteractType()
-    {
-        return InteractableType;
+        private Collider2D col;
+
+        private void Awake()
+        {
+            col = GetComponent<Collider2D>();
+        }
+
+        public bool IsAuto => bIsAutoInteract;
+        public int Weight => weight;
+        public EInteractableType Type => interactableType;
+        public float GetBottom => col.bounds.min.y;
+        public float GetTop => col.bounds.max.y;
+
+        public abstract void Interact(PlayerController player);
     }
 }

@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using Interact;
 using Player;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -9,8 +10,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float moveSpeed = 10f;
     [SerializeField] private float jumpForce = 5f;
     [SerializeField] private float jumpSlowdownRate = 0.7f;
-    [SerializeField] private float climbSpeed = 10f;
-    [SerializeField] private float climbObjectSnapSpeed = 30f;
     [SerializeField] private float interactionForce = 0.5f;
     public float InteractionForce => interactionForce;
 
@@ -18,6 +17,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private LayerMask ground;
 
     private InputHandler inputHandler;
+    private InteractionHandler interactionHandler;
+    private PlayerClimb playerClimb;
     private PlayerLife playerLife;
     private Parkour parkour;
 
@@ -25,9 +26,8 @@ public class PlayerController : MonoBehaviour
     private Collider2D col;
     private SpriteRenderer sr;
 
-    public bool isClimbing = false;
-    public bool isPushPull = false;
-    public Transform currentClimbObject;
+    public bool isPushPull;
+
     private float moveSpeedOrigin;
 
     public Action<float, GameObject> OnFixedUpdateEnd;
@@ -40,24 +40,31 @@ public class PlayerController : MonoBehaviour
 
         parkour = GetComponent<Parkour>();
         playerLife = GetComponent<PlayerLife>();
+        playerClimb = GetComponent<PlayerClimb>();
         inputHandler = GetComponent<InputHandler>();
+        interactionHandler = GetComponentInChildren<InteractionHandler>();
     }
 
     private void Start()
     {
         inputHandler.Input.Player.Move.performed += FlipSprite;
-        inputHandler.Input.Player.Move.performed += StartClimb;
         inputHandler.Input.Player.Jump.performed += JumpOnPerformed;
         inputHandler.Input.Player.Interact.performed += InteractOnPerformed;
 
         moveSpeedOrigin = moveSpeed;
     }
 
+    private void OnDestroy()
+    {
+        inputHandler.Input.Player.Move.performed -= FlipSprite;
+        inputHandler.Input.Player.Jump.performed -= JumpOnPerformed;
+        inputHandler.Input.Player.Interact.performed -= InteractOnPerformed;
+    }
+
     private void Update()
     {
         if (playerLife.IsDead) return;
         if (parkour.IsBusy()) return;
-        if (IsGround()) return;
 
         var hit = parkour.IsParkour();
         if (hit)
@@ -71,10 +78,7 @@ public class PlayerController : MonoBehaviour
         if (playerLife.IsDead) return;
         if (parkour.IsBusy()) return;
 
-        if (isClimbing)
-            HandleClimbing();
-        else
-            HandleMovement();
+        HandleMovement();
 
         StartCoroutine(AfterFixedUpdate());
     }
@@ -87,31 +91,16 @@ public class PlayerController : MonoBehaviour
         OnFixedUpdateEnd?.Invoke(inputHandler.MoveInput.x, gameObject);
     }
 
-    private void OnDestroy()
-    {
-        inputHandler.Input.Player.Move.performed -= FlipSprite;
-        inputHandler.Input.Player.Move.performed -= StartClimb;
-        inputHandler.Input.Player.Jump.performed -= JumpOnPerformed;
-        inputHandler.Input.Player.Interact.performed -= InteractOnPerformed;
-    }
-
     public bool IsGround()
     {
         return Physics2D.OverlapCircle(groundCheck.position, 0.1f, ground);
     }
 
-    private void StartClimb(InputAction.CallbackContext ctx)
-    {
-        if (!currentClimbObject) return;
-
-        if (ctx.ReadValue<Vector2>().y > 0f)
-        {
-            StartCoroutine(BeginClimbCo());
-        }
-    }
-
     private void FlipSprite(InputAction.CallbackContext ctx)
     {
+        if (playerLife.IsDead) return;
+        if (playerClimb.IsClimbing) return;
+
         sr.flipX = ctx.ReadValue<Vector2>().x switch
         {
             > 0 => true,
@@ -123,20 +112,7 @@ public class PlayerController : MonoBehaviour
     private void JumpOnPerformed(InputAction.CallbackContext ctx)
     {
         if (playerLife.IsDead) return;
-
-        if (isClimbing)
-        {
-            var x = inputHandler.MoveInput.x;
-
-            var dir = Vector2.up + (Vector2.right * Mathf.Sign(x));
-
-            rb.AddForce(dir.normalized * jumpForce, ForceMode2D.Impulse);
-
-            EndClimb();
-
-            currentClimbObject = null;
-        }
-        
+        if (playerClimb.IsClimbing) return;
         if (!IsGround()) return;
 
         rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
@@ -146,16 +122,13 @@ public class PlayerController : MonoBehaviour
     {
         if (playerLife.IsDead) return;
 
-        var interactionHandler = GetComponentInChildren<InteractionHandler>();
-
-        if (interactionHandler)
-        {
-            interactionHandler.AttemptInteract();
-        }
+        interactionHandler.TryZInteract();
     }
 
     private void HandleMovement()
     {
+        if(playerClimb.IsClimbing) return;
+
         var x = inputHandler.MoveInput.x;
 
         if (Mathf.Abs(x) < 0.1f)
@@ -181,66 +154,5 @@ public class PlayerController : MonoBehaviour
 
         var targetVx = Mathf.Sign(x) * moveSpeed;
         rb.linearVelocity = new Vector2(targetVx, rb.linearVelocity.y);
-    }
-
-    IEnumerator BeginClimbCo()
-    {
-        yield return new WaitForFixedUpdate();
-
-        rb.gravityScale = 0;
-        rb.linearVelocity = Vector2.zero;
-
-        while (currentClimbObject &&
-               Mathf.Abs(currentClimbObject.InverseTransformPoint(rb.position).x) > 0.1f)
-        {
-            var local = currentClimbObject.InverseTransformPoint(rb.position);
-            local.x = Mathf.Lerp(local.x, 0f, climbObjectSnapSpeed * Time.fixedDeltaTime);
-            var next = currentClimbObject.TransformPoint(local);
-
-            rb.MovePosition(next);
-            yield return new WaitForFixedUpdate();
-        }
-
-        isClimbing = true;
-    }
-
-    private void EndClimb()
-    {
-        rb.gravityScale = 1;
-
-        isClimbing = false;
-
-        transform.rotation = Quaternion.identity;
-    }
-
-    private void HandleClimbing()
-    {
-        var v = inputHandler.MoveInput.y;
-
-        if (!currentClimbObject)
-        {
-            EndClimb();
-            return;
-        }
-
-        Vector2 up = currentClimbObject.up;
-
-        var targetDeg = Mathf.Atan2(up.y, up.x) * Mathf.Rad2Deg - 90f;
-        var next = Mathf.LerpAngle(rb.rotation, targetDeg, Time.fixedDeltaTime * 50f);
-        rb.MoveRotation(next);
-
-        var pos = rb.position + up * (v * climbSpeed * Time.fixedDeltaTime);
-        var local = currentClimbObject.InverseTransformPoint(pos);
-        local.x = Mathf.Lerp(local.x, 0f, Time.fixedDeltaTime * climbObjectSnapSpeed);
-        var finalPos = currentClimbObject.TransformPoint(local);
-        rb.MovePosition(finalPos);
-
-        if (v < 1f)
-        {
-            if (IsGround())
-            {
-                EndClimb();
-            }
-        }
     }
 }
