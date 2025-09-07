@@ -1,3 +1,4 @@
+using Interact;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -37,23 +38,12 @@ public class MovableBlockInteractable : BaseInteractable
         }
     }
 
-    public override void Interact(GameObject InteractCharacter)
+    public override void Interact(PlayerController player)
     {
         Debug.Log("이동 가능 블럭 상호작용 시작");
         
-        if (InteractCharacter == null || InteractCharacter.CompareTag("Player") == false)
-        {
-            return;
-        }
-
-        PlayerController playerController = InteractCharacter.GetComponent<PlayerController>();
-        if (playerController == null)
-        {
-            return;
-        }
-
-        playerController.OnFixedUpdateEnd += HandlePushPullRelease;
-        playerController.isPushPull = true;
+        player.OnFixedUpdateEnd += HandlePushPullRelease;
+        player.isPushPull = true;
     }
 
     private void HandlePushPullRelease(Vector2 Direction, GameObject MovementObejct)

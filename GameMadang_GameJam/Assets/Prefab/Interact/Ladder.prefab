@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 6658046506811659525}
   m_Layer: 13
   m_Name: Ladder
-  m_TagString: Interact
+  m_TagString: ClimbObject
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -28,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 5671629441125854313}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.6227427, y: -0.76631, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db4d74ead4da6bd439c68bfdcf26dec2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LadderInteractable
-  InteractableType: 2
+  interactableType: 2
   weight: 10
   bIsAutoInteract: 1
 --- !u!212 &5387751887231399477
