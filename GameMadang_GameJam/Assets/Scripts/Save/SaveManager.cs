@@ -91,7 +91,7 @@ namespace Save
             StartCoroutine(SetPlayerPosition());
             IEnumerator SetPlayerPosition()
             {
-                yield return new WaitForFixedUpdate();
+                yield return null;
 
                 player.position = currentSavePoint.transform.position;
             }

@@ -82,6 +82,7 @@ public class MovableBlockInteractable : BaseInteractable
         {
             playerController.isPush = false;
             playerController.isPull = false;
+            playerController.isReadyPushPull = false;
             rb2D.constraints = RigidbodyConstraints2D.FreezePositionX;
             rb2D.constraints = RigidbodyConstraints2D.FreezeRotation;
             return;
@@ -101,6 +102,7 @@ public class MovableBlockInteractable : BaseInteractable
             playerController.OnFixedUpdateEnd -= HandlePushPullRelease;
             playerController.isPush = false;
             playerController.isPull = false;
+            playerController.isReadyPushPull = false;
             return;
         }
 
@@ -142,6 +144,7 @@ public class MovableBlockInteractable : BaseInteractable
         {
             playerController.isPush = false;
             playerController.isPull = false;
+            playerController.isReadyPushPull = false;
         }
 
         rb2D.constraints = RigidbodyConstraints2D.FreezePositionY;

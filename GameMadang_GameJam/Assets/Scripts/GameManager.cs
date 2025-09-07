@@ -95,7 +95,7 @@ public class GameManager : MonoBehaviour
         StartCoroutine(InitializeScene());
         IEnumerator InitializeScene()
         {
-            yield return new WaitForFixedUpdate();
+            yield return null;
 
             UIManager.instance.PlayFadeIn();
             SaveManager.instance.Load();

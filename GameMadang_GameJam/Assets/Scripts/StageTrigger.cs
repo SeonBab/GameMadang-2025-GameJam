@@ -8,9 +8,23 @@ public class StageTrigger : MonoBehaviour
 
     private BoxCollider2D stageCollider;
 
+    private void Awake()
+    {
+        if (targetAudioClip != null)
+        {
+            targetAudioClip.LoadAudioData();
+        }
+    }
+
     void Start()
     {
         stageCollider = GetComponent<BoxCollider2D>();
+
+        if (stageCollider.isTrigger == false)
+        {
+            Debug.LogWarning("콜라이더 트리거 미설정, 코드로 설정 됐습니다.");
+            stageCollider.isTrigger = true;
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
