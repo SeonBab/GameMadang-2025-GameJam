@@ -1,5 +1,6 @@
-﻿using System.Collections;
+using System.Collections;
 using Interact;
+using UI;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -74,6 +75,8 @@ namespace Player
 
             inputHandler.Input.Player.Move.performed += StartClimb;
             inputHandler.Input.Player.Jump.performed += JumpOnClimb;
+
+            InputHandler.OnRemoveInputCallbacks += RemoveInputCallbacks;
         }
 
         private void FixedUpdate()
@@ -97,8 +100,7 @@ namespace Player
 
         private void OnDestroy()
         {
-            inputHandler.Input.Player.Move.performed -= StartClimb;
-            inputHandler.Input.Player.Jump.performed -= JumpOnClimb;
+            RemoveInputCallbacks();
         }
 
         private int CheckEntryKey()
@@ -348,6 +350,12 @@ namespace Player
             var next = Mathf.Repeat(t + dir * step, 1f);
             animator.Play(activeStateHash, 0, next);
             animator.Update(0f);
+        }
+
+        public void RemoveInputCallbacks()
+        {
+            inputHandler.Input.Player.Move.performed -= StartClimb;
+            inputHandler.Input.Player.Jump.performed -= JumpOnClimb;
         }
     }
 }
