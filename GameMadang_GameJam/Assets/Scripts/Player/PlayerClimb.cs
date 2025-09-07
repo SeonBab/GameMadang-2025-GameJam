@@ -20,7 +20,7 @@ namespace Player
         [SerializeField] private float endGraceTime = 0.15f;
         [SerializeField] private float edgeSafety = 0.05f;
 
-        [SerializeField] private float pumpImpulse = 4f; // 좌/우 펌핑 임펄스(질량 스케일)
+        [SerializeField] private float ropeKickImpulse = 6f;
         [SerializeField] private float maxSwingXSpeed = 14f; // 속도 캡
         [SerializeField] private float maxSwingYSpeed = 18f;
 
@@ -29,29 +29,28 @@ namespace Player
         [SerializeField] private string ropeClimbState = "Rope";
         [SerializeField] private AnimationClip ropeClimbClip;
         [SerializeField] private string ropeSwingState = "Swing";
-
         [SerializeField] private float frameStepInterval = 0.08f;
 
         public BaseInteractable currentClimbable;
         public RopeInteractable ropeSeg;
 
         private AnimationClip activeClip;
+
         private int activeStateHash;
         private Animator animator;
         private Collider2D col;
-
         private bool endArmed;
         private float endBlockUntil;
         private int entryKey;
 
         private InputHandler inputHandler;
+
+        private int kickLatch;
         private float nextStepAt;
         private float originalGravity;
-
+        private PlayerLife playerLife;
         private Rigidbody2D rb;
         private HingeJoint2D ropeJoint;
-
-        private PlayerLife playerLife;
 
         public bool IsClimbing { get; private set; }
 
@@ -116,6 +115,21 @@ namespace Player
             return 0;
         }
 
+        private void UpdateAnimation(float v)
+        {
+            if (Mathf.Abs(v) <= 0.01f)
+            {
+                nextStepAt = Time.time;
+            }
+            else
+            {
+                if (!(Time.time >= nextStepAt)) return;
+
+                StepClimbFrame(v > 0 ? +1 : -1);
+                nextStepAt = Time.time + frameStepInterval;
+            }
+        }
+
         private void JumpOnClimb(InputAction.CallbackContext ctx)
         {
             if (playerLife.IsDead) return;
@@ -126,6 +140,20 @@ namespace Player
             var x = inputHandler.MoveInput.x;
             var dir = (Vector2.up + Vector2.right * Mathf.Sign(x)).normalized;
             rb.AddForce(dir * climbJumpForce, ForceMode2D.Impulse);
+        }
+
+        private IEnumerator BeginClimbCo()
+        {
+            while (currentClimbable &&
+                   Mathf.Abs(currentClimbable.transform.InverseTransformPoint(rb.position).x) >
+                   0.1f)
+            {
+                var local = currentClimbable.transform.InverseTransformPoint(rb.position);
+                local.x = Mathf.Lerp(local.x, 0f, climbObjectSnapSpeed * Time.fixedDeltaTime);
+                var next = currentClimbable.transform.TransformPoint(local);
+                rb.MovePosition(next);
+                yield return new WaitForFixedUpdate();
+            }
         }
 
         private void StartClimb(InputAction.CallbackContext ctx)
@@ -174,30 +202,8 @@ namespace Player
             currentClimbable = null;
 
             animator.speed = 1f;
-        }
 
-        private void DetachFromRope()
-        {
-            if (!ropeJoint && !ropeJoint.connectedBody) return;
-
-            ropeJoint.connectedBody = null;
-            ropeSeg = null;
-            IsClimbing = false;
-            ropeJoint.enabled = false;
-        }
-
-        private IEnumerator BeginClimbCo()
-        {
-            while (currentClimbable &&
-                   Mathf.Abs(currentClimbable.transform.InverseTransformPoint(rb.position).x) >
-                   0.1f)
-            {
-                var local = currentClimbable.transform.InverseTransformPoint(rb.position);
-                local.x = Mathf.Lerp(local.x, 0f, climbObjectSnapSpeed * Time.fixedDeltaTime);
-                var next = currentClimbable.transform.TransformPoint(local);
-                rb.MovePosition(next);
-                yield return new WaitForFixedUpdate();
-            }
+            kickLatch = 0;
         }
 
         private void HandleClimbing()
@@ -207,18 +213,7 @@ namespace Player
 
             var v = inputHandler.MoveInput.y;
 
-            if (Mathf.Abs(v) <= 0.01f)
-            {
-                nextStepAt = Time.time;
-            }
-            else
-            {
-                if (Time.time >= nextStepAt)
-                {
-                    StepClimbFrame(v > 0 ? +1 : -1);
-                    nextStepAt = Time.time + frameStepInterval;
-                }
-            }
+            UpdateAnimation(v);
 
             Vector2 up = !currentClimbable ? transform.up : currentClimbable.transform.up;
 
@@ -255,21 +250,32 @@ namespace Player
             }
         }
 
-        public void AttachToRopeSegment(RopeInteractable seg)
+        private void DetachFromRope()
+        {
+            if (!ropeJoint && !ropeJoint.connectedBody) return;
+
+            ropeJoint.connectedBody = null;
+            ropeSeg = null;
+            IsClimbing = false;
+            ropeJoint.enabled = false;
+        }
+
+        private void AttachToRopeSegment(RopeInteractable seg)
         {
             if (!seg) return;
 
+            kickLatch = 0;
+
+            currentClimbable = null;
             transform.rotation = Quaternion.identity;
 
             ropeSeg = seg;
-            currentClimbable = null;
 
             ropeJoint.enabled = true;
             ropeJoint.connectedBody = seg.GetComponent<Rigidbody2D>();
             ropeJoint.autoConfigureConnectedAnchor = false;
             ropeJoint.enableCollision = false;
             ropeJoint.useLimits = false;
-
             ropeJoint.anchor = Vector2.zero;
             ropeJoint.connectedAnchor = seg.transform.InverseTransformPoint(rb.position);
 
@@ -288,24 +294,43 @@ namespace Player
         {
             if (!ropeSeg || !ropeJoint || !ropeJoint.connectedBody) return;
 
-            var x = inputHandler.MoveInput.x;
-
-            if (Mathf.Abs(x) > 0.01f)
-            {
-                Vector2 pivot = ropeSeg.transform.TransformPoint(ropeJoint.connectedAnchor);
-                var r = rb.worldCenterOfMass - pivot;
-                if (r.sqrMagnitude > 1e-6f)
-                {
-                    var tangent = new Vector2(-r.y, r.x).normalized * Mathf.Sign(x);
-                    rb.AddForceAtPosition(tangent * (pumpImpulse * rb.mass),
-                        rb.worldCenterOfMass, ForceMode2D.Impulse);
-                }
-            }
+            RopeKick();
 
             var v = rb.linearVelocity;
             if (Mathf.Abs(v.x) > maxSwingXSpeed) v.x = Mathf.Sign(v.x) * maxSwingXSpeed;
             if (Mathf.Abs(v.y) > maxSwingYSpeed) v.y = Mathf.Sign(v.y) * maxSwingYSpeed;
             rb.linearVelocity = v;
+        }
+
+        private void RopeKick()
+        {
+            var x = inputHandler.MoveInput.x;
+
+            var sign = Mathf.Abs(x) > 0.01f ? (int)Mathf.Sign(x) : 0;
+
+            if (sign != 0 && sign != kickLatch)
+            {
+                var ropeBody = ropeJoint.connectedBody;
+                Vector2 pivot = ropeBody.transform.TransformPoint(ropeJoint.connectedAnchor);
+                var r = rb.worldCenterOfMass - pivot;
+
+                Vector2 tangent;
+                if (r.sqrMagnitude > 1e-6f)
+                    tangent = new Vector2(-r.y, r.x).normalized * sign;
+                else
+                    tangent = (Vector2)ropeBody.transform.right * sign;
+
+                var applyAt = rb.worldCenterOfMass;
+
+                ropeBody.AddForceAtPosition(tangent * ropeKickImpulse, applyAt,
+                    ForceMode2D.Impulse);
+
+                kickLatch = sign;
+            }
+            else if (sign == 0)
+            {
+                kickLatch = 0;
+            }
         }
 
         private void SelectClimbAnimSet(bool isRope)
@@ -334,7 +359,8 @@ namespace Player
         {
             if (!animator || !activeClip) return;
 
-            var totalFrames = Mathf.Max(1, Mathf.RoundToInt(activeClip.frameRate * activeClip.length));
+            var totalFrames =
+                Mathf.Max(1, Mathf.RoundToInt(activeClip.frameRate * activeClip.length));
             var step = 1f / totalFrames;
             animator.speed = 0f;
             var st = animator.GetCurrentAnimatorStateInfo(0);
