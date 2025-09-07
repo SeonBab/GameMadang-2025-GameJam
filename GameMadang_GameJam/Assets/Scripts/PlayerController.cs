@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float jumpForce = 5f;
     [SerializeField] private float jumpSlowdownRate = 0.7f;
     [SerializeField] private float climbSpeed = 10f;
+    public float ClimbSpeed => climbSpeed;
     [SerializeField] private float climbObjectSnapSpeed = 30f;
     [SerializeField] private float interactionForce = 0.5f;
     public float InteractionForce => interactionForce;
@@ -30,7 +31,7 @@ public class PlayerController : MonoBehaviour
     public Transform currentClimbObject;
     private float moveSpeedOrigin;
 
-    public Action<float, GameObject> OnFixedUpdateEnd;
+    public Action<Vector2, GameObject> OnFixedUpdateEnd;
 
     private void Awake()
     {
@@ -76,15 +77,7 @@ public class PlayerController : MonoBehaviour
         else
             HandleMovement();
 
-        StartCoroutine(AfterFixedUpdate());
-    }
-
-    // 물리 연산이 끝난 후 호출되어야 할 함수 호출
-    private IEnumerator AfterFixedUpdate()
-    {
-        yield return new WaitForFixedUpdate();
-
-        OnFixedUpdateEnd?.Invoke(inputHandler.MoveInput.x, gameObject);
+        OnFixedUpdateEnd?.Invoke(inputHandler.MoveInput, gameObject);
     }
 
     private void OnDestroy()
