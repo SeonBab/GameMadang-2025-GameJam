@@ -100,6 +100,7 @@ namespace Player
         private void OnDestroy()
         {
             RemoveInputCallbacks();
+            InputHandler.OnRemoveInputCallbacks -= RemoveInputCallbacks;
         }
 
         private int CheckEntryKey()

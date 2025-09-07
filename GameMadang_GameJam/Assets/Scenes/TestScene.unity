@@ -132,6 +132,134 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3740319043846875649, guid: de3124245b3c79847a33cd5204972a35, type: 3}
+      propertyPath: endingSequenceInfoList.Array.size
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 3740319043846875649, guid: de3124245b3c79847a33cd5204972a35, type: 3}
+      propertyPath: endingSequenceInfoList1.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3740319043846875649, guid: de3124245b3c79847a33cd5204972a35, type: 3}
+      propertyPath: endingSequenceInfoList.Array.data[0].cutTime
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3740319043846875649, guid: de3124245b3c79847a33cd5204972a35, type: 3}
+      propertyPath: endingSequenceInfoList.Array.data[1].cutTime
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3740319043846875649, guid: de3124245b3c79847a33cd5204972a35, type: 3}
+      propertyPath: endingSequenceInfoList.Array.data[2].cutTime
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3740319043846875649, guid: de3124245b3c79847a33cd5204972a35, type: 3}
+      propertyPath: endingSequenceInfoList.Array.data[3].cutTime
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3740319043846875649, guid: de3124245b3c79847a33cd5204972a35, type: 3}
+      propertyPath: endingSequenceInfoList.Array.data[4].cutTime
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3740319043846875649, guid: de3124245b3c79847a33cd5204972a35, type: 3}
+      propertyPath: endingSequenceInfoList.Array.data[5].cutTime
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3740319043846875649, guid: de3124245b3c79847a33cd5204972a35, type: 3}
+      propertyPath: endingSequenceInfoList.Array.data[6].cutTime
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3740319043846875649, guid: de3124245b3c79847a33cd5204972a35, type: 3}
+      propertyPath: endingSequenceInfoList.Array.data[7].cutTime
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3740319043846875649, guid: de3124245b3c79847a33cd5204972a35, type: 3}
+      propertyPath: endingSequenceInfoList.Array.data[8].cutTime
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3740319043846875649, guid: de3124245b3c79847a33cd5204972a35, type: 3}
+      propertyPath: endingSequenceInfoList.Array.data[9].cutTime
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3740319043846875649, guid: de3124245b3c79847a33cd5204972a35, type: 3}
+      propertyPath: endingSequenceInfoList.Array.data[10].cutTime
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3740319043846875649, guid: de3124245b3c79847a33cd5204972a35, type: 3}
+      propertyPath: endingSequenceInfoList.Array.data[11].cutTime
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3740319043846875649, guid: de3124245b3c79847a33cd5204972a35, type: 3}
+      propertyPath: endingSequenceInfoList.Array.data[12].cutTime
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3740319043846875649, guid: de3124245b3c79847a33cd5204972a35, type: 3}
+      propertyPath: endingSequenceInfoList.Array.data[13].cutTime
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3740319043846875649, guid: de3124245b3c79847a33cd5204972a35, type: 3}
+      propertyPath: endingSequenceInfoList.Array.data[14].cutTime
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3740319043846875649, guid: de3124245b3c79847a33cd5204972a35, type: 3}
+      propertyPath: endingSequenceInfoList.Array.data[0].cutSprite
+      value: 
+      objectReference: {fileID: -855298285791758126, guid: a7e04561caa08124990ea7db8631e428, type: 3}
+    - target: {fileID: 3740319043846875649, guid: de3124245b3c79847a33cd5204972a35, type: 3}
+      propertyPath: endingSequenceInfoList.Array.data[1].cutSprite
+      value: 
+      objectReference: {fileID: 6937817954938267909, guid: 5daf48056d1d3ef4a992cfc9481a0cf7, type: 3}
+    - target: {fileID: 3740319043846875649, guid: de3124245b3c79847a33cd5204972a35, type: 3}
+      propertyPath: endingSequenceInfoList.Array.data[2].cutSprite
+      value: 
+      objectReference: {fileID: -6470460504253458178, guid: 1a74b0c752fa3dd489fbec6e1feeaf50, type: 3}
+    - target: {fileID: 3740319043846875649, guid: de3124245b3c79847a33cd5204972a35, type: 3}
+      propertyPath: endingSequenceInfoList.Array.data[3].cutSprite
+      value: 
+      objectReference: {fileID: -4178046375966092550, guid: 216f1f28f0bd1ab4281282a6922a4d4a, type: 3}
+    - target: {fileID: 3740319043846875649, guid: de3124245b3c79847a33cd5204972a35, type: 3}
+      propertyPath: endingSequenceInfoList.Array.data[4].cutSprite
+      value: 
+      objectReference: {fileID: 4130640169021434097, guid: 74970869a2280c24c975fb9461f6d20b, type: 3}
+    - target: {fileID: 3740319043846875649, guid: de3124245b3c79847a33cd5204972a35, type: 3}
+      propertyPath: endingSequenceInfoList.Array.data[5].cutSprite
+      value: 
+      objectReference: {fileID: 3465286685962602723, guid: fc9c52c0abe461f4095c421d9d8fb523, type: 3}
+    - target: {fileID: 3740319043846875649, guid: de3124245b3c79847a33cd5204972a35, type: 3}
+      propertyPath: endingSequenceInfoList.Array.data[6].cutSprite
+      value: 
+      objectReference: {fileID: 7028616704906629411, guid: 3df70031137da0141b1f19f41eeb5f25, type: 3}
+    - target: {fileID: 3740319043846875649, guid: de3124245b3c79847a33cd5204972a35, type: 3}
+      propertyPath: endingSequenceInfoList.Array.data[7].cutSprite
+      value: 
+      objectReference: {fileID: 8288426215254106694, guid: 0f72f1a1dbd09c34788fb38e84882c61, type: 3}
+    - target: {fileID: 3740319043846875649, guid: de3124245b3c79847a33cd5204972a35, type: 3}
+      propertyPath: endingSequenceInfoList.Array.data[8].cutSprite
+      value: 
+      objectReference: {fileID: 4113829005332862926, guid: 02c1d5896be305646bb3cf108f9c9891, type: 3}
+    - target: {fileID: 3740319043846875649, guid: de3124245b3c79847a33cd5204972a35, type: 3}
+      propertyPath: endingSequenceInfoList.Array.data[9].cutSprite
+      value: 
+      objectReference: {fileID: -5099292496197868168, guid: f57668539033d4c459e42111bd7c540f, type: 3}
+    - target: {fileID: 3740319043846875649, guid: de3124245b3c79847a33cd5204972a35, type: 3}
+      propertyPath: endingSequenceInfoList.Array.data[10].cutSprite
+      value: 
+      objectReference: {fileID: -2966200626249415253, guid: 43db34dcf6d4b534c9f39adf599d67ca, type: 3}
+    - target: {fileID: 3740319043846875649, guid: de3124245b3c79847a33cd5204972a35, type: 3}
+      propertyPath: endingSequenceInfoList.Array.data[11].cutSprite
+      value: 
+      objectReference: {fileID: -1540426309290004842, guid: fcd7678a8d510da4c8ecd824127ae04c, type: 3}
+    - target: {fileID: 3740319043846875649, guid: de3124245b3c79847a33cd5204972a35, type: 3}
+      propertyPath: endingSequenceInfoList.Array.data[12].cutSprite
+      value: 
+      objectReference: {fileID: -7954138311804534128, guid: 22064cc77e2f6f94ab137679bac8d6df, type: 3}
+    - target: {fileID: 3740319043846875649, guid: de3124245b3c79847a33cd5204972a35, type: 3}
+      propertyPath: endingSequenceInfoList.Array.data[13].cutSprite
+      value: 
+      objectReference: {fileID: 8389134475083476877, guid: e608ac3ad1aadee47ab885b1d9144fce, type: 3}
+    - target: {fileID: 3740319043846875649, guid: de3124245b3c79847a33cd5204972a35, type: 3}
+      propertyPath: endingSequenceInfoList.Array.data[14].cutSprite
+      value: 
+      objectReference: {fileID: -6270953770400647376, guid: 42a70ce4012f8934a99188a967677d26, type: 3}
     - target: {fileID: 6882902253522164158, guid: de3124245b3c79847a33cd5204972a35, type: 3}
       propertyPath: m_LocalPosition.x
       value: -23.55061

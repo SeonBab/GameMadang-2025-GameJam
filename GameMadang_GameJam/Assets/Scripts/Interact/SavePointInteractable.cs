@@ -17,6 +17,6 @@ public class SavePointInteractable : BaseInteractable
         Debug.Log("세이브포인트 상호작용 시작");
 
         // 세이브포인트 갱신을 위해 호출하는 함수
-        SaveManager.Instance.Save(this);
+        SaveManager.instance.Save(this);
     }
 }

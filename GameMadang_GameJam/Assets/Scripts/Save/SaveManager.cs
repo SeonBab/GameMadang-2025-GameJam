@@ -5,7 +5,7 @@ namespace Save
 {
     public class SaveManager : MonoBehaviour
     {
-        public static SaveManager Instance { get; private set; }
+        public static SaveManager instance { get; private set; }
 
         [SerializeField] private GameObject savePointPrefab;
 
@@ -21,9 +21,9 @@ namespace Save
 
         private void Awake()
         {
-            if (Instance == null)
+            if (instance == null)
             {
-                Instance = this;
+                instance = this;
                 DontDestroyOnLoad(gameObject);
             }
             else
@@ -56,10 +56,20 @@ namespace Save
 
         public void Load()
         {
-            int savePointIndex = PlayerPrefs.GetInt("SavePointIndex", 0);
+            if (savePoints.Count == 0)
+            {
+                return;
+            }
 
+            int savePointIndex = PlayerPrefs.GetInt("SavePointIndex", 0);
+            
             if (savePoints[savePointIndex] == null)
             {
+                if (savePoints[0] == null)
+                {
+                    return;
+                }
+
                 currentSavePoint = savePoints[0];
             }
             else
@@ -105,6 +115,11 @@ namespace Save
             }
 
             player.position = targetSavePoint.transform.position;
+        }
+
+        private void OnDestroy()
+        {
+            instance = null;
         }
     }
 }
