@@ -1,7 +1,8 @@
 using System.Collections;
 using UnityEngine;
+using static Monster;
 
-public class Elevator : MonoBehaviour
+public class Elevator : MonoBehaviour, ISwitch
 {
     [SerializeField] private Rigidbody2D place;
     [SerializeField] private Transform topStop;
@@ -11,6 +12,16 @@ public class Elevator : MonoBehaviour
     [SerializeField] private float stopEpsilon = 0.01f;
 
     private Coroutine moveCo;
+
+    public void OnSwitch()
+    {
+        GoUp();
+    }
+
+    public void OffSwitch()
+    {
+        GoDown();
+    }
 
     public void GoUp()
     {
