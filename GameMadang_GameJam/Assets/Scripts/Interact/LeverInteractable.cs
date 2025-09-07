@@ -1,48 +1,75 @@
-using Interact;
-using UnityEngine;
+using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 
-public class LeverInteractable : BaseInteractable
+namespace Interact
 {
-    // 레버 동작의 대상이 되는 오브젝트
-    [SerializeField] private List<GameObject> targetObjects = new List<GameObject>();
-    private bool isActive = false;
-
-    private void Awake()
+    public class LeverInteractable : BaseInteractable
     {
-        foreach (GameObject obj in targetObjects)
+        // 레버 동작의 대상이 되는 오브젝트
+        [SerializeField] private List<GameObject> targetObjects = new();
+        [SerializeField] private List<Sprite> sprites = new();
+        [SerializeField] private float animationSpeed = 0.1f;
+
+        private SpriteRenderer sr;
+        private bool isActive;
+        private bool isBusy;
+
+        private void Awake()
         {
-            if (obj == null)
+            sr = GetComponent<SpriteRenderer>();
+
+            foreach (var obj in targetObjects)
             {
-                Debug.LogError(gameObject.name + " 의 동작 대상 미설정");
-            }
-            else if (obj.GetComponent<ISwitch>() == null)
-            {
-                Debug.LogError(gameObject.name + " 의 잘못된 동작 대상 설정");
+                if (obj == null)
+                {
+                    Debug.LogError(gameObject.name + " 의 동작 대상 미설정");
+                }
+                else if (obj.GetComponent<ISwitch>() == null)
+                {
+                    Debug.LogError(gameObject.name + " 의 잘못된 동작 대상 설정");
+                }
             }
         }
-    }
 
-    public override void Interact(PlayerController player)
-    {
-        Debug.Log("레버 상호작용 시작");
-
-        isActive = !isActive;
-
-        //타겟 오브젝트들의 함수 실행
-        foreach (GameObject obj in targetObjects)
+        private void StartAnimation()
         {
-            ISwitch targetSwitch = obj.GetComponent<ISwitch>();
-            if (targetSwitch != null)
+            if (isBusy) return;
+            StartCoroutine(UpdateSprite());
+        }
+
+        private IEnumerator UpdateSprite()
+        {
+            isBusy = true;
+
+            foreach (var sprite in sprites)
             {
-                if (isActive == true)
-                {
-                    targetSwitch.OnSwitch();
-                }
-                else
-                {
-                    targetSwitch.OffSwitch();
-                }
+                sr.sprite = sprite;
+
+                yield return new WaitForSeconds(animationSpeed);
+            }
+
+            sprites.Reverse();
+
+            isBusy = false;
+        }
+
+        public override void Interact(PlayerController player)
+        {
+            Debug.Log("레버 상호작용 시작");
+
+            isActive = !isActive;
+
+            StartAnimation();
+
+            foreach (var obj in targetObjects)
+            {
+                var targetSwitch = obj.GetComponent<ISwitch>();
+
+                if (targetSwitch == null) continue;
+
+                if (isActive) targetSwitch.OnSwitch();
+                else targetSwitch.OffSwitch();
             }
         }
     }
