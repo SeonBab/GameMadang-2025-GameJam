@@ -23,16 +23,29 @@ namespace Player
         [SerializeField] private float maxSwingXSpeed = 14f; // 속도 캡
         [SerializeField] private float maxSwingYSpeed = 18f;
 
+        [SerializeField] private string ladderClimbState = "Climb";
+        [SerializeField] private AnimationClip ladderClimbClip;
+        [SerializeField] private string ropeClimbState = "Rope";
+        [SerializeField] private AnimationClip ropeClimbClip;
+        [SerializeField] private string ropeSwingState = "Swing";
+
+        [SerializeField] private float frameStepInterval = 0.08f;
+
         public BaseInteractable currentClimbable;
         public RopeInteractable ropeSeg;
+
+        private AnimationClip activeClip;
+        private int activeStateHash;
+        private Animator animator;
         private Collider2D col;
 
         private bool endArmed;
         private float endBlockUntil;
-        private float originalGravity;
         private int entryKey;
 
         private InputHandler inputHandler;
+        private float nextStepAt;
+        private float originalGravity;
 
         private Rigidbody2D rb;
         private HingeJoint2D ropeJoint;
@@ -43,6 +56,7 @@ namespace Player
         {
             inputHandler = GetComponent<InputHandler>();
             ropeJoint = GetComponent<HingeJoint2D>();
+            animator = GetComponent<Animator>();
 
             rb = GetComponent<Rigidbody2D>();
             col = GetComponent<Collider2D>();
@@ -135,6 +149,9 @@ namespace Player
             endBlockUntil = Time.time + endGraceTime;
             endArmed = false;
 
+            nextStepAt = Time.time;
+            SelectClimbAnimSet(currentClimbable is RopeInteractable);
+
             StartCoroutine(BeginClimbCo());
         }
 
@@ -147,6 +164,8 @@ namespace Player
             transform.rotation = Quaternion.identity;
 
             currentClimbable = null;
+
+            animator.speed = 1f;
         }
 
         private void DetachFromRope()
@@ -179,6 +198,20 @@ namespace Player
             if (!currentClimbable) return;
 
             var v = inputHandler.MoveInput.y;
+
+            if (Mathf.Abs(v) <= 0.01f)
+            {
+                nextStepAt = Time.time;
+            }
+            else
+            {
+                if (Time.time >= nextStepAt)
+                {
+                    StepClimbFrame(v > 0 ? +1 : -1);
+                    nextStepAt = Time.time + frameStepInterval;
+                }
+            }
+
             Vector2 up = !currentClimbable ? transform.up : currentClimbable.transform.up;
 
             var targetDeg = Mathf.Atan2(up.y, up.x) * Mathf.Rad2Deg - 90f;
@@ -219,7 +252,7 @@ namespace Player
             if (!seg) return;
 
             transform.rotation = Quaternion.identity;
-            
+
             ropeSeg = seg;
             currentClimbable = null;
 
@@ -235,6 +268,12 @@ namespace Player
             IsClimbing = true;
             rb.gravityScale = originalGravity;
             col.isTrigger = false;
+
+            if (animator && !string.IsNullOrEmpty(ropeSwingState))
+            {
+                animator.speed = 1f; // 루프 재생
+                animator.Play(Animator.StringToHash(ropeSwingState), 0, 0f);
+            }
         }
 
         private void RopeTick()
@@ -259,6 +298,50 @@ namespace Player
             if (Mathf.Abs(v.x) > maxSwingXSpeed) v.x = Mathf.Sign(v.x) * maxSwingXSpeed;
             if (Mathf.Abs(v.y) > maxSwingYSpeed) v.y = Mathf.Sign(v.y) * maxSwingYSpeed;
             rb.linearVelocity = v;
+        }
+
+        private void SelectClimbAnimSet(bool isRope)
+        {
+            if (!animator) return;
+
+            // 활성 세트 결정
+            if (isRope)
+            {
+                activeClip = ropeClimbClip;
+                activeStateHash = Animator.StringToHash(ropeClimbState);
+            }
+            else
+            {
+                activeClip = ladderClimbClip;
+                activeStateHash = Animator.StringToHash(ladderClimbState);
+            }
+
+            // 정지(수동 스텝 모드) + 상태 진입
+            animator.speed = 0f;
+            animator.Play(activeStateHash, 0, 0f);
+            animator.Update(0f);
+        }
+
+        private void StepClimbFrame(int dir)
+        {
+            if (!animator || !activeClip) return;
+
+            var totalFrames = Mathf.Max(1, Mathf.RoundToInt(activeClip.frameRate * activeClip.length));
+            var step = 1f / totalFrames;
+            animator.speed = 0f;
+            var st = animator.GetCurrentAnimatorStateInfo(0);
+
+            if (st.shortNameHash != activeStateHash)
+            {
+                animator.Play(activeStateHash, 0, dir > 0 ? 0f : 1f);
+                animator.Update(0f);
+                return;
+            }
+
+            var t = st.normalizedTime % 1f;
+            var next = Mathf.Repeat(t + dir * step, 1f);
+            animator.Play(activeStateHash, 0, next);
+            animator.Update(0f);
         }
     }
 }

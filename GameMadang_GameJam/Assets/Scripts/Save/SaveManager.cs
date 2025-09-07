@@ -15,6 +15,10 @@ namespace Save
 
         private Transform player;
 
+        [ContextMenuItem("PlayerCharacter To SpawnPoint", "MovePlayerToSavePoint")]
+        [Header("Debug")]
+        public int playerMoveTargetIndex;
+
         private void Awake()
         {
             if (Instance == null)
@@ -88,6 +92,19 @@ namespace Save
             {
                 currentSavePoint = savePointInteractable;
             }
+        }
+
+        [ContextMenu("Debug/MovePlayer To SavePoint")]
+        public void MovePlayerToSavePoint()
+        {
+            SavePointInteractable targetSavePoint = savePoints[playerMoveTargetIndex];
+            if (targetSavePoint == null)
+            {
+                Debug.LogError("잘못된 인덱스입니다.");
+                return;
+            }
+
+            player.position = targetSavePoint.transform.position;
         }
     }
 }

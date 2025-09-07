@@ -6,12 +6,15 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
+    private static readonly int IsMove = Animator.StringToHash("IsMove");
+    private static readonly int IsJump = Animator.StringToHash("IsJump");
+    private static readonly int ReadyPushPull = Animator.StringToHash("ReadyPushPull");
+    private static readonly int IsPull = Animator.StringToHash("IsPull");
+    private static readonly int IsPush = Animator.StringToHash("IsPush");
+
     [SerializeField] private float moveSpeed = 10f;
     [SerializeField] private float jumpForce = 5f;
     [SerializeField] private float jumpSlowdownRate = 0.7f;
-    [SerializeField] private float climbSpeed = 10f;
-    public float ClimbSpeed => climbSpeed;
-    [SerializeField] private float climbObjectSnapSpeed = 30f;
     [SerializeField] private float interactionForce = 0.5f;
 
     [SerializeField] private Transform groundCheck;
@@ -26,7 +29,9 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D rb;
     private Collider2D col;
     private SpriteRenderer sr;
+    private Animator animator;
 
+    public bool isReadyPushPull;
     public bool isPull;
     public bool isPush;
 
@@ -39,6 +44,7 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         col = GetComponent<Collider2D>();
         sr = GetComponent<SpriteRenderer>();
+        animator = GetComponent<Animator>();
 
         parkour = GetComponent<Parkour>();
         playerLife = GetComponent<PlayerLife>();
@@ -49,7 +55,6 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
-        inputHandler.Input.Player.Move.performed += FlipSprite;
         inputHandler.Input.Player.Jump.performed += JumpOnPerformed;
         inputHandler.Input.Player.Interact.performed += InteractOnPerformed;
 
@@ -58,7 +63,6 @@ public class PlayerController : MonoBehaviour
 
     private void OnDestroy()
     {
-        inputHandler.Input.Player.Move.performed -= FlipSprite;
         inputHandler.Input.Player.Jump.performed -= JumpOnPerformed;
         inputHandler.Input.Player.Interact.performed -= InteractOnPerformed;
     }
@@ -85,17 +89,24 @@ public class PlayerController : MonoBehaviour
         OnFixedUpdateEnd?.Invoke(inputHandler.MoveInput, gameObject);
     }
 
+    private void LateUpdate()
+    {
+        FlipSprite();
+
+        animator.SetBool(IsJump, !IsGround() && !playerClimb.IsClimbing && !parkour.IsBusy() && !playerLife.IsDead);
+    }
+
     public bool IsGround()
     {
         return Physics2D.OverlapCircle(groundCheck.position, 0.1f, ground);
     }
 
-    private void FlipSprite(InputAction.CallbackContext ctx)
+    private void FlipSprite()
     {
         if (playerLife.IsDead) return;
-        if (playerClimb.IsClimbing) return;
+        if(isReadyPushPull) return;
 
-        sr.flipX = ctx.ReadValue<Vector2>().x switch
+        sr.flipX = inputHandler.MoveInput.x switch
         {
             > 0 => true,
             < 0 => false,
@@ -129,6 +140,10 @@ public class PlayerController : MonoBehaviour
         {
             rb.linearVelocity = new Vector2(0f, rb.linearVelocity.y);
 
+            animator.SetBool(IsMove, false);
+            animator.SetBool(IsPull, isPull);
+            animator.SetBool(IsPush, isPush);
+
             return;
         }
 
@@ -148,5 +163,9 @@ public class PlayerController : MonoBehaviour
 
         var targetVx = Mathf.Sign(x) * moveSpeed;
         rb.linearVelocity = new Vector2(targetVx, rb.linearVelocity.y);
+
+        animator.SetBool(IsMove, true);
+        animator.SetBool(IsPull, isPull);
+        animator.SetBool(IsPush, isPush);
     }
 }

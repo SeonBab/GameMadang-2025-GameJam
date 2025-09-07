@@ -6,7 +6,18 @@ namespace Player
 {
     public class PlayerLife : MonoBehaviour
     {
+        [SerializeField] private float returnTime = 3f;
+        private static readonly int IsDeath = Animator.StringToHash("IsDead");
         public bool IsDead { get; private set; }
+
+        private Animator animator;
+        private Rigidbody2D rb;
+
+        private void Awake()
+        {
+            animator = GetComponent<Animator>();
+            rb = GetComponent<Rigidbody2D>();
+        }
 
         private void OnTriggerEnter2D(Collider2D other)
         {
@@ -14,7 +25,7 @@ namespace Player
             {
                 Debug.Log("Monster");
 
-                // Death();
+                Death();
             }
         }
 
@@ -30,17 +41,21 @@ namespace Player
         {
             IsDead = true;
 
-            // death animation
+            rb.linearVelocity = Vector2.zero;
+
+            animator.SetTrigger(IsDeath);
 
             print("Death Animation Start");
 
-            GameManager.RestartGame(3f);
+            GameManager.RestartGame(returnTime);
 
-            yield return new WaitForSeconds(3f);
+            yield return new WaitForSeconds(returnTime);
 
             print("Return to Checkpoint");
 
             IsDead = false;
+
+            animator.Rebind();
         }
     }
 }
