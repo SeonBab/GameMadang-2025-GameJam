@@ -76,7 +76,8 @@ public class MovableBlockInteractable : BaseInteractable
         float maxY = boxCollider2D.bounds.max.y;
         if (Direction.y > 0f || !playerController.IsGround() || MovementObejct.transform.position.y > maxY || MovementObejct.transform.position.y < minY)
         {
-
+            playerController.isPush = false;
+            playerController.isPull = false;
             rb2D.constraints = RigidbodyConstraints2D.FreezeAll;
             return;
         }

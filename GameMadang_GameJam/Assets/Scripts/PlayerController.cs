@@ -73,9 +73,6 @@ public class PlayerController : MonoBehaviour
         {
             parkour.StartParkour(hit);
         }
-
-        Debug.Log("isPull : " + isPull);
-        Debug.Log("isPush : " + isPush);
     }
 
     private void FixedUpdate()
