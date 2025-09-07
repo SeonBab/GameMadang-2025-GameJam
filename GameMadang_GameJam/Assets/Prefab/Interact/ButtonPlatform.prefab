@@ -121,4 +121,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f4d7557fe6656546af0915a80cb2e1a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ButtonPlatform
-  targetObject: {fileID: 0}
+  targetObjects:
+  - {fileID: 0}
+  - {fileID: 0}
