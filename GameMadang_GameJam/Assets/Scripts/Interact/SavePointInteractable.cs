@@ -1,20 +1,18 @@
+using Interact;
 using Save;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class SavePointInteractable : BaseInteractable
 {
-    [SerializeField] private int savePointNumber = -1;
-    public int SavePointNumber => savePointNumber;
-
-    private void Awake()
+    [SerializeField] private int savePointNumber;
+    public int SavePointNumber
     {
-        if (savePointNumber == -1)
-        {
-            Debug.LogError(gameObject.name + " 의 savePointNumber 값 미설정");
-        }
+        get => savePointNumber;
+        set => savePointNumber = value;
     }
 
-    public override void Interact(GameObject InteractCharacter)
+    public override void Interact(PlayerController player)
     {
         Debug.Log("세이브포인트 상호작용 시작");
 

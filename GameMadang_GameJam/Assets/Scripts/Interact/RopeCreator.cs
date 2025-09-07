@@ -1,60 +1,88 @@
-using UnityEngine;
 using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
 
-public class RopeGenerator : MonoBehaviour
+namespace Interact
 {
-    [SerializeField] private GameObject segmentPrefab;
-    [SerializeField, Range(2, 20)] int segmentCount;
-    [SerializeField] private float segmentLength;
-
-    [SerializeField] private GameObject anchor;
-
-    private List<GameObject> segments = new List<GameObject>();
-
-    [ContextMenu("Generate Rope")]
-    public void GenerateRope()
+    public class RopeGenerator : MonoBehaviour
     {
-        // 기존 세그먼트 제거
-        foreach (var segment in segments)
+        [SerializeField] private GameObject segmentPrefab;
+        [SerializeField, Range(2, 20)] private int segmentCount;
+        [SerializeField] private float segmentLength;
+        [SerializeField] private Rigidbody2D anchor;
+
+        public List<GameObject> Segments { get; private set; } = new ();
+        public int Count;
+
+        [ContextMenu("Generate Rope")]
+        public void GenerateRope()
         {
-            DestroyImmediate(segment);
+            // 기존 세그먼트 제거
+            foreach (var segment in Segments)
+            {
+                DestroyImmediate(segment);
+            }
+
+            Segments.Clear();
+
+            anchor.transform.position = transform.position;
+
+            // 시작점에 바디가 없어도 허용
+            var prevBody = anchor;
+
+            for (var i = 0; i < segmentCount; i++)
+            {
+                var newSegment = Instantiate(segmentPrefab, transform);
+
+                newSegment.name = "RopeSegment_" + i;
+                newSegment.transform.position = anchor.transform.position - new Vector3(0, (i + 1) * segmentLength, 0);
+
+                var col = newSegment.GetComponent<CapsuleCollider2D>();
+                var rb = newSegment.GetComponent<Rigidbody2D>();
+                var joint = newSegment.GetComponent<HingeJoint2D>();
+
+                col.size = new Vector2(1, 1 * segmentLength);
+
+                joint.connectedBody = prevBody;
+                joint.autoConfigureConnectedAnchor = false;
+                joint.anchor = new Vector2(0, segmentLength / 2);
+                joint.connectedAnchor = prevBody != null ? new Vector2(0, -segmentLength / 2) : Vector2.zero;
+                joint.useLimits = true;
+
+                prevBody = rb;
+                Segments.Add(newSegment);
+            }
         }
-        segments.Clear();
 
-        anchor.transform.position = transform.position;
-
-        // 시작점에 바디가 없어도 허용
-        Rigidbody2D prevBody = anchor.GetComponent<Rigidbody2D>();
-
-        for (int i = 0; i < segmentCount; i++)
+        public Bounds GetRopeBounds()
         {
-            GameObject newSegment = Instantiate(segmentPrefab, transform);
+            var cols = GetComponentsInChildren<Collider2D>(false)
+                .Where(c => c && c.enabled)
+                .ToArray();
 
-            newSegment.name = "RopeSegment_" + i;
-            newSegment.tag = "ClimbObject";
-            newSegment.transform.position = anchor.transform.position - new Vector3(0, (i + 1) * segmentLength, 0);
+            if (cols.Length == 0)
+                return new Bounds(transform.position, Vector3.zero);
 
-            newSegment.AddComponent<CapsuleCollider2D>();
-            CapsuleCollider2D capsuleCollider2D = newSegment.GetComponent<CapsuleCollider2D>();
-            Rigidbody2D rigidbody2D = newSegment.GetComponent<Rigidbody2D>();
-            HingeJoint2D hingeJoint2D = newSegment.GetComponent<HingeJoint2D>();
+            var b = cols[0].bounds;
+            for (var i = 1; i < cols.Length; i++)
+                b.Encapsulate(cols[i].bounds);
 
-            capsuleCollider2D.size = new Vector2(1, 3);
+            return b;
+        }
 
-            hingeJoint2D.connectedBody = prevBody;
-            hingeJoint2D.autoConfigureConnectedAnchor = false;
-            hingeJoint2D.anchor = new Vector2(0, segmentLength / 2);
-            hingeJoint2D.connectedAnchor = prevBody != null ? new Vector2(0, -segmentLength / 2) : Vector2.zero;
-            hingeJoint2D.useLimits = true;
+        public void NotifyRopeEnter()
+        {
+            Count++;
+        }
 
-            JointAngleLimits2D ropeLimis = new JointAngleLimits2D();
-            ropeLimis.min = -45f;
-            ropeLimis.max = 45f;
+        public void NotifyRopeExit()
+        {
+            Count--;
+        }
 
-            hingeJoint2D.limits = ropeLimis;
-
-            prevBody = rigidbody2D;
-            segments.Add(newSegment);
+        public void ResetCount()
+        {
+            Count = 0;
         }
     }
 }

@@ -8,6 +8,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -5299950506939848267, guid: 4e82c59dc1817d7489544bd1a93f776b, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2639467757431476441, guid: 4e82c59dc1817d7489544bd1a93f776b, type: 3}
       propertyPath: m_Name
       value: SavePoint
@@ -92,3 +96,4 @@ MonoBehaviour:
   InteractableType: 5
   weight: 90
   bIsAutoInteract: 1
+  savePointNumber: -1

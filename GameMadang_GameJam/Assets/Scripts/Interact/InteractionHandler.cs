@@ -1,125 +1,96 @@
-using System;
-using Unity.VisualScripting;
+using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(CapsuleCollider2D))]
-public class InteractionHandler : MonoBehaviour
+namespace Interact
 {
-    [SerializeField] LayerMask interactTargetLayer;
-    CapsuleCollider2D interactCollider;
-    PlayerController playerController;
-    
-    private void Awake()
+    [RequireComponent(typeof(CapsuleCollider2D))]
+    public class InteractionHandler : MonoBehaviour
     {
-        interactCollider = GetComponent<CapsuleCollider2D>();
-        playerController = GetComponentInParent<PlayerController>();
-    }
+        [SerializeField] LayerMask interactLayer;
 
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision != null && collision.gameObject.CompareTag("Interact"))
+        private PlayerController player;
+        private ContactFilter2D filter;
+        private CapsuleCollider2D interactCollider;
+
+        public float CenterDistanceX { get; private set; }
+
+        public float ColliderEdgeDistanceX { get; private set; }
+
+        private void Awake()
         {
-            AttemptAutoInteract(collision);
+            player = GetComponentInParent<PlayerController>();
+            interactCollider = GetComponent<CapsuleCollider2D>();
+
+            filter.SetLayerMask(interactLayer);
         }
 
-        if (collision.CompareTag("ClimbObject"))
+        private void Start()
         {
-            playerController.currentClimbObject = collision.transform;
-        }
-    }
+            var capsuleCollider2D = transform.parent.GetComponent<CapsuleCollider2D>();
 
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.CompareTag("ClimbObject"))
-        {
-            if (!playerController.IsGround()) return;
+            var playerCenterX = transform.parent.position.x;
+            var interactMaxX = interactCollider.bounds.max.x;
+            CenterDistanceX = Mathf.Abs(interactMaxX - playerCenterX);
 
-            playerController.currentClimbObject = null;
-        }
-    }
+            var interactionMinX = transform.position.x - interactCollider.size.x * 0.5f * transform.lossyScale.x;
+            var playerCapsuleMinX = transform.position.x + capsuleCollider2D.size.x * 0.5f * transform.lossyScale.x;
 
-    // 자동으로 상호작용을 시도하는 함수
-    private void AttemptAutoInteract(Collider2D collision)
-    {
-        if (collision == null)
-        {
-            return;
-        }
-        // #1 상호작용
-        // 상호작용 대상인지 확인
-        IInteract interactTarget = collision.GetComponent<IInteract>();
-        if (interactTarget == null)
-        {
-            return;
+            ColliderEdgeDistanceX = Mathf.Abs(interactionMinX - playerCapsuleMinX);
         }
 
-        // #2 상호작용
-        // 상호작용이 자동으로 이루어져야 하는지 확인 및 실행
-        bool bIsAutoInteract = interactTarget.GetIsAutoInteract();
-        if (bIsAutoInteract)
+        private void OnTriggerEnter2D(Collider2D other)
         {
+            if (!other.gameObject.layer.Equals(LayerMask.NameToLayer("Interact"))) return;
+
+            TryAutoInteract(other);
+        }
+
+        // 자동으로 상호작용을 시도하는 함수
+        private void TryAutoInteract(Collider2D other)
+        {
+            if (!other) return;
+
+            // #1 상호작용
+            // 상호작용 대상인지 확인
+            if (!other.TryGetComponent<BaseInteractable>(out var interactTarget)) return;
+
+            // #2 상호작용
+            // 상호작용이 자동으로 이루어져야 하는지 확인 및 실행
+            if (!interactTarget.IsAuto) return;
+
             // #3 상호작용
             // 상호작용 호출
-            interactTarget.Interact(gameObject.transform.parent.gameObject);
+            interactTarget.Interact(player);
         }
-    }
 
-    // 일반적인 상호작용을 시도하는 함수
-    public void AttemptInteract()
-    {
-        if (interactCollider)
+        public void TryInteract()
         {
-            float xRadius = interactCollider.size.x;
-            float yRadius = interactCollider.size.x;
+            if (!interactCollider) return;
 
-            // 상호작용이 가능한 거리를 그려주는 디버그 라인
-            Debug.DrawLine(transform.position, transform.position + Vector3.up * yRadius, Color.green, 1f);
-            Debug.DrawLine(transform.position, transform.position + Vector3.down * yRadius, Color.green, 1f);
-            Debug.DrawLine(transform.position, transform.position + Vector3.left * xRadius, Color.green, 1f);
-            Debug.DrawLine(transform.position, transform.position + Vector3.right * xRadius, Color.green, 1f);
+            List<Collider2D> hits = new();
+            Physics2D.OverlapCapsule(transform.position, interactCollider.bounds.size,
+                CapsuleDirection2D.Vertical, 0f, filter, hits);
 
-            Vector2 capsuleSize = new Vector2(xRadius, yRadius);
-            Collider2D[] hits = Physics2D.OverlapCapsuleAll(transform.position, capsuleSize, CapsuleDirection2D.Vertical, 0f, interactTargetLayer);
+            if (hits.Count <= 0) return;
 
-            int maxWeight = 0;
-            Collider2D interactTarget = null;
-
-            // 상호작용 대상을 찾아온다.
-            foreach (var hit in hits)
+            var origin = transform.position;
+            hits.Sort((a, b) =>
             {
-                var interactable = hit.GetComponent<IInteract>();
-                if (interactable != null)
-                {
-                    int currentWeight = interactable.GetInteractWeight();
+                a.TryGetComponent<BaseInteractable>(out var ai);
+                b.TryGetComponent<BaseInteractable>(out var bi);
 
-                    if (currentWeight > maxWeight)
-                    {
-                        // 가중치가 가장 높은 오브젝트로 설정
-                        maxWeight = currentWeight;
-                        interactTarget = hit;
-                    }
-                    else if (currentWeight == maxWeight)
-                    {
-                        // 거리가 가장 가까운 오브젝트로 설정
-                        float interactTargetDistance = Vector3.Distance(transform.position, interactTarget.transform.position);
-                        float hitDistance = Vector3.Distance(transform.position, hit.transform.position);
+                if (ai == null || bi == null) return (bi != null).CompareTo(ai != null);
 
-                        if (interactTargetDistance > hitDistance)
-                        {
-                            interactTarget = hit;
-                        }
-                    }
-                }
-            }
+                var byWeight = bi.Weight.CompareTo(ai.Weight);
+                if (byWeight != 0) return byWeight;
 
-            if (interactTarget != null)
-            {
-                IInteract interactable = interactTarget.GetComponent<IInteract>();
-                if (interactable != null)
-                {
-                    interactable.Interact(gameObject.transform.parent.gameObject);
-                }
-            }
+                var da = Mathf.Abs(a.transform.position.x - origin.x);
+                var db = Mathf.Abs(b.transform.position.x - origin.x);
+
+                return da.CompareTo(db);
+            });
+
+            hits[0].GetComponent<BaseInteractable>().Interact(player);
         }
     }
 }

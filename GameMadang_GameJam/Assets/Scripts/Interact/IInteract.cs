@@ -1,22 +1,25 @@
 using UnityEngine;
 
-public enum EInteractableType
+namespace Interact
 {
-    None,
-    Rope,
-    Ladder,
-    Lever,
-    MovableBlock,
-    SavePoint
-}
+    /*public enum EInteractableType
+    {
+        None,
+        Rope,
+        Ladder,
+        Lever,
+        MovableBlock,
+        SavePoint
+    }
 
-public interface IInteract
-{
-    void Interact(GameObject InteractCharacter);
+    public interface IInteract
+    {
+        void Interact(GameObject player);
 
-    bool GetIsAutoInteract();
+        bool GetIsAutoInteract();
 
-    int GetInteractWeight();
+        int GetInteractWeight();
 
-    EInteractableType GetInteractType();
+        EInteractableType GetInteractType();
+    }*/
 }
