@@ -187,6 +187,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6882902253522164158}
   - component: {fileID: 7240571937325137262}
+  - component: {fileID: 642277808603686930}
   m_Layer: 0
   m_Name: UIManager
   m_TagString: Untagged
@@ -223,3 +224,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UI.UIManager
   pauseMenu: {fileID: 0}
+--- !u!114 &642277808603686930
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7957261635350339673}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6c499b9aac2b5849b880d3974979e4e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FadeController
+  fadeInTime: 1
+  fadeOutTime: 1

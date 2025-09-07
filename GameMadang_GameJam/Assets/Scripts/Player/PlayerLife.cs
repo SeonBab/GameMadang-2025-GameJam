@@ -34,13 +34,13 @@ namespace Player
 
             print("Death Animation Start");
 
+            GameManager.RestartGame(3f);
+
             yield return new WaitForSeconds(3f);
 
             print("Return to Checkpoint");
 
             IsDead = false;
-
-            GameManager.RestartGame();
         }
     }
 }

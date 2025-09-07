@@ -1,7 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEngine.Rendering.HableCurve;
 
 namespace Save
 {
@@ -34,15 +32,7 @@ namespace Save
         {
             player = GameObject.FindGameObjectWithTag("Player").transform;
 
-            StartCoroutine(OnPreRender());
-        }
-
-        // 모든 Start함수가 호출 된 뒤 플레이어 캐릭터 위치 로드
-        private IEnumerator OnPreRender()
-        {
-            yield return new WaitForEndOfFrame();
-
-            Load();
+            
         }
 
         public SavePointInteractable GetCurrentSavePoint()
