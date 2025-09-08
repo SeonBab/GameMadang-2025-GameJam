@@ -24,7 +24,8 @@ namespace UI
 
         private void Start()
         {
-            pauseMenu = GetComponentInChildren<PauseMenu>();
+            Transform child = transform.Find("PauseCanvas/Pause Menu");
+            pauseMenu = child.GetComponent<PauseMenu>();
             fadeController = GetComponent<FadeController>();
             endingSequenceController = GetComponent<EndingSequenceController>();
         }
