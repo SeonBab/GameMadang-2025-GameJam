@@ -20336,7 +20336,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8897926480316265116, guid: 7ae5febd1a1717d48a47a803030051a8, type: 3}
       propertyPath: chaseSpeed
-      value: 6
+      value: 4.5
       objectReference: {fileID: 0}
     - target: {fileID: 8897926480316265116, guid: 7ae5febd1a1717d48a47a803030051a8, type: 3}
       propertyPath: targetMode
