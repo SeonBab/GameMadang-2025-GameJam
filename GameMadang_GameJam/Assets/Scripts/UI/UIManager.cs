@@ -24,6 +24,7 @@ namespace UI
 
         private void Start()
         {
+            pauseMenu = GetComponentInChildren<PauseMenu>();
             fadeController = GetComponent<FadeController>();
             endingSequenceController = GetComponent<EndingSequenceController>();
         }

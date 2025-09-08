@@ -38,6 +38,10 @@ namespace UI
         public void MoveToLastSavePoint()
         {
             GameManager.RestartGame(3f);
+
+            // 플레이어 캐릭터에 대한 모든 조작이 불가능하도록 한다.
+            InputHandler.OnRemoveInputCallbacks.Invoke();
+
             Hide();
         }
 
