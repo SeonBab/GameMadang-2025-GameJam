@@ -1,0 +1,36 @@
+리소스
+
+[캐릭터 / 몬스터]
+식물 몬스터 애니메이션.png
+식물 몬스터 팩3 https://gamemadang.or.kr/pkge?prodUid=PKGE_1726814911899
+
+쓰러진 군인.png
+군인(소총병) 캐릭터 팩 https://gamemadang.or.kr/pkge?prodUid=PKGE_1744779527360
+
+탱크.png
+탱크 캐릭터 팩 https://gamemadang.or.kr/pkge?prodUid=PKGE_1730428508210
+
+[VFX, 애니메이션]
+폭발1~3.png
+폭발 VFX 팩 12 https://gamemadang.or.kr/pkge?prodUid=PKGE_1729821630474
+
+격추.png
+격추 VFX 팩 16 https://gamemadang.or.kr/pkge?prodUid=PKGE_1729819858584
+
+
+[배경]
+배경1.png
+붉은 성운 SF 배경 팩 https://gamemadang.or.kr/pkge?prodUid=PKGE_1728541943519
+
+배경2.png
+사막 횡스크롤 배경 팩 3 https://gamemadang.or.kr/pkge?prodUid=PKGE_1728018908997
+
+배경3.png
+하늘 SF 배경 팩 https://gamemadang.or.kr/pkge?prodUid=PKGE_1728542059104
+
+[프람]
+오브젝트 1~5.png
+폐허 현대 구조물 판타지 프랍 팩 https://gamemadang.or.kr/pkge?prodUid=PKGE_1729152133139
+
+나무 1~3.png
+나무 도트 프랍 팩 https://gamemadang.or.kr/pkge?prodUid=PKGE_1727666614329
